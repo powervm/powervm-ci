@@ -1,0 +1,80 @@
+# Copyright 2016, IBM Corp.
+#
+# All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Tempest tests to be skipped by NovaLink CI
+
+# Not supported
+tempest.api.network.test_extensions.ExtensionsTestJSON.test_list_show_extensions
+tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON
+tempest.api.network.test_metering_extensions.MeteringTestJSON
+
+# Floating IPs not supported
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_reboot
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_rebuild
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_resize
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_stop_start
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_network_basic_ops
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_connectivity_between_vms_on_different_networks
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_router_rescheduling
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_subnet_details
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_router_admin_state
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_hotplug_nic
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_port_security_macspoofing_port
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_instance_port_admin_state
+
+# SLAAC not supported
+tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_multi_prefix_slaac
+tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_slaac_from_os
+tempest.scenario.test_network_v6.TestGettingAddress.test_multi_prefix_slaac
+tempest.scenario.test_network_v6.TestGettingAddress.test_slaac_from_os
+
+# Pause/unpause not supported
+tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_pause_state
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_pause_unpause_server
+tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescue_paused_instance
+tempest.api.compute.servers.test_servers_negative.ServersNegativeTestJSON.test_pause_paused_server
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_pause_unpause
+
+# Suspend/resume not supported
+tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_suspended_state
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_suspend_resume_server
+tempest.api.compute.servers.test_servers_negative.ServersNegativeTestJSON.test_suspend_server_invalid_state
+tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_suspend_resume
+tempest.scenario.test_server_advanced_ops.TestServerAdvancedOps.test_server_sequence_suspend_resume
+# This test uses SUSPENDED as the 'invalid state'
+tempest.api.compute.admin.test_servers_negative.ServersAdminNegativeTestJSON.test_migrate_server_invalid_state
+
+# Console output not implemented
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_server_id_in_shutoff_status
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_with_unlimited_size
+tempest.scenario.test_shelve_instance.TestShelveInstance.test_shelve_instance
+tempest.scenario.test_snapshot_pattern.TestSnapshotPattern.test_snapshot_pattern
+tempest.scenario.test_network_v6.TestGettingAddress.test_dhcp6_stateless_from_os
+tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_dhcp6_stateless_from_os
+tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_multi_prefix_dhcpv6_stateless
+tempest.scenario.test_network_v6.TestGettingAddress.test_multi_prefix_dhcpv6_stateless
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_multiple_security_groups
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_update_new_security_group
+
+# TODO: Failing tests that still need to be investigated.
+tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON
+tempest.api.network.test_metering_extensions.MeteringTestJSON
+tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_create_list_show_delete_interfaces
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_preserve_preexisting_port
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_cross_tenant_traffic
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_in_tenant_traffic
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_security_disable_security_group
