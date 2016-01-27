@@ -323,8 +323,7 @@ function prep_for_tempest {
     ###
     tempest_conf=$1
 
-    imgname1=CI_img_1
-    imgname2=CI_img_2
+    imgname=CI_img
     flvname1=CI_flv_1
     flvname2=CI_flv_2
 
@@ -332,21 +331,18 @@ function prep_for_tempest {
     source "$OPENRC" admin admin
 
     # Ensure glance images are uploaded and registered
-    prep_glance_image "$imgname1" "$IMGFILE" "$tempest_conf" image_ref
-    prep_glance_image "$imgname2" "$IMGFILE" "$tempest_conf" image_ref_alt
-    # Above cached the image sizes.  Convert bytes to GB, which must be
+    prep_glance_image "$imgname" "$IMGFILE" "$tempest_conf" image_ref
+    prep_glance_image "$imgname" "" "$tempest_conf" image_ref_alt
+    # Above cached the image size.  Convert bytes to GB, which must be
     # integer, so round up.
-    eval imgbytes1=\$image_${imgname1}_size
-    eval imgbytes2=\$image_${imgname2}_size
+    eval imgbytes=\$image_${imgname}_size
     gb=$((1024*1024*1024))
-    imggb1=$((imgbytes1/$gb))
-    imggb2=$((imgbytes2/$gb))
-    [[ $((imgbytes1%$gb)) -gt 0 ]] && imggb1+=1
-    [[ $((imgbytes2%$gb)) -gt 0 ]] && imggb2+=1
+    imggb=$((imgbytes/$gb))
+    [[ $((imgbytes%$gb)) -gt 0 ]] && imggb+=1
 
     # Ensure flavors are created and registered
-    prep_flavor "$flvname1" "$FLVMEM" "$imggb1" "$FLVCPU" "$tempest_conf" flavor_ref
-    prep_flavor "$flvname2" "$FLVMEM" "$imggb2" "$FLVCPU" "$tempest_conf" flavor_ref_alt
+    prep_flavor "$flvname1" "$FLVMEM" "$imggb" "$FLVCPU" "$tempest_conf" flavor_ref
+    prep_flavor "$flvname2" "$FLVMEM" "$imggb" "$FLVCPU" "$tempest_conf" flavor_ref_alt
 
     # Ensure public network exists and is registered
     prep_public_network "$tempest_conf"
@@ -441,7 +437,7 @@ function cleanup {
     done
   fi
 }
-trap cleanup EXIT
+[ $NO_CLEANUP ] || trap cleanup EXIT
 
 # Create temp file listing tests to run
 TEST_LIST=`mktemp /tmp/test_list.XXX`
