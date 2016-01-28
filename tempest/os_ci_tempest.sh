@@ -209,7 +209,7 @@ function prep_glance_image {
         # Need to upload the image
         verb "Uploading $imgfile to glance"
         [ $VERBOSE ] && progress='--progress' || progress=
-        glance --os-image-api-version 2 image-create --file "$imgfile" $progress --disk-format=raw --container-format=bare --property name="$imgname" --property visibility=public
+        glance --os-image-api-version 2 image-create --file "$imgfile" $progress --disk-format=raw --container-format=bare --property name="$imgname" --property visibility=public || bail "Failed to create image '$imgname' from file '$imgfile'!"
     fi
 
     # Set the UUID in the tempest.conf
@@ -256,7 +256,7 @@ function prep_flavor {
         [[ "$disk_gb" =~ $numre ]] || "prep_flavor: disk_gb '$disk_gb' not valid - must be a positive integer."
         [[ "$cpu" =~ $numre ]] || "prep_flavor: vcpu count '$cpu' not valid - must be a positive integer."
         verb "Creating flavor '$flvname' with $mem_mb MB RAM, $disk_gb GB disk, and $cpu vcpu."
-        nova flavor-create "$flvname" auto "$mem_mb" "$disk_gb" "$cpu"
+        nova flavor-create "$flvname" auto "$mem_mb" "$disk_gb" "$cpu" || bail "Failed to create flavor '$flvname'!"
     fi
 
     # Set the UUID in tempest.conf
@@ -299,9 +299,9 @@ function prep_public_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --tenant-id "$project_admin_id"
+        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
-        neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr"
+        neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
 
     # Set the UUID in tempest.conf
