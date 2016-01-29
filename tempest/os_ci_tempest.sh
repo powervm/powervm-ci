@@ -61,15 +61,34 @@ EOU
   exit 255
 }
 
-# Print args to stderr if VERBOSE enabled
 function verb {
-  [ $VERBOSE ] && ! [ $DEBUG ] && echo "$@" >&2
+    ### verb arg [...]
+    #
+    # Print args to stderr if VERBOSE enabled.
+    ###
+    [ $VERBOSE ] && ! [ $DEBUG ] && echo "$@" >&2
 }
 
-# Verify existence and executability of program named by first arg
 function check_exe {
-  exe=$1
-  which $exe >/dev/null 2>&1 || bail "$exe not found or not executable."
+    ### check_exe exename
+    #
+    # Verify existence and executability of program named by first arg.
+    ###
+    exe=$1
+    which $exe >/dev/null 2>&1 || bail "$exe not found or not executable."
+}
+
+function validate_checksum {
+    ### validate_checksum checksum
+    #
+    # Ensures that the 'checksum' argument is a valid MD5 hash
+    # comprising exactly 32 lowercase hex digits.  Exits the program if
+    # the checksum is empty or invalid.
+    ###
+    checksum=$1
+    [ "$checksum" ] || bail "Empty checksum."
+    echo "$checksum" | egrep -q '^[0-9a-f]{32}$' || bail "Invalid checksum argument '$checksum' - expected 32 lowercase hex digits."
+    return 0
 }
 
 function set_conf_option {
@@ -181,6 +200,64 @@ function discover_and_set_id {
     set_conf_option "$tempest_conf" "$section" "$varname" "$varid"
 }
 
+function find_img_lu_for_checksum {
+    ### find_img_lu_for_checksum insum
+    #
+    # If the SSP already contains an appropriately-named* image LU whose
+    # MD5 checksum matches the 'insum' parameter, this function extracts
+    # and echoes the image name from that LU name.
+    #
+    # *An "appropriate" image LU name is of the format
+    # 'image_{name}_{checksum}', where {name} is the name of the glance
+    # image from which it was created; and {checksum} is the
+    # 32-character MD5 hash of the image content.
+    ###
+    insum=$1
+    validate_checksum "$insum"
+
+    verb "Looking for an existing Image LU with checksum '$insum'"
+    pvmctl lu list -d name --where 'LogicalUnit.lu_type=VirtualIO_Image' --hide-label | while read luname; do
+        sum=`echo $luname | awk -F_ '/^image_/ {print $NF}'`
+        [[ $? -eq 0 ]] && [ "$sum" ] || continue
+        if [[ "$sum" == "$insum" ]]; then
+            verb "Found matching LU '$luname'."
+            imgname=${luname#*_}
+            imgname=${imgname%_*}
+            echo "$imgname"
+            return 0
+        fi
+    done
+    verb "No matching Image LU found."
+    return 1
+}
+
+function find_glance_image {
+    ### find_glance_image checksum [name]
+    #
+    # Finds a glance image with the specified checksum and possibly
+    # name.  If found, the name is printed and the function returns
+    # success; otherwise nothing is printed and the function returns
+    # failure.
+    ###
+    checksum=$1
+    inname=$2
+
+    validate_checksum "$checksum"
+
+    msg="Looking for an existing glance image with checksum '$checksum'"
+    [ "$inname" ] && msg+=" and name '$inname'"
+    verb "$msg"
+    openstack image list --property checksum="$checksum" -f value -c Name | while read outname; do
+        if [ -z "$inname" ] || [[ "$inname" == "$outname" ]]; then
+            verb "Found existing glance image '$outname'."
+            echo "$outname"
+            return 0
+        fi
+    done
+    verb "No matching glance image found."
+    return 1
+}
+
 function prep_glance_image {
     ### prep_glance_image imgname imgfile tempest_conf varname
     #
@@ -222,6 +299,22 @@ function prep_glance_image {
 
     # Set the UUID in the tempest.conf
     discover_and_set_id "$tempest_conf" image "$imgname" compute "$varname"
+}
+
+function image_size_gb {
+    ### image_size_gb imgname
+    #
+    # Converts the byte size of the image named 'imgname' to integer GB,
+    # rounded up, and prints the result.  Assumes the
+    # $image_{imgname}_size variable is already cached.
+    ###
+    imgname=$1
+
+    eval imgbytes=\$image_${imgname}_size
+    gb=$((1024*1024*1024))
+    imggb=$((imgbytes/$gb))
+    [[ $((imgbytes%$gb)) -gt 0 ]] && imggb+=1
+    echo "$imggb"
 }
 
 function prep_flavor {
@@ -331,22 +424,44 @@ function prep_for_tempest {
     ###
     tempest_conf=$1
 
-    imgname=CI_img
     flvname1=CI_flv_1
     flvname2=CI_flv_2
 
-    # openrc is required for the below
+    # Set up for openstack commands
     source "$OPENRC" admin admin
 
-    # Ensure glance images are uploaded and registered
+    verb "Calculating MD5 hash of image file '$imgfile'."
+    imgsum=`md5sum "$imgfile" | cut -c -32`
+
+    # See if an appropriate image LU already exists.
+    lu_needed=
+    imgname=`find_img_lu_for_checksum "$imgsum"`
+    [ "$imgname" ] || lu_needed=1
+
+    # See if an appropriate glance image already exists.  If an image LU
+    # was found, the glance image's name must match, and this call will
+    # overwrite $imgname with the same value.  Otherwise, we'll settle
+    # for any glance image with the right checksum.
+    imgname=`find_glance_image "$imgsum" "$imgname"`
+
+    # If no existing glance image found, we'll have to upload it.
+    # Minimize the probability of colliding with an existing image
+    # (same name, but wrong size/checksum) by generating a
+    # probably-unique default name.  Attach no significance to the
+    # digits in this name; the PID/PPID only indicate the first process
+    # to reach this point.
+    [ "$imgname" ] || imgname="CI_img_$$_$PPID"
+
+    # Upload the image if necessary, and extract its ID and size.  The
+    # ID is registered in tempest.conf by this call; the size will be
+    # used to generate flavor specs below.
     prep_glance_image "$imgname" "$IMGFILE" "$tempest_conf" image_ref
+    # Tempest uses two image ID references, even if they're the same.
     prep_glance_image "$imgname" "" "$tempest_conf" image_ref_alt
-    # Above cached the image size.  Convert bytes to GB, which must be
-    # integer, so round up.
-    eval imgbytes=\$image_${imgname}_size
-    gb=$((1024*1024*1024))
-    imggb=$((imgbytes/$gb))
-    [[ $((imgbytes%$gb)) -gt 0 ]] && imggb+=1
+
+    # Above cached the image size in bytes.  We need it in integer GB
+    # (rounded up) for the flavor.
+    imggb=`image_size_gb "$imgname"`
 
     # Ensure flavors are created and registered
     prep_flavor "$flvname1" "$FLVMEM" "$imggb" "$FLVCPU" "$tempest_conf" flavor_ref
@@ -357,6 +472,47 @@ function prep_for_tempest {
 
     # Discover and register the admin tenant ID
     discover_and_set_id "$tempest_conf" project admin identity admin_tenant_id
+
+    # At this point, we should create the image LU if necessary.
+    # However, we don't have the needed commands, so tell the user how
+    # to do it, and bail.
+    if [ "$lu_needed" ]; then
+        cat <<EOM
+========================================================================
+There is no existing image LU with the same checksum ($imgsum)
+as the requested image file ($IMGFILE).
+You need to prime the SSP by creating an instance using image
+'$imgname'.  You can do this by executing the following:
+
+  source '$OPENRC' admin admin
+  nova boot --flavor '$flvname1' --image '$imgname' primer
+
+Monitor the instance until the VM OS is running to ensure that the image
+LU creation has completed.  Then rerun this command.
+========================================================================
+EOM
+        exit 255
+
+        # TODO: use the below to create the image LU once the commands
+        # are fixed.  Ideally, there will be a pvmctl lu create/upload
+        # command eventually, but for now the only way to do it is via
+        # VSCSI mapping creation.
+        luname="image_${imgname}_${imgsum}"
+        verb "Uploading '$imgfile' to new LU '$luname'..."
+        # Discover the name of the SSP.  This is required for upload.
+        sspname=`pvmctl ssp list -d name --hide-label`  # There should be only one of these
+        # Discover the ID of the NovaLink partition.  Since we're
+        # actually creating a mapping, we have to specify an LPAR to
+        # which to map.  We'll use the NovaLink partition.
+        # TODO: This is currently broken!
+        nvlid=`pvmctl lpar list -d id --hide-label --where LogicalPartition.is_mgmt_partition=True`
+        # Create a new VSCSI mapping to a new image LU based on the
+        # image file.
+        # TODO: This is currently broken!
+        cmd="pvmctl scsi create --ssp name='$sspname' --upload '$imgfile' --type lu --lpar id=$nvlid --stor-id name='$luname'"
+        verb "$cmd"
+        "$cmd"
+    fi  # lu_needed
 }
 
 ## main Main MAIN
@@ -435,6 +591,8 @@ check_exe openstack
 check_exe glance
 check_exe neutron
 check_exe nova
+check_exe md5sum
+check_exe pvmctl
 
 # Remove temp files and restore original tempest.conf on any exit.
 function cleanup {
