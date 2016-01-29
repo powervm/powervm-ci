@@ -30,7 +30,7 @@ CONF_DEFAULT=$conf_dir/os_ci_tempest.conf
 CMD=${0##*/}
 function usage {
   cat <<EOU
-Usage: $CMD [-D] [-v] [-c config] [-b base_test_regex] [-o outfile.html]
+Usage: $CMD [-D] [-v] [-p] [-c config] [-b base_test_regex] [-o outfile.html]
 
   -b base_test_regex  Regex to match names of tests to be run.  The list
                       thus generated will be reduced by those listed in
@@ -42,6 +42,14 @@ Usage: $CMD [-D] [-v] [-c config] [-b base_test_regex] [-o outfile.html]
   -D                  Turn on debug trace.
   -o outfile.html     Path to HTML file to be written with test results.
                       Conf option: \$OUTFILE
+  -p                  Prep only.  Ensures the stack contains the
+                      appropriate image, flavors, and network.  Creates
+                      a complete tempest.conf.  Generates the list of
+                      tests to be run.  The locations of these files are
+                      printed at the end of the program.  (Note that a
+                      full run (without -p) will generate new copies of
+                      these files; there's no way to use the files from
+                      a prep-only run.)
   -v                  Verbose mode (reports e.g. which tests will be
                       run/skipped).
 
@@ -356,12 +364,13 @@ function prep_for_tempest {
 # Process command args
 
 OPTIND=1
-while getopts "b:c:Do:v" opt; do
+while getopts "b:c:Do:pv" opt; do
   case "$opt" in
     b) BASE_TEST_REGEX_ARG=$OPTARG ;;
     c) CONF=$OPTARG                ;;
     D) DEBUG=1                     ;;
     o) OUTFILE_ARG=$OPTARG         ;;
+    p) PREP_ONLY=1                 ;;
     v) VERBOSE=1                   ;;
     *) usage                       ;;
   esac
@@ -389,6 +398,10 @@ TEMPEST_CONF=`realpath ${TEMPEST_CONF:-"$conf_dir/tempest.conf"}`
 
 # Make sure tempest.conf exists
 [[ -f "$TEMPEST_CONF" ]] || bail "Couldn't find tempest.conf at $TEMPEST_CONF"
+
+# Temporary tempest.conf to generate/populate
+TEMPEST_CONF_GEN=`mktemp /tmp/tempest.conf.XXX`
+cp -f "$TEMPEST_CONF" "$TEMPEST_CONF_GEN"
 
 # Location of installed tempest.conf file (the one tempest will run with).
 TEMPEST_CONF_INST=${TEMPEST_DIR}/etc/tempest.conf
@@ -426,34 +439,26 @@ check_exe nova
 # Remove temp files and restore original tempest.conf on any exit.
 function cleanup {
   if [[ -f "${TEMPEST_CONF_INST_BAK}" ]]; then
-    mv -f "${TEMPEST_CONF_INST_BAK}" "${TEMPEST_CONF_INST}"
+      mv -f "${TEMPEST_CONF_INST_BAK}" "${TEMPEST_CONF_INST}"
   fi
   if [ $DEBUG ]; then
-    echo "Test list: $TEST_LIST"
-    echo "Subunit results: $SUBUNIT_RESULTS"
+      TEST_LIST=${TEST_LIST:-Not generated}
+      echo "Test list: $TEST_LIST"
+      SUBUNIT_RESULTS=${SUBUNIT_RESULTS:-Not generated}
+      echo "Subunit results: $SUBUNIT_RESULTS"
   else
-    for f in $TEST_LIST $SUBUNIT_RESULTS; do
-      [[ -f $f ]] && rm -f $f
-    done
+      for f in "$TEST_LIST" "$SUBUNIT_RESULTS"; do
+          [ "$f" ] && [[ -f "$f" ]] && rm -f "$f"
+      done
   fi
 }
-[ $NO_CLEANUP ] || trap cleanup EXIT
+[ $PREP_ONLY ] || trap cleanup EXIT
+
+# Prep our devstack and tempest.conf.
+prep_for_tempest "$TEMPEST_CONF_GEN"
 
 # Create temp file listing tests to run
 TEST_LIST=`mktemp /tmp/test_list.XXX`
-# Create temp file for subunit results
-SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
-# Location for backup of original tempest.conf
-TEMPEST_CONF_INST_BAK=`mktemp ${TEMPEST_DIR}/etc/tempest.conf.bak.XXX`
-
-# Install our tempest.conf
-if [[ -f "$TEMPEST_CONF_INST" ]]; then
-  cp -f "$TEMPEST_CONF_INST" "${TEMPEST_CONF_INST_BAK}"
-fi
-cp -f "$TEMPEST_CONF" "$TEMPEST_CONF_INST"
-
-# Prep our devstack and tempest.conf.
-prep_for_tempest "$TEMPEST_CONF_INST"
 
 # Create a hash of tests to be skipped
 declare -g -A skip_index
@@ -490,19 +495,42 @@ echo "Running "`cat $TEST_LIST | wc -l`" tests..."
 
 RUN="testr run --subunit --concurrency=1 --load-list=$TEST_LIST"
 verb "$RUN"
-if [ $DEBUG ]; then
-  $RUN | tee $SUBUNIT_RESULTS
-else
-  $RUN >$SUBUNIT_RESULTS
+
+if [ $PREP_ONLY ]; then
+    echo
+    echo "=============================================="
+    echo "Prep-only option was specified; stopping here."
+    echo "Generated tempest config: $TEMPEST_CONF_GEN"
+    echo "Generated test list: $TEST_LIST"
+    echo "=============================================="
+    exit 0
 fi
+
+# Location for backup of original tempest.conf
+TEMPEST_CONF_INST_BAK=`mktemp ${TEMPEST_DIR}/etc/tempest.conf.bak.XXX`
+
+# Back up the original tempest.conf
+if [[ -f "$TEMPEST_CONF_INST" ]]; then
+  cp -f "$TEMPEST_CONF_INST" "${TEMPEST_CONF_INST_BAK}"
+fi
+
+# Install our tempest.conf
+mv -f "$TEMPEST_CONF_GEN" "$TEMPEST_CONF_INST"
+
+# Create temp file for subunit results
+SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
+
+# Run it!
+$RUN >$SUBUNIT_RESULTS
 
 subunit2html $SUBUNIT_RESULTS $OUTFILE
 
+echo
+echo "=============================================="
 subunit-stats $SUBUNIT_RESULTS
 RC=$?
-
 echo "Completed in $SECONDS seconds."
-
 echo "HTML report in $OUTFILE"
+echo "=============================================="
 
 exit $RC
