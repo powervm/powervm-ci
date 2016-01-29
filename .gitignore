@@ -1,0 +1,7 @@
+hosts
+*.orig
+*.swp
+.project
+.venv*
+.pydevproject
+bso.yaml
