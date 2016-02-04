@@ -392,6 +392,7 @@ function prep_public_network {
     # TODO: These shouldn't be hardcoded.  See note above.
     cidr='192.168.2.0/24'
     gateway='192.168.2.1'
+    vlan=$(ifconfig eth0 | awk -F '[: ]+' '/inet addr:/ {print $4}' | awk -F '\\.' '{print (expr $NF + 1000)}')
 
     get_obj_vals network "$net_name" id
     eval netid=\$network_${net_name}_id
@@ -400,7 +401,7 @@ function prep_public_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
+        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan" tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
         neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
