@@ -392,6 +392,15 @@ function prep_public_network {
     # TODO: These shouldn't be hardcoded.  See note above.
     cidr='192.168.2.0/24'
     gateway='192.168.2.1'
+    # Parse ip address from network config
+    inet_addr=`ifconfig eth0 | awk -F '[: ]+' '/inet addr:/ {print $4}'`
+    # Get ID of current partition to use in VEA creation
+    vm_id=`pvmctl vm list --all-out | egrep '^ *(id|rmc_ip)=' | while read line;
+            do eval $line; if [[ $line == *'rmc_ip='$inet_addr* ]];
+            then echo "$id"; fi; done`
+
+    # Add 1000 to create unique VLAN for devstack network
+    vlan_id=$(expr $vm_id + 1000)
 
     get_obj_vals network "$net_name" id
     eval netid=\$network_${net_name}_id
@@ -400,7 +409,7 @@ function prep_public_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
+        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
         neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
