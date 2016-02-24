@@ -201,18 +201,20 @@ function discover_and_set_id {
 }
 
 function find_img_lu_for_checksum {
-    ### find_img_lu_for_checksum insum
+    ### find_img_lu_for_checksum var_to_set insum
     #
     # If the SSP already contains an appropriately-named* image LU whose
     # MD5 checksum matches the 'insum' parameter, this function extracts
-    # and echoes the image name from that LU name.
+    # the image name from that LU name and assigns it to the variable
+    # named in 'var_to_set'.
     #
     # *An "appropriate" image LU name is of the format
     # 'image_{name}_{checksum}', where {name} is the name of the glance
     # image from which it was created; and {checksum} is the
     # 32-character MD5 hash of the image content.
     ###
-    insum=$1
+    var_to_set=$1
+    insum=$2
     validate_checksum "$insum"
 
     verb "Looking for an existing Image LU with checksum '$insum'"
@@ -223,7 +225,7 @@ function find_img_lu_for_checksum {
             verb "Found matching LU '$luname'."
             imgname=${luname#*_}
             imgname=${imgname%_*}
-            echo "$imgname"
+            eval $var_to_set="$imgname"
             return 0
         fi
     done
@@ -232,15 +234,16 @@ function find_img_lu_for_checksum {
 }
 
 function find_glance_image {
-    ### find_glance_image checksum [name]
+    ### find_glance_image var_to_set checksum [name]
     #
     # Finds a glance image with the specified checksum and possibly
-    # name.  If found, the name is printed and the function returns
-    # success; otherwise nothing is printed and the function returns
-    # failure.
+    # name.  If found, the name is assigned to the variable named in
+    # 'var_to_set' and the function returns success; otherwise the
+    # variable is not set and the function returns failure.
     ###
-    checksum=$1
-    inname=$2
+    var_to_set=$1
+    checksum=$2
+    inname=$3
 
     validate_checksum "$checksum"
 
@@ -250,7 +253,7 @@ function find_glance_image {
     openstack image list --property checksum="$checksum" -f value -c Name | while read outname; do
         if [ -z "$inname" ] || [[ "$inname" == "$outname" ]]; then
             verb "Found existing glance image '$outname'."
-            echo "$outname"
+            eval $var_to_set="$outname"
             return 0
         fi
     done
@@ -439,19 +442,19 @@ function prep_for_tempest {
     # Set up for openstack commands
     source "$OPENRC" admin admin
 
-    verb "Calculating MD5 hash of image file '$imgfile'."
-    imgsum=`md5sum "$imgfile" | cut -c -32`
+    verb "Calculating MD5 hash of image file '$IMGFILE'."
+    imgsum=`md5sum "$IMGFILE" | cut -c -32`
 
     # See if an appropriate image LU already exists.
     lu_needed=
-    imgname=`find_img_lu_for_checksum "$imgsum"`
+    find_img_lu_for_checksum imgname "$imgsum"
     [ "$imgname" ] || lu_needed=1
 
     # See if an appropriate glance image already exists.  If an image LU
     # was found, the glance image's name must match, and this call will
     # overwrite $imgname with the same value.  Otherwise, we'll settle
     # for any glance image with the right checksum.
-    imgname=`find_glance_image "$imgsum" "$imgname"`
+    find_glance_image imgname "$imgsum" "$imgname"
 
     # If no existing glance image found, we'll have to upload it.
     # Minimize the probability of colliding with an existing image
@@ -507,7 +510,7 @@ EOM
         # command eventually, but for now the only way to do it is via
         # VSCSI mapping creation.
         luname="image_${imgname}_${imgsum}"
-        verb "Uploading '$imgfile' to new LU '$luname'..."
+        verb "Uploading '$IMGFILE' to new LU '$luname'..."
         # Discover the name of the SSP.  This is required for upload.
         sspname=`pvmctl ssp list -d name --hide-label`  # There should be only one of these
         # Discover the ID of the NovaLink partition.  Since we're
