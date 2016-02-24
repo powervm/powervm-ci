@@ -218,7 +218,7 @@ function find_img_lu_for_checksum {
     validate_checksum "$insum"
 
     verb "Looking for an existing Image LU with checksum '$insum'"
-    pvmctl lu list -d name --where 'LogicalUnit.lu_type=VirtualIO_Image' --hide-label | while read luname; do
+    while read luname; do
         sum=`echo $luname | awk -F_ '/^image_/ {print $NF}'`
         [[ $? -eq 0 ]] && [ "$sum" ] || continue
         if [[ "$sum" == "$insum" ]]; then
@@ -228,7 +228,7 @@ function find_img_lu_for_checksum {
             eval $var_to_set="$imgname"
             return 0
         fi
-    done
+    done < <(pvmctl lu list -d name --where 'LogicalUnit.lu_type=VirtualIO_Image' --hide-label)
     verb "No matching Image LU found."
     return 1
 }
@@ -250,13 +250,13 @@ function find_glance_image {
     msg="Looking for an existing glance image with checksum '$checksum'"
     [ "$inname" ] && msg+=" and name '$inname'"
     verb "$msg"
-    openstack image list --property checksum="$checksum" -f value -c Name | while read outname; do
+    while read outname; do
         if [ -z "$inname" ] || [[ "$inname" == "$outname" ]]; then
             verb "Found existing glance image '$outname'."
             eval $var_to_set="$outname"
             return 0
         fi
-    done
+    done < <(openstack image list --property checksum="$checksum" -f value -c Name)
     verb "No matching glance image found."
     return 1
 }
