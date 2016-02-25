@@ -629,6 +629,9 @@ function cleanup {
 }
 [ $PREP_ONLY ] || trap cleanup EXIT
 
+# Turn SMT Off
+sudo ppc64_cpu --smt=off
+
 # Prep our devstack and tempest.conf.
 prep_for_tempest "$TEMPEST_CONF_GEN"
 
@@ -702,6 +705,9 @@ SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
 
 # Initialize the tempest repository
 testr init
+
+# Turn SMT Back On
+sudo ppc64_cpu --smt=on
 
 # Run it!
 verb "$RUNCMD"
