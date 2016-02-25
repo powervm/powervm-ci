@@ -700,6 +700,9 @@ $MVCMD
 # Create temp file for subunit results
 SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
 
+# Initialize the tempest repository
+testr init
+
 # Run it!
 verb "$RUNCMD"
 $RUNCMD >$SUBUNIT_RESULTS
