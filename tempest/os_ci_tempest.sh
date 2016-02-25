@@ -553,7 +553,12 @@ CONF=${CONF:-$CONF_DEFAULT}
 
 # Output HTML file path.
 # Command line takes precedence; then config file; then default.
-OUTFILE=`realpath ${OUTFILE_ARG:-${OUTFILE:-/opt/stack/logs/novalink_os_tempest.html}}`
+OUTFILE=${OUTFILE_ARG:-${OUTFILE:-/opt/stack/logs/novalink_os_tempest.html}}
+# Resolve the directory, because we cd later
+ofpath=`dirname $OUTFILE`
+ofbase=`basename $OUTFILE`
+[[ -d "$ofpath" ]] || bail "Path to output file $OUTFILE not found or not a directory."
+OUTFILE=`realpath $ofpath`/$ofbase
 
 # Location of the tempest repository
 TEMPEST_DIR=`realpath ${TEMPEST_DIR:-/opt/stack/tempest}`
@@ -663,7 +668,7 @@ done
 # Why cat | wc?  So wc doesn't print the file name.
 echo "Running "`cat $TEST_LIST | wc -l`" tests..."
 
-MVCMD="mv -f '$TEMPEST_CONF_GEN' '$TEMPEST_CONF_INST'"
+MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
 RUNCMD="testr run --subunit --concurrency=1 --load-list=$TEST_LIST"
 
 if [ $PREP_ONLY ]; then
