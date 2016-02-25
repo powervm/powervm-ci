@@ -703,6 +703,13 @@ SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
 # Initialize the tempest repository
 testr init
 
+# Turn SMT Back On
+# Many environments turn off SMT to minimize the number of
+# OpenStack processes that devstack makes.  But before
+# tempest runs we want all the threads available to
+# the system.
+sudo ppc64_cpu --smt=on
+
 # Run it!
 verb "$RUNCMD"
 $RUNCMD >$SUBUNIT_RESULTS
