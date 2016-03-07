@@ -40,8 +40,8 @@ Usage: $CMD [-D] [-v] [-p] [-c config] [-b base_test_regex] [-o outfile.html]
                       tempest).
                       Default: $CONF_DEFAULT
   -D                  Turn on debug trace.
-  -o outfile.html     Path to HTML file to be written with test results.
-                      Conf option: \$OUTFILE
+  -o /path/to/reports Directory in which to store test results.
+                      Conf option: \$OUTPATH
   -p                  Prep only.  Ensures the stack contains the
                       appropriate image, flavors, and network.  Creates
                       a complete tempest.conf.  Generates the list of
@@ -412,7 +412,7 @@ function prep_public_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
+        neutron net-create "$net_name" --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
         neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
@@ -537,7 +537,7 @@ while getopts "b:c:Do:pv" opt; do
     b) BASE_TEST_REGEX_ARG=$OPTARG ;;
     c) CONF=$OPTARG                ;;
     D) DEBUG=1                     ;;
-    o) OUTFILE_ARG=$OPTARG         ;;
+    o) OUTPATH_ARG=$OPTARG         ;;
     p) PREP_ONLY=1                 ;;
     v) VERBOSE=1                   ;;
     *) usage                       ;;
@@ -553,12 +553,14 @@ CONF=${CONF:-$CONF_DEFAULT}
 
 # Output HTML file path.
 # Command line takes precedence; then config file; then default.
-OUTFILE=${OUTFILE_ARG:-${OUTFILE:-/opt/stack/logs/novalink_os_tempest.html}}
+OUTPATH=${OUTPATH_ARG:-${OUTPATH:-/opt/stack/logs}}
 # Resolve the directory, because we cd later
-ofpath=`dirname $OUTFILE`
-ofbase=`basename $OUTFILE`
-[[ -d "$ofpath" ]] || bail "Path to output file $OUTFILE not found or not a directory."
-OUTFILE=`realpath $ofpath`/$ofbase
+if ! [[ -d "$OUTPATH" ]]; then
+    mkdir -p "$OUTPATH" || bail "Failed to create output directory $OUTPATH."
+fi
+ofbase=`realpath $OUTPATH`/novalink_os_ci
+OUTFILE_HTML=${ofbase}.html
+SUBUNIT_RESULTS=${ofbase}.subunit
 
 # Location of the tempest repository
 TEMPEST_DIR=`realpath ${TEMPEST_DIR:-/opt/stack/tempest}`
@@ -622,7 +624,7 @@ function cleanup {
       SUBUNIT_RESULTS=${SUBUNIT_RESULTS:-Not generated}
       echo "Subunit results: $SUBUNIT_RESULTS"
   else
-      for f in "$TEST_LIST" "$SUBUNIT_RESULTS"; do
+      for f in "$TEST_LIST"; do
           [ "$f" ] && [[ -f "$f" ]] && rm -f "$f"
       done
   fi
@@ -697,9 +699,6 @@ fi
 verb "Installing generated tempest.conf to $TEMPEST_CONF_INST"
 $MVCMD
 
-# Create temp file for subunit results
-SUBUNIT_RESULTS=`mktemp /tmp/subunit_results.XXX`
-
 # Initialize the tempest repository
 testr init
 
@@ -707,14 +706,15 @@ testr init
 verb "$RUNCMD"
 $RUNCMD >$SUBUNIT_RESULTS
 
-subunit2html $SUBUNIT_RESULTS $OUTFILE
+subunit2html $SUBUNIT_RESULTS $OUTFILE_HTML
 
 echo
 echo "=============================================="
 subunit-stats $SUBUNIT_RESULTS
 RC=$?
 echo "Completed in $SECONDS seconds."
-echo "HTML report in $OUTFILE"
+echo "HTML report in $OUTFILE_HTML"
+echo "Subunit results in $SUBUNIT_RESULTS"
 echo "=============================================="
 
 exit $RC
