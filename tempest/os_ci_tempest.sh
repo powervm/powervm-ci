@@ -356,15 +356,38 @@ function prep_flavor {
         # Need to create the flavor
         # First ensure valid flavor specs were passed
         numre='^[1-9][0-9]*$'
-        [[ "$mem_mb" =~ $numre ]] || "prep_flavor: mem_mb '$mem_mb' not valid - must be a positive integer."
-        [[ "$disk_gb" =~ $numre ]] || "prep_flavor: disk_gb '$disk_gb' not valid - must be a positive integer."
-        [[ "$cpu" =~ $numre ]] || "prep_flavor: vcpu count '$cpu' not valid - must be a positive integer."
+        [[ "$mem_mb" =~ $numre ]] || bail "prep_flavor: mem_mb '$mem_mb' not valid - must be a positive integer."
+        [[ "$disk_gb" =~ $numre ]] || bail "prep_flavor: disk_gb '$disk_gb' not valid - must be a positive integer."
+        [[ "$cpu" =~ $numre ]] || bail "prep_flavor: vcpu count '$cpu' not valid - must be a positive integer."
         verb "Creating flavor '$flvname' with $mem_mb MB RAM, $disk_gb GB disk, and $cpu vcpu."
         nova flavor-create "$flvname" auto "$mem_mb" "$disk_gb" "$cpu" || bail "Failed to create flavor '$flvname'!"
     fi
 
     # Set the UUID in tempest.conf
     discover_and_set_id "$tempest_conf" flavor "$flvname" compute "$varname"
+}
+
+function get_my_vm_id {
+    # Parse RMC ip address from network config
+    inet_addr=$(ifconfig eth0 | awk -F '[: ]+' '/inet addr:/ {print $4}')
+    inet_addr_6=$(ifconfig eth1 | awk -F '[/ ]+' '/inet6 addr:/ {print $4}')
+
+    # Get name of current partition to use in VEA creation
+    # Once https://jazz07.rchland.ibm.com:13443/jazz/web/projects/NEO#action=com.ibm.team.workitem.viewWorkItem&id=146027
+    # is fixed, we can use something like below... for now hack around it.
+    # id=$(pvmctl vm list -d id rmc_ip -w rmc_ip=$inet_addr --hide-label)
+    vm_id=0
+    while read line; do
+        eval $line
+        if [[ $rmc_ip == $inet_addr ]] || [[ $rmc_ip == $inet_addr_6 ]]; then
+            verb "Discovered my VM ID ($id) based on RMC IP $rmc_ip"
+            echo $id
+            return 0
+        fi
+    done < <(pvmctl vm list --all-out | egrep '^ *(id|rmc_ip)=')
+
+    verb "RMC IP not matched!"
+    return 1
 }
 
 function prep_public_network {
@@ -394,13 +417,10 @@ function prep_public_network {
 
     # TODO: These shouldn't be hardcoded.  See note above.
     cidr='192.168.2.0/24'
-    gateway='192.168.2.1'
-    # Parse ip address from network config
-    inet_addr=`ifconfig eth0 | awk -F '[: ]+' '/inet addr:/ {print $4}'`
-    # Get ID of current partition to use in VEA creation
-    vm_id=`pvmctl vm list --all-out | egrep '^ *(id|rmc_ip)=' | while read line;
-            do eval $line; if [[ $line == *'rmc_ip='$inet_addr* ]];
-            then echo "$id"; fi; done`
+    gateway='192.168.2.254'
+
+    vm_id=`get_my_vm_id`
+    [ $vm_id ] || bail "Unable to discover my VM ID."
 
     # Add 1000 to create unique VLAN for devstack network
     vlan_id=$(expr $vm_id + 1000)
@@ -671,7 +691,7 @@ done
 echo "Running "`cat $TEST_LIST | wc -l`" tests..."
 
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
-RUNCMD="testr run --subunit --concurrency=1 --load-list=$TEST_LIST"
+RUNCMD="testr run --subunit --parallel --load-list=$TEST_LIST"
 
 if [ $PREP_ONLY ]; then
     echo
