@@ -367,29 +367,6 @@ function prep_flavor {
     discover_and_set_id "$tempest_conf" flavor "$flvname" compute "$varname"
 }
 
-function get_my_vm_id {
-    # Parse RMC ip address from network config
-    inet_addr=$(ifconfig eth0 | awk -F '[: ]+' '/inet addr:/ {print $4}')
-    inet_addr_6=$(ifconfig eth1 | awk -F '[/ ]+' '/inet6 addr:/ {print $4}')
-
-    # Get name of current partition to use in VEA creation
-    # Once https://jazz07.rchland.ibm.com:13443/jazz/web/projects/NEO#action=com.ibm.team.workitem.viewWorkItem&id=146027
-    # is fixed, we can use something like below... for now hack around it.
-    # id=$(pvmctl vm list -d id rmc_ip -w rmc_ip=$inet_addr --hide-label)
-    vm_id=0
-    while read line; do
-        eval $line
-        if [[ $rmc_ip == $inet_addr ]] || [[ $rmc_ip == $inet_addr_6 ]]; then
-            verb "Discovered my VM ID ($id) based on RMC IP $rmc_ip"
-            echo $id
-            return 0
-        fi
-    done < <(pvmctl vm list --all-out | egrep '^ *(id|rmc_ip)=')
-
-    verb "RMC IP not matched!"
-    return 1
-}
-
 function prep_public_network {
     ### prep_public_network tempest_conf
     #
@@ -419,7 +396,7 @@ function prep_public_network {
     cidr='192.168.2.0/24'
     gateway='192.168.2.254'
 
-    vm_id=`get_my_vm_id`
+    vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
     [ $vm_id ] || bail "Unable to discover my VM ID."
 
     # Add 1000 to create unique VLAN for devstack network
