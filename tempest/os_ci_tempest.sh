@@ -418,6 +418,27 @@ function prep_public_network {
     discover_and_set_id "$tempest_conf" network "$net_name" network public_network_id
 }
 
+function create_primer_lpar {
+    ### create_primer_lpar flavor image lparname imgsum
+    #
+    # Creates an LPAR with the specified lparname using the specified
+    # flavor (name or ID) and imagename.  Waits, polling the SSP, until
+    # the LU has been created, indicating that the upload has begun.
+    # The imgsum parameter is the MD5 sum of the image in question.
+    # This is used to ensure we find the correct LU.
+    ###
+    flavor=$1
+    imagename=$2
+    lparname=$3
+
+    nova boot --flavor "$flavor" --image "$imagename" "$lparname"
+
+    while ! find_img_lu_for_checksum not_used "$imgsum"; do
+        sleep 1
+        # TODO: Should we have a timeout?
+    done
+}
+
 function prep_for_tempest {
     ### prep_for_tempest tempest_conf
     #
@@ -482,46 +503,18 @@ function prep_for_tempest {
     # Discover and register the admin tenant ID
     discover_and_set_id "$tempest_conf" project admin identity admin_tenant_id
 
-    # At this point, we should create the image LU if necessary.
-    # However, we don't have the needed commands, so tell the user how
-    # to do it, and bail.
+    # At this point, we should create the image LU if necessary.  We do
+    # this by creating a VM with the appropriate image.  Even though the
+    # nova boot is asynchronous, the nova-powervm driver will upload the
+    # image LU with semantics that ensure subsequent attempts to create
+    # a VM will wait appropriately until it is done.  So we can kick off
+    # the tests "while" the instance is being created.
     if [ "$lu_needed" ]; then
-        cat <<EOM
-========================================================================
-There is no existing image LU with the same checksum ($imgsum)
-as the requested image file ($IMGFILE).
-You need to prime the SSP by creating an instance using image
-'$imgname'.  You can do this by executing the following:
-
-  source '$OPENRC' admin admin
-  nova boot --flavor '$flvname1' --image '$imgname' primer
-
-Monitor the instance until the VM OS is running to ensure that the image
-LU creation has completed.  Then rerun this command.
-========================================================================
-EOM
-        exit 255
-
-        # TODO: use the below to create the image LU once the commands
-        # are fixed.  Ideally, there will be a pvmctl lu create/upload
-        # command eventually, but for now the only way to do it is via
-        # VSCSI mapping creation.
-        luname="image_${imgname}_${imgsum}"
-        verb "Uploading '$IMGFILE' to new LU '$luname'..."
-        # Discover the name of the SSP.  This is required for upload.
-        sspname=`pvmctl ssp list -d name --hide-label`  # There should be only one of these
-        # Discover the ID of the NovaLink partition.  Since we're
-        # actually creating a mapping, we have to specify an LPAR to
-        # which to map.  We'll use the NovaLink partition.
-        # TODO: This is currently broken!
-        nvlid=`pvmctl lpar list -d id --hide-label --where LogicalPartition.is_mgmt_partition=True`
-        # Create a new VSCSI mapping to a new image LU based on the
-        # image file.
-        # TODO: This is currently broken!
-        cmd="pvmctl scsi create --ssp name='$sspname' --upload '$imgfile' --type lu --lpar id=$nvlid --stor-id name='$luname'"
-        verb "$cmd"
-        "$cmd"
+        create_primer_lpar "$flvname1" "$imgname" ssp_primer "$imgsum"
     fi  # lu_needed
+
+    # The LU may still be uploading, but we're ready to start tests.
+    exit 0
 }
 
 ## main Main MAIN
