@@ -548,7 +548,7 @@ OUTPATH=${OUTPATH_ARG:-${OUTPATH:-/opt/stack/logs}}
 if ! [[ -d "$OUTPATH" ]]; then
     mkdir -p "$OUTPATH" || bail "Failed to create output directory $OUTPATH."
 fi
-ofbase=`realpath $OUTPATH`/novalink_os_ci
+ofbase=`realpath $OUTPATH`/powervm_os_ci
 OUTFILE_HTML=${ofbase}.html
 SUBUNIT_RESULTS=${ofbase}.subunit
 
