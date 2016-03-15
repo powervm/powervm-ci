@@ -396,7 +396,7 @@ function prep_public_network {
     cidr='192.168.2.0/24'
     gateway='192.168.2.254'
 
-    vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
+    vm_id=`awk -F= '/^partition_id=/ {print $2}' /proc/ppc64/lparcfg`
     [ $vm_id ] || bail "Unable to discover my VM ID."
 
     # Add 1000 to create unique VLAN for devstack network
