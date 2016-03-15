@@ -514,7 +514,7 @@ function prep_for_tempest {
     fi  # lu_needed
 
     # The LU may still be uploading, but we're ready to start tests.
-    exit 0
+    return 0
 }
 
 ## main Main MAIN
