@@ -367,14 +367,15 @@ function prep_flavor {
     discover_and_set_id "$tempest_conf" flavor "$flvname" compute "$varname"
 }
 
-function prep_public_network {
-    ### prep_public_network tempest_conf
+function create_network {
+    ### create_network name external ap_start ap_end
     #
-    # By the time this method is finished, a network called 'public'
-    # exist, and its UUID is registered in tempest.conf file
-    # 'tempest_conf' under the key 'public_network_id' in the
-    # '[network]' section.  If the network doesn't already exist, it and
-    # its subnet are created.
+    # By the time this method is finished, a network with the specified
+    # 'name' exists.  It is internal or external based on the 'external'
+    # parameter ('True' or 'False').  If the network doesn't already
+    # exist, it is created, along with its subnet.  The subnet is
+    # created with the allocation pool range specified by 'ap_start' and
+    # 'ap_end'.
     #
     # TODO: Currently the subnet is created with hardcoded CIDR and
     # gateway values.  Ultimately, these should be pulled from a config
@@ -383,18 +384,22 @@ function prep_public_network {
     # in which case the 'create' portion of this method should go away.
     #
     # LIMITATIONS:
-    # o If a network named 'public' already exists, no attempt is made
-    # to ensure that it has the proper attributes; namely:
-    #   - That it is external.
+    # o If a network of the specified 'name' already exists, no attempt
+    # is made to ensure that it has the proper attributes; namely:
+    #   - That it has the correct VLAN ID.
+    #   - That it is internal/external.
     #   - That it has a subnet at all.
-    #   - That its subnet has the expected network address and gateway.
+    #   - That its subnet has the expected network address, gateway, and
+    #   allocation pool range.
     ###
-    tempest_conf=$1
-    net_name=public
+    net_name=$1
+    external=$2
+    ap_start=$3
+    ap_end=$4
 
-    # TODO: These shouldn't be hardcoded.  See note above.
-    cidr='192.168.2.0/24'
-    gateway='192.168.2.254'
+    # TODO: These are hardcoded (see note above).  Put them in the .conf?
+    cidr="192.168.2.0/24"
+    gateway="192.168.2.254"
 
     vm_id=`awk -F= '/^partition_id=/ {print $2}' /proc/ppc64/lparcfg`
     [ $vm_id ] || bail "Unable to discover my VM ID."
@@ -409,10 +414,32 @@ function prep_public_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external True --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
+        neutron net-create "$net_name" --router:external "$external" --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
-        neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
+        neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" --allocation-pool start="$ap_start",end="$ap_end" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
+}
+
+function prep_public_network {
+    ### prep_public_network tempest_conf
+    #
+    # By the time this method is finished, a network called 'public'
+    # exists, and its UUID is registered in tempest.conf file
+    # 'tempest_conf' under the key 'public_network_id' in the
+    # '[network]' section.  If the network doesn't already exist, it and
+    # its subnet are created.
+    #
+    # LIMITATIONS:
+    # o If a network named 'public' already exists, no attempt is made
+    # to ensure that it has the proper attributes; namely:
+    #   - That it is external.
+    #   - That it has a subnet at all.
+    #   - That its subnet has the expected network address and gateway.
+    ###
+    tempest_conf=$1
+    net_name=public
+
+    create_network "$net_name" "True" "192.168.2.2" "192.168.2.128"
 
     # Set the UUID in tempest.conf
     discover_and_set_id "$tempest_conf" network "$net_name" network public_network_id
@@ -499,6 +526,9 @@ function prep_for_tempest {
 
     # Ensure public network exists and is registered
     prep_public_network "$tempest_conf"
+
+    # Ensure private network exists
+    create_network "private" "False" "192.168.2.129" "192.168.2.253"
 
     # Discover and register the admin tenant ID
     discover_and_set_id "$tempest_conf" project admin identity admin_tenant_id
