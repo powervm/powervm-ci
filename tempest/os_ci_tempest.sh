@@ -377,11 +377,12 @@ function create_network {
     # created with the allocation pool range specified by 'ap_start' and
     # 'ap_end'.
     #
-    # TODO: Currently the subnet is created with hardcoded CIDR and
-    # gateway values.  Ultimately, these should be pulled from a config
-    # somewhere.  However, we believe this network is supposed to be
-    # created automatically by devstack based on values in local.conf;
-    # in which case the 'create' portion of this method should go away.
+    # The CIDR is passed in to tell neutron what the full subnet is.  The
+    # gateway is a faux gateway IP address that is outside of the allocation
+    # pool.  A vlan modifier is also passed in, which is used in conjunction
+    # with the VM ID.  The VLAN that gets used for the neutron network is
+    # set to (VM ID + vlan modifier).  This is needed for the simulated
+    # Tempest Nesting support that the PowerVM driver is using.
     #
     # LIMITATIONS:
     # o If a network of the specified 'name' already exists, no attempt
@@ -396,16 +397,15 @@ function create_network {
     external=$2
     ap_start=$3
     ap_end=$4
-
-    # TODO: These are hardcoded (see note above).  Put them in the .conf?
-    cidr="192.168.2.0/24"
-    gateway="192.168.2.254"
+    cidr=$5
+    gateway=$6
+    vlan_mod=$7
 
     vm_id=`awk -F= '/^partition_id=/ {print $2}' /proc/ppc64/lparcfg`
     [ $vm_id ] || bail "Unable to discover my VM ID."
 
-    # Add 1000 to create unique VLAN for devstack network
-    vlan_id=$(expr $vm_id + 1000)
+    # Add vlan_mod (the modifier) to create unique VLAN for devstack network
+    vlan_id=$(expr $vm_id + $vlan_mod)
 
     get_obj_vals network "$net_name" id
     eval netid=\$network_${net_name}_id
@@ -439,7 +439,7 @@ function prep_public_network {
     tempest_conf=$1
     net_name=public
 
-    create_network "$net_name" "True" "192.168.2.2" "192.168.2.128"
+    create_network "$net_name" "True" "192.168.2.100" "192.168.2.200" "192.168.2.0/24" "192.168.2.254" 1000
 
     # Set the UUID in tempest.conf
     discover_and_set_id "$tempest_conf" network "$net_name" network public_network_id
@@ -528,7 +528,7 @@ function prep_for_tempest {
     prep_public_network "$tempest_conf"
 
     # Ensure private network exists
-    create_network "private" "False" "192.168.2.129" "192.168.2.253"
+    create_network "private" "False" "192.168.3.100" "192.168.3.200"  "192.168.3.0/24" "192.168.3.254" 2000
 
     # Discover and register the admin tenant ID
     discover_and_set_id "$tempest_conf" project admin identity admin_tenant_id
