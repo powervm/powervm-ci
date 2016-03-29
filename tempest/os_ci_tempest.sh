@@ -446,19 +446,21 @@ function prep_public_network {
 }
 
 function create_primer_lpar {
-    ### create_primer_lpar flavor image lparname imgsum
+    ### create_primer_lpar flavor image net_id lparname imgsum
     #
-    # Creates an LPAR with the specified lparname using the specified
-    # flavor (name or ID) and imagename.  Waits, polling the SSP, until
-    # the LU has been created, indicating that the upload has begun.
-    # The imgsum parameter is the MD5 sum of the image in question.
+    # Creates an LPAR with the specified lparname on the network identified by
+    # net_id using the specified flavor (name or ID) and image.  Waits, polling
+    # the SSP, until the LU has been created, indicating that the upload has
+    # begun.  The imgsum parameter is the MD5 sum of the image in question.
     # This is used to ensure we find the correct LU.
     ###
     flavor=$1
     imagename=$2
-    lparname=$3
+    net_id=$3
+    lparname=$4
+    imgsum=$5
 
-    nova boot --flavor "$flavor" --image "$imagename" "$lparname"
+    nova boot --flavor "$flavor" --image "$imagename" --nic net-id="$net_id" "$lparname" || bail "Failed to create primer LPAR."
 
     while ! find_img_lu_for_checksum not_used "$imgsum"; do
         sleep 1
@@ -540,7 +542,8 @@ function prep_for_tempest {
     # a VM will wait appropriately until it is done.  So we can kick off
     # the tests "while" the instance is being created.
     if [ "$lu_needed" ]; then
-        create_primer_lpar "$flvname1" "$imgname" ssp_primer "$imgsum"
+        get_obj_vals network private id
+        create_primer_lpar "$flvname1" "$imgname" "$network_private_id" ssp_primer "$imgsum"
     fi  # lu_needed
 
     # The LU may still be uploading, but we're ready to start tests.
