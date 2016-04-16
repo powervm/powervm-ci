@@ -622,7 +622,7 @@ OPENRC=${OPENRC:-/opt/stack/devstack/openrc}
 IMGFILE=${IMGFILE:-/home/jenkins/vm_images/base_os.img}
 
 # Flavor specs.  (For now, one set of specs goes for both flavors.)
-FLVMEM=${FLVMEM:-512}
+FLVMEM=${FLVMEM:-256}
 FLVCPU=${FLVCPU:-1}
 
 # Verify existence and executability of programs
