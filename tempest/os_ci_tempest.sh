@@ -304,22 +304,6 @@ function prep_glance_image {
     discover_and_set_id "$tempest_conf" image "$imgname" compute "$varname"
 }
 
-function image_size_gb {
-    ### image_size_gb imgname
-    #
-    # Converts the byte size of the image named 'imgname' to integer GB,
-    # rounded up, and prints the result.  Assumes the
-    # $image_{imgname}_size variable is already cached.
-    ###
-    imgname=$1
-
-    eval imgbytes=\$image_${imgname}_size
-    gb=$((1024*1024*1024))
-    imggb=$((imgbytes/$gb))
-    [[ $((imgbytes%$gb)) -gt 0 ]] && imggb+=1
-    echo "$imggb"
-}
-
 function prep_flavor {
     ### prep_flavor name mem_mb disk_gb cpu tempest_conf varname
     #
@@ -518,13 +502,13 @@ function prep_for_tempest {
     # Tempest uses two image ID references, even if they're the same.
     prep_glance_image "$imgname" "" "$tempest_conf" image_ref_alt
 
-    # Above cached the image size in bytes.  We need it in integer GB
-    # (rounded up) for the flavor.
-    imggb=`image_size_gb "$imgname"`
+    # Set the flavor's disk size to 0.  This is a special value that
+    # tells Nova to create the disk as the size of the image itself.
+    diskgb=0
 
     # Ensure flavors are created and registered
-    prep_flavor "$flvname1" "$FLVMEM" "$imggb" "$FLVCPU" "$tempest_conf" flavor_ref
-    prep_flavor "$flvname2" "$FLVMEM" "$imggb" "$FLVCPU" "$tempest_conf" flavor_ref_alt
+    prep_flavor "$flvname1" "$FLVMEM" "$diskgb" "$FLVCPU" "$tempest_conf" flavor_ref
+    prep_flavor "$flvname2" "$FLVMEM" "$diskgb" "$FLVCPU" "$tempest_conf" flavor_ref_alt
 
     # Ensure public network exists and is registered
     prep_public_network "$tempest_conf"
