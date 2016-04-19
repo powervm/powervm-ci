@@ -340,8 +340,9 @@ function prep_flavor {
         # Need to create the flavor
         # First ensure valid flavor specs were passed
         numre='^[1-9][0-9]*$'
+        numre2='^[0-9][0-9]*$'
         [[ "$mem_mb" =~ $numre ]] || bail "prep_flavor: mem_mb '$mem_mb' not valid - must be a positive integer."
-        [[ "$disk_gb" =~ $numre ]] || bail "prep_flavor: disk_gb '$disk_gb' not valid - must be a positive integer."
+        [[ "$disk_gb" =~ $numre2 ]] || bail "prep_flavor: disk_gb '$disk_gb' not valid - must be a positive integer or zero."
         [[ "$cpu" =~ $numre ]] || bail "prep_flavor: vcpu count '$cpu' not valid - must be a positive integer."
         verb "Creating flavor '$flvname' with $mem_mb MB RAM, $disk_gb GB disk, and $cpu vcpu."
         nova flavor-create "$flvname" auto "$mem_mb" "$disk_gb" "$cpu" || bail "Failed to create flavor '$flvname'!"
