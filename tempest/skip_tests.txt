@@ -158,3 +158,8 @@ tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_
 tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_in_tenant_traffic
 tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_security_disable_security_group
 neutron.tests.tempest.api.test_service_type_management.ServiceTypeManagementTest.test_service_provider_list
+
+# Can not reliably finish this test in time.  It passes but with a high concurrency count
+# it takes just a bit too long.
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_shelve_unshelve_server
+
