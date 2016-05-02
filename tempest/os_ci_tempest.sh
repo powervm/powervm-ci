@@ -679,7 +679,7 @@ done
 echo "Running "`cat $TEST_LIST | wc -l`" tests..."
 
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
-RUNCMD="testr run --subunit --parallel --concurrency=4 --load-list=$TEST_LIST"
+RUNCMD="testr run --subunit --parallel --concurrency=8 --load-list=$TEST_LIST"
 
 if [ $PREP_ONLY ]; then
     echo
