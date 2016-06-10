@@ -113,6 +113,7 @@ neutron.tests.tempest.api.test_qos.QosTestJSON.test_policy_update
 neutron.tests.tempest.api.test_qos.QosTestJSON.test_policy_update_association_with_admin_network
 neutron.tests.tempest.api.test_qos.QosTestJSON.test_policy_update_association_with_port_shared_policy
 neutron.tests.tempest.api.test_qos.QosTestJSON.test_qos_policy_delete_with_rules
+neutron.tests.tempest.api.test_qos.QosTestJSON.test_shared_policy_update
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_filter_fields
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_filter_rbac_policies
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_net_bound_shared_policy_wildcard_and_tenant_id_wild_remains
