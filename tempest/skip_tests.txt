@@ -160,3 +160,6 @@ tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_
 tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_in_tenant_traffic
 tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_security_disable_security_group
 neutron.tests.tempest.api.test_service_type_management.ServiceTypeManagementTest.test_service_provider_list
+
+# TODO: This test might be fixed by turning ssh_validation on
+neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
