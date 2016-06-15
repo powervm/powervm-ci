@@ -5,3 +5,4 @@ hosts
 .venv*
 .pydevproject
 bso.yaml
+*~
