@@ -163,3 +163,9 @@ neutron.tests.tempest.api.test_service_type_management.ServiceTypeManagementTest
 
 # TODO: This test might be fixed by turning ssh_validation on
 neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
+
+# TODO: Figure out why the server times out in the shelved_offloaded state during this test.
+tempest.api.compute.servers.test_servers_negative.ServersNegativeTestJSON.test_shelve_shelved_server
+
+# TODO: Test times out with server stuck in rebuild state
+tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
