@@ -126,6 +126,15 @@ neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_policy_target_
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_rbac_policy_show
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_regular_client_blocked_from_sharing_anothers_policy
 neutron.tests.tempest.api.test_qos.RbacSharedQosPoliciesTest.test_regular_client_shares_to_another_regular_client
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_sorts_asc
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_sorts_desc
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination_with_marker
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination_with_marker
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination_page_reverse_asc
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination_page_reverse_desc
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_pagination_page_reverse_with_href_links
+neutron.tests.tempest.api.test_qos.QosSearchCriteriaTest.test_list_no_pagination_limit_0
 
 # Network metering not supported by SEA Agent yet (depending on Tempest branch, two sets of metering)
 neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_rule_with_filters
