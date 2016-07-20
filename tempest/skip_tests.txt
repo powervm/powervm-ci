@@ -33,6 +33,7 @@ tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_router_a
 tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_hotplug_nic
 tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_port_security_macspoofing_port
 tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_instance_port_admin_state
+neutron.tests.tempest.scenario.test_qos.QoSTest.test_qos
 
 # SLAAC not supported
 tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_multi_prefix_slaac
