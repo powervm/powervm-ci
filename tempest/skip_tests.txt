@@ -112,5 +112,8 @@ tempest.api.network.test_metering_extensions.MeteringTestJSON.test_list_metering
 tempest.api.network.test_metering_extensions.MeteringTestJSON.test_show_metering_label
 tempest.api.network.test_metering_extensions.MeteringTestJSON.test_show_metering_label_rule
 
+# No RMC connection (need active VMs)
+tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_reassign_port_between_servers
+
 # TODO: Failing tests that still need to be investigated.
 tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_create_list_show_delete_interfaces
