@@ -157,3 +157,8 @@ tempest.api.network.test_metering_extensions.MeteringTestJSON.test_show_metering
 # No RMC connection (need active VMs)
 tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_reassign_port_between_servers
 tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_create_list_show_delete_interfaces
+
+# DHCP is disabled
+neutron.tests.tempest.api.test_routers.RoutersTest.test_router_interface_status
+neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_dhcp_port_status_active
+
