@@ -30,6 +30,7 @@ neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_delete_trunk_with_subpor
 neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_get_subports
 neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_list_trunks
 neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_remove_subport
+neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_update_trunk_with_description
 neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_trunk_details_no_subports
 neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_trunk_details_with_subport
 neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_empty_trunk_details
