@@ -68,6 +68,7 @@ neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_paginati
 neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_with_marker
 neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_sorts_asc
 neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_sorts_desc
+neutron.tests.tempest.scenario.test_trunk.TrunkTest.test_trunk_subport_lifecycle
 
 # Floating IPs not supported
 tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_reboot
