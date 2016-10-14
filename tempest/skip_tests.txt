@@ -428,3 +428,10 @@ tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway
 tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway_with_snat_explicit
 tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway_without_snat
 tempest.api.network.test_routers.RoutersTest.test_update_router_unset_gateway
+
+# Failing becuase we are using shared networks
+tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
+neutron.tests.tempest.api.test_networks.NetworksTestJSON.test_create_update_network_dns_domain
+neutron.tests.tempest.api.test_ports.PortsTestJSON.test_create_update_port_with_dns_name
+neutron.tests.tempest.api.test_ports.PortsTestJSON.test_create_update_port_with_no_dns_name
+ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest
