@@ -370,6 +370,10 @@ tempest.api.compute.servers.test_servers_negative.ServersNegativeTestMultiTenant
 neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_dns_domain_bumps_revision
 neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_router_extra_routes_bumps_revision
 neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_subnet_service_types_bumps_revisions
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_mtu_sized_frames
+neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_router_extra_attributes_bumps_revision
+neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_subnet_bumps_revision
+
 
 # Router Tests Disabled
 neutron.tests.tempest.api.test_routers.DvrRoutersTest.test_convert_centralized_router
