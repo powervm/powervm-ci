@@ -373,6 +373,10 @@ neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_subnet_servic
 tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_mtu_sized_frames
 neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_router_extra_attributes_bumps_revision
 neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_subnet_bumps_revision
+#id-23724222-483a-4129-bc15-7a9278f3828b
+neutron.tests.tempest.scenario.test_dvr.NetworkDvrTest.test_update_centralized_router_to_dvr
+#id-3d73ec1a-2ec6-45a9-b0f8-04a283d9d344
+neutron.tests.tempest.scenario.test_dvr.NetworkDvrTest.test_vm_reachable_through_compute
 
 # Router Tests Disabled
 neutron.tests.tempest.api.test_routers.DvrRoutersTest.test_convert_centralized_router
