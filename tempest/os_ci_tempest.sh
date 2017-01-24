@@ -33,9 +33,10 @@ function usage {
 Usage: $CMD [-D] [-v] [-p] [-c config] [-b base_test_regex] [-o outfile.html]
 
   -b base_test_regex  Regex to match names of tests to be run.  The list
-                      thus generated will be reduced by those listed in
-                      the \$SKIP_LIST in the config.  Default: '.*' (run
-                      all tests).  Conf option: \$BASE_TEST_REGEX
+                      thus generated will be adjusted based on the
+                      \$WHITE_LIST and \$BLACK_LIST in the config.
+                      Default: '.*' (run all tests).  Conf option:
+                      \$BASE_TEST_REGEX
   -c config           Path to config file for this script (not for
                       tempest).
                       Default: $CONF_DEFAULT
@@ -535,6 +536,84 @@ function prep_for_tempest {
     return 0
 }
 
+function populate_test_id_hash {
+    ### populate_test_id_hash hash_var_prefix list_file
+    #
+    # Parses 'list_file' (whose format should conform to the
+    # TEST LIST FILE FORMAT described in the os_ci_tempest.conf
+    # template), creating keys for each listed test ID in the
+    # associative array variable named {$hash_var_prefix}_hash.
+    ###
+    hash_var_prefix=$1
+    list_file=$2
+    hash_var_name="${hash_var_prefix}_hash"
+
+    if [[ -f "$list_file" ]]; then
+        verb "Processing $hash_var_prefix $white_list"
+        while read line; do
+            id=`echo $line | sed 's/\s*#.*//'`
+            if [ $id ]; then
+                eval $hash_var_name[$id]=1
+            fi
+        done <$list_file
+        eval verb "Processed \${#${hash_var_name}[@]} $hash_var_prefix lines:"
+        eval verb "\${!${hash_var_name}[@]}"
+    else
+        verb "No $hash_var_prefix specified"
+    fi
+}
+
+function generate_test_list {
+    ### generate_test_list base_test_regex white_list black_list out_file
+    #
+    # Generates an input file suitable for testr's --load-list argument,
+    # listing tests to be run.  The list is primed based on
+    # 'base_test_regex', and filtered based on 'white_list' and
+    # 'black_list', whose values should correspond to their uppercase
+    # equivalents described in the os_ci_tempest.conf file.  The
+    # resulting list is output to the path denoted by 'out_file'.
+    ###
+    base_test_regex=$1
+    white_list=$2
+    black_list=$3
+    out_file=$4
+
+    # Parse the whitelist into a hash of IDs
+    declare -g -A whitelist_hash
+    populate_test_id_hash whitelist "$white_list"
+
+    # Parse the blacklist into a hash of IDs
+    declare -g -A blacklist_hash
+    populate_test_id_hash blacklist "$black_list"
+
+    # Make sure the test list is empty
+    >"$out_file"
+
+    # Need to be in tempest dir to invoke testr
+    cd $TEMPEST_DIR
+
+    echo "Generating test list..."
+    # Generate the base test list
+    testr list-tests "$base_test_regex" | while read line; do
+        # Skip the testr config line
+        [[ "$line" == "running="* ]] && continue
+        # Extract the idempotent test UUID
+        id=`echo $line | sed 's/.*id-\([[:xdigit:]-]*\).*/\1/'`
+        # Exclude if it's in the blacklist
+        if test ${blacklist_hash["$id"]}; then
+            verb "Will SKIP blacklisted test     $line"
+            continue
+        fi
+        # Exclude if whitelist provided, but this test wasn't in it.
+        if [[ -f "$white_list" ]] && ! test ${whitelist_hash["$id"]}; then
+            verb "Will SKIP non-whitelisted test $line"
+            continue
+        fi
+        echo "$line" >>$out_file
+        verb "Will RUN                       $line"
+    done
+}
+
 ## main Main MAIN
 
 # Process command args
@@ -589,16 +668,16 @@ cp -f "$TEMPEST_CONF" "$TEMPEST_CONF_GEN"
 # Location of installed tempest.conf file (the one tempest will run with).
 TEMPEST_CONF_INST=${TEMPEST_DIR}/etc/tempest.conf
 
-# Baseline tempest test suite.  These tests will be reduced by those
-# listed in $SKIP_LIST.  Leave blank to run all tests.  You can dump
-# this list via:
+# Baseline tempest test suite.  These tests will be adjusted by those
+# listed in $WHITE_LIST and $BLACK_LIST in the config.  Leave blank to
+# run all tests.  You can dump this list via:
 #   cd $TEMPEST_DIR
 #   testr list-tests "$BASE_TEST_REGEX"
 # Command line takes precedence; then config file; then default.
 BASE_TEST_REGEX=${BASE_TEST_REGEX_ARG:-${BASE_TEST_REGEX:-'.*'}}
 
 # List of tests to skip, one per line.
-SKIP_LIST=${SKIP_LIST:-$conf_dir/skip_tests.txt}
+BLACK_LIST=${BLACK_LIST:-$conf_dir/skip_tests.txt}
 
 # Location of openrc file (to enable openstack commands)
 OPENRC=${OPENRC:-/opt/stack/devstack/openrc}
@@ -645,35 +724,7 @@ prep_for_tempest "$TEMPEST_CONF_GEN"
 # Create temp file listing tests to run
 TEST_LIST=`mktemp /tmp/test_list.XXX`
 
-# Create a hash of tests to be skipped
-declare -g -A skip_index
-if [[ -f "$SKIP_LIST" ]]; then
-  # Filter out blank & comment lines
-  awk 'NF && $0 !~ /^\s*#/' $SKIP_LIST >$TEST_LIST
-  while read line; do
-    skip_index[$line]=1
-  done <$TEST_LIST
-fi
-verb "Processed ${#skip_index[@]} skip lines."
-verb "(If these don't show up below, it's because they weren't in the base test list.)"
-verb "${!skip_index[@]}"
-
-# Need to be in tempest dir to invoke testr
-cd $TEMPEST_DIR
-
-echo "Generating test list..."
->$TEST_LIST
-testr list-tests "$BASE_TEST_REGEX" | while read line; do
-  # Skip the testr config line
-  [[ "$line" == "running="* ]] && continue
-  base_name=${line%%[*}
-  if test ${skip_index["$base_name"]}; then
-    verb "Will SKIP $base_name"
-  else
-    echo "$line" >>$TEST_LIST
-    verb "Will run  $base_name"
-  fi
-done
+generate_test_list "$BASE_TEST_REGEX" "$WHITE_LIST" "$BLACK_LIST" "$TEST_LIST"
 
 # Why cat | wc?  So wc doesn't print the file name.
 echo "Running "`cat $TEST_LIST | wc -l`" tests..."
