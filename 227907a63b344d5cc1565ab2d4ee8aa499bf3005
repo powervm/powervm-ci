@@ -1,0 +1,8 @@
+Verified+1: jenkins <nobody@nowhere.ibm.com>
+Code-Review+1: BERGLUND, ERIC S. <esberglu@us.ibm.com>
+Code-Review+2: Reznechek, Adam D. <adreznec@us.ibm.com>
+Submitted-by: FRIED, ERIC P. <efried@us.ibm.com>
+Submitted-at: Thu, 26 Jan 2017 16:55:36 -0600
+Reviewed-on: http://morpheus.pok.stglabs.ibm.com/4754
+Project: powervm-ci
+Branch: refs/heads/master
