@@ -677,7 +677,7 @@ TEMPEST_CONF_INST=${TEMPEST_DIR}/etc/tempest.conf
 BASE_TEST_REGEX=${BASE_TEST_REGEX_ARG:-${BASE_TEST_REGEX:-'.*'}}
 
 # List of tests to skip, one per line.
-BLACK_LIST=${BLACK_LIST:-$conf_dir/skip_tests.txt}
+BLACK_LIST=${BLACK_LIST-$conf_dir/skip_tests.txt}
 
 # Location of openrc file (to enable openstack commands)
 OPENRC=${OPENRC:-/opt/stack/devstack/openrc}
