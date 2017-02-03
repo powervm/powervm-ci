@@ -23,6 +23,8 @@
 # 6cd5a89d-5b47-46a7-93bc-3916f0d84973 # tempest.api.compute.images.test_images_negative.ImagesNegativeTestJSON.test_create_image_from_deleted_server
 # 73177903-6737-4f27-a60c-379e8ae8cf48 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_admin_delete_servers_of_others
 # 99774678-e072-49d1-9d2a-49a59bc56063 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_delete_server_while_in_error_state
+# 925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
+# 77ca5cc5-9990-45e0-ab98-1de8fead201a # tempest.api.compute.servers.test_instance_actions.InstanceActionsTestJSON.test_list_instance_actions
 
 # Whitelist
 # ------------------
@@ -166,7 +168,6 @@ fdcd9b33-0903-4e00-a1f7-b5f6543068d6 # tempest.api.compute.admin.test_servers.Se
 7e5d6b8f-454a-4ba1-8ae2-da857af8338b # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_by_admin_with_specified_tenant
 d56e9540-73ed-45e0-9b88-98fc419087eb # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_detailed_filter_by_invalid_status
 06f960bb-15bb-48dc-873d-f96e89be7870 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_filter_by_error_status
-925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
 86c7a8f7-50cf-43a9-9bac-5b985317134f # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_filter_by_exist_host
 682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
 9e6e0c87-3352-42f7-9faf-5d6210dbd159 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_building_state
@@ -358,7 +359,6 @@ a403ef9e-9f95-427c-b70a-3ce3388796f1 # tempest.api.compute.images.test_image_met
 391b0440-432c-4d4b-b5da-c5096aa247eb # tempest.api.compute.images.test_list_image_filters_negative.ListImageFiltersNegativeTestJSON.test_get_nonexistent_image
 a8333aa2-205c-449f-a828-d38c2489bf25 # tempest.api.compute.servers.test_availability_zone.AZV2TestJSON.test_get_availability_zone_list_with_non_admin_user
 aacc71ca-1d70-4aa5-bbf6-0ff71470e43c # tempest.api.compute.servers.test_instance_actions.InstanceActionsTestJSON.test_get_instance_action
-77ca5cc5-9990-45e0-ab98-1de8fead201a # tempest.api.compute.servers.test_instance_actions.InstanceActionsTestJSON.test_list_instance_actions
 0269f40a-6f18-456c-b336-c03623c897f1 # tempest.api.compute.servers.test_instance_actions_negative.InstanceActionsNegativeTestJSON.test_get_instance_action_invalid_request
 67e1fce6-7ec2-45c6-92d4-0a8f1a632910 # tempest.api.compute.servers.test_instance_actions_negative.InstanceActionsNegativeTestJSON.test_list_instance_actions_non_existent_server
 127642d6-4c7b-4486-b7cd-07265a378658 # tempest.api.compute.servers.test_server_metadata.ServerMetadataTestJSON.test_delete_server_metadata_item
