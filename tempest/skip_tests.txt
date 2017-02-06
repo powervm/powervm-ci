@@ -369,6 +369,9 @@ afb6486c-41b5-483e-a500-3c506f4deb49 # neutron.tests.tempest.api.test_revisions.
 c1c4fa41-8e89-44d0-9bfc-409f3b66dc57 # neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_subnet_bumps_revision
 23724222-483a-4129-bc15-7a9278f3828b # neutron.tests.tempest.scenario.test_dvr.NetworkDvrTest.test_update_centralized_router_to_dvr
 3d73ec1a-2ec6-45a9-b0f8-04a283d9d344 # neutron.tests.tempest.scenario.test_dvr.NetworkDvrTest.test_vm_reachable_through_compute
+b898ff92-dc33-4232-8ab9-2c6158c80d28 # neutron.tests.tempest.api.test_tag.TagRouterTestJSON.test_router_tags
+cdd3f3ea-073d-4435-a6cb-826a4064193d # neutron.tests.tempest.api.test_tag.TagFilterRouterTestJSON.test_filter_router_tags
+05795fb2-b2a7-4c9f-8fac-ff25aedb1489 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_create_server_from_volume_snapshot
 
 # Router Tests Disabled
 644d7a4a-01a1-4b68-bb8d-0c0042cb1729 # neutron.tests.tempest.api.test_routers.DvrRoutersTest.test_convert_centralized_router
