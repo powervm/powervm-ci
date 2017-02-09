@@ -250,6 +250,7 @@ afd8f1b7-a81e-4629-bca8-a367b3a144bb # neutron.tests.tempest.api.admin.test_exte
 3d24d11f-5366-4536-bd28-cff32b748eca # tempest.api.compute.images.test_images_oneserver_negative.ImagesOneServerNegativeTestJSON.test_create_image_specify_metadata_over_limits
 0460efcf-ee88-4f94-acef-1bf658695456 # tempest.api.compute.images.test_images_oneserver_negative.ImagesOneServerNegativeTestJSON.test_create_second_image_when_first_image_is_being_saved
 0894954d-2db2-4195-a45b-ffec0bc0187e # tempest.api.compute.images.test_images_oneserver_negative.ImagesOneServerNegativeTestJSON.test_delete_image_that_is_not_yet_active
+084f0cbc-500a-4963-8a4e-312905862581 # tempest.api.compute.images.test_images_oneserver_negative.ImagesOneServerNegativeTestJSON.test_create_image_specify_name_over_256_chars
 b3c7bcfc-bb5b-4e22-b517-c7f686b802ca # tempest.api.compute.servers.test_create_server.ServersWithSpecificFlavorTestJSON.test_verify_created_server_ephemeral_disk
 ed20d3fb-9d1f-4329-b160-543fbd5d9811 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_create_server_with_scheduler_hint_group
 ac1ad47f-984b-4441-9274-c9079b7a0666 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_host_name_is_same_as_server_name
