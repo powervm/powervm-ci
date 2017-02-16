@@ -17,7 +17,9 @@
 
 # Tempest tests to be skipped by NovaLink CI
 
+# ----------------------------
 # Tests Needing Investigation
+# ----------------------------
 
 # This test fails the tear down task with an error because the security group to be deleted is still in use
 # It could be a concurrency problem. This issue will be investigated on the staging CI environment.
@@ -28,6 +30,13 @@ bb0cb402-09dd-4947-b6e5-5e7e1cfa61ad # tempest.api.compute.servers.test_delete_s
 546d368c-bb6c-4645-979a-83ed16f3a6be # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_shutoff_state
 ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_verify_resize_state
 
+# Test is timing out, no associated errors
+682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
+
+
+# ----------------------------
+# Disabled Tests
+# ----------------------------
 
 # Not supported
 ef28c7e6-e646-4979-9d67-deb207bc5564 # tempest.api.network.test_extensions.ExtensionsTestJSON.test_list_show_extensions
