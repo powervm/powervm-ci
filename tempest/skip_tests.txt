@@ -440,3 +440,6 @@ af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.Network
 c240457d-d943-439b-8aea-85e26d64fe8f # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications
 d7f8c1c8-d470-4731-8604-315d3956caae # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_nova_notification
 29604198-8b45-4fc0-8af8-1cae4f94ebea # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAdminAPITest.test_check_nova_notification_event_and_meter
+
+# Test is timing out, no associated errors
+682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
