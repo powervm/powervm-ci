@@ -25,6 +25,12 @@
 # 99774678-e072-49d1-9d2a-49a59bc56063 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_delete_server_while_in_error_state
 # 925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
 # 77ca5cc5-9990-45e0-ab98-1de8fead201a # tempest.api.compute.servers.test_instance_actions.InstanceActionsTestJSON.test_list_instance_actions
+#
+# These tests sometimes fail to clean up the networks they create properly. The leftover networks cause many other tests to fail.
+# d39a96e2-2dea-4feb-8093-e7ac991ce6f8 # neutron.tests.tempest.api.admin.test_extension_driver_port_security_admin.PortSecurityAdminTests.test_create_port_security_false_on_shared_network
+# 86c3529b-1231-40de-803c-ffffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_create_with_address_pair_blocked_on_other_network
+# 86c3529b-1231-40de-803c-ffffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_update_with_address_pair_blocked_on_other_network
+
 
 # Whitelist
 # ------------------
@@ -757,9 +763,6 @@ bb68653f-fbba-4f20-ac1b-7b318a557366 # keystone_tempest_plugin.tests.api.identit
 91ce1183-1a15-4598-ae5f-85cfa98a1c77 # keystone_tempest_plugin.tests.api.identity.v3.test_service_providers.ServiceProvidersTest.test_service_provider_update_with_bad_attributes_fails
 7553579b-9a9e-45dd-9ada-70d906b516c0 # keystone_tempest_plugin.tests.api.identity.v3.test_service_providers.ServiceProvidersTest.test_service_providers_in_token
 2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
-d39a96e2-2dea-4feb-8093-e7ac991ce6f8 # neutron.tests.tempest.api.admin.test_extension_driver_port_security_admin.PortSecurityAdminTests.test_create_port_security_false_on_shared_network
-86c3529b-1231-40de-803c-ffffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_create_with_address_pair_blocked_on_other_network
-86c3529b-1231-40de-803c-ffffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_update_with_address_pair_blocked_on_other_network
 d3c76044-d067-4cb0-ae47-8cdd875c7f67 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3
 08b92179-669d-45ee-8233-ef6611190809 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_other_tenant
 8d21aaca-4364-4eb9-8b79-44b4fff6373b # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_tenant
