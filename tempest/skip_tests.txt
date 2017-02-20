@@ -144,6 +144,8 @@ e1f6bffd-442f-4668-b30e-df13f2705e77 # tempest.api.network.test_floating_ips.Flo
 22996ea8-4a81-4b27-b6e1-fa5df92fa5e8 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_create_floatingip_with_port_ext_net_unreachable
 50b9aeb4-9f0b-48ee-aa31-fa955a48ff54 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_create_floatingip_in_private_network
 6b3b8797-6d43-4191-985c-c48b773eb429 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_associate_floatingip_port_ext_net_unreachable
+05c4e3b3-7319-4052-90ad-e8916436c23b # neutron.tests.tempest.scenario.test_floatingip.FloatingIpSameNetwork.test_east_west
+f18f0090-3289-4783-b956-a0f8ac511e8b # neutron.tests.tempest.scenario.test_floatingip.FloatingIpSeparateNetwork.test_east_west
 
 # SLAAC not supported
 9178ad42-10e4-47e9-8987-e02b170cc5cd # tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_multi_prefix_slaac
