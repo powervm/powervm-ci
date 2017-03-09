@@ -30,7 +30,9 @@
 # d39a96e2-2dea-4feb-8093-e7ac991ce6f8 # neutron.tests.tempest.api.admin.test_extension_driver_port_security_admin.PortSecurityAdminTests.test_create_port_security_false_on_shared_network
 # 86c3529b-1231-40de-803c-ffffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_create_with_address_pair_blocked_on_other_network
 # 86c3529b-1231-40de-803c-ffffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_update_with_address_pair_blocked_on_other_network
-
+#
+# Require snapshot to be implemented
+3b7c6fe4-dfe7-477c-9243-b06359db51e6 # tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON.test_create_image_specify_multibyte_character_image_name
 
 # Whitelist
 # ------------------
@@ -217,7 +219,6 @@ b340030d-82cd-4066-a314-c72fb7c59277 # tempest.api.compute.images.test_images_ne
 27edee9c-873d-4da6-a68a-3c256efebe8f # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_update_non_existent_security_group
 9c9fae77-4feb-402f-8450-bf1c8b609713 # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_auto_disk_config
 bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_manual_disk_config
-3b7c6fe4-dfe7-477c-9243-b06359db51e6 # tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON.test_create_image_specify_multibyte_character_image_name
 490d0898-e12a-463f-aef0-c50156b9f789 # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_get_image
 fd51b7f4-d4a3-4331-9885-866658112a6f # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_list_images
 9f94cb6b-7f10-48c5-b911-a0b84d7d4cd6 # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_list_images_with_detail
