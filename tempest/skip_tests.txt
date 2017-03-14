@@ -161,6 +161,7 @@ bd61a9fd-062f-4670-972b-2d6c3e3b9e73 # tempest.api.compute.servers.test_server_a
 cc3a883f-43c0-4fb6-a9bb-5579d64984ed # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescue_paused_instance
 d1417e7f-a509-41b5-a102-d5eed8613369 # tempest.api.compute.servers.test_servers_negative.ServersNegativeTestJSON.test_pause_paused_server
 2b2642db-6568-4b35-b812-eceed3fa20ce # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_pause_unpause
+71bcb732-0261-11e7-9086-fa163e4fa634 # tempest.api.compute.images.test_images.ImagesTestJSON.test_create_image_from_paused_server
 
 # Suspend/resume not supported
 1f82ebd3-8253-4f4e-b93f-de9b7df56d8b # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_suspended_state
@@ -168,6 +169,7 @@ d1417e7f-a509-41b5-a102-d5eed8613369 # tempest.api.compute.servers.test_servers_
 7f323206-05a9-4bf8-996b-dd5b2036501b # tempest.api.compute.servers.test_servers_negative.ServersNegativeTestJSON.test_suspend_server_invalid_state
 5cdf9499-541d-4923-804e-b9a60620a7f0 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_suspend_resume
 949da7d5-72c8-4808-8802-e3d70df98e2c # tempest.scenario.test_server_advanced_ops.TestServerAdvancedOps.test_server_sequence_suspend_resume
+8ca07fec-0262-11e7-907e-fa163e4fa634 # tempest.api.compute.images.test_images.ImagesTestJSON.test_create_image_from_suspended_server
 # This test uses SUSPENDED as the 'invalid state'
 b0b17f83-d14e-4fc4-8f31-bcc9f3cfa629 # tempest.api.compute.admin.test_servers_negative.ServersAdminNegativeTestJSON.test_migrate_server_invalid_state
 
