@@ -446,6 +446,7 @@ f2faf994-97f4-410b-a831-9bc977b64374 # tempest.api.network.test_routers.RoutersT
 b386c111-3b21-466d-880c-5e72b01e1a33 # tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway_with_snat_explicit
 96536bc7-8262-4fb2-9967-5c46940fa279 # tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway_without_snat
 ad81b7ee-4f81-407b-a19c-17e623f763e8 # tempest.api.network.test_routers.RoutersTest.test_update_router_unset_gateway
+cbe42f84-04c2-11e7-8adb-fa163e4fa634 # tempest.api.network.test_routers.RoutersTest.test_create_router_set_gateway_with_fixed_ip
 
 # Failing because we are using shared networks
 af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
