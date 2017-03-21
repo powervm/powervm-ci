@@ -727,7 +727,7 @@ generate_test_list "$BASE_TEST_REGEX" "$WHITE_LIST" "$BLACK_LIST" "$TEST_LIST"
 echo "Running "`cat $TEST_LIST | wc -l`" tests..."
 
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
-RUNCMD="testr run --subunit --parallel --concurrency=4 --load-list=$TEST_LIST"
+RUNCMD="testr run --subunit --parallel --concurrency=1 --load-list=$TEST_LIST"
 
 if [ $PREP_ONLY ]; then
     echo
