@@ -21,6 +21,9 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Multiple networks found when trying to create the test server
+61e03386-89c3-449c-9bb1-a06f423fd9d1 # tempest.api.compute.servers.test_multiple_create.MultipleCreateTestJSON.test_multiple_create
+
 # This test fails the tear down task with an error because the security group to be deleted is still in use
 # It could be a concurrency problem. This issue will be investigated on the staging CI environment.
 925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
