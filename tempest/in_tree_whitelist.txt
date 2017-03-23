@@ -20,7 +20,7 @@
 # -------------------------
 #
 # These tests require power on/off, not implemented until a later in tree change
-# 6cd5a89d-5b47-46a7-93bc-3916f0d84973 # tempest.api.compute.images.test_images_negative.ImagesNegativeTestJSON.test_create_image_from_deleted_server
+# NOTE: Even with power on/off, these are failing. Further investigation is still needed.
 # 73177903-6737-4f27-a60c-379e8ae8cf48 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_admin_delete_servers_of_others
 # 99774678-e072-49d1-9d2a-49a59bc56063 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_delete_server_while_in_error_state
 # 925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
@@ -886,3 +886,36 @@ e2450a7b-d84f-4600-a093-45e78597bbac # neutron.tests.tempest.api.test_timestamp.
 4241e0d3-54b4-46ce-a9a7-093fc764161b # neutron.tests.tempest.api.test_timestamp.TestTimeStamp.test_update_port_with_timestamp
 a490215a-6f4c-4af9-9a4c-57c41f1c4fa1 # neutron.tests.tempest.api.test_timestamp.TestTimeStamp.test_update_subnet_with_timestamp
 d48c7578-c3d2-4f9b-a7a1-be2008c770a0 # neutron.tests.tempest.api.test_timestamp.TestTimeStamp.test_update_subnetpool_with_timestamp
+7c6c8f3b-2bf6-4918-b240-57b136a66aa0 # tempest.api.compute.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_security_groups_exceed_limit
+6e9f436d-f1ed-4f8e-a493-7275dfaa4b4d # tempest.api.compute.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_security_groups_rules_exceed_limit
+6cd5a89d-5b47-46a7-93bc-3916f0d84973 # tempest.api.compute.images.test_images_negative.ImagesNegativeTestJSON.test_create_image_from_deleted_server
+9fdb4abc-6b66-4b27-b89c-eb215a956168 # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_security_group_create_with_duplicate_name
+777b6f14-aca9-4758-9e84-38783cfa58bc # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_security_group_create_with_invalid_group_description
+1759c3cb-b0fc-44b7-86ce-c99236be911d # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_security_group_create_with_invalid_group_name
+97d12b1c-a610-4194-93f1-ba859e718b45 # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_update_security_group_with_invalid_sg_des
+00579617-fe04-4e1c-9d08-ca7467d2e34b # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_update_security_group_with_invalid_sg_id
+cda8d8b4-59f8-4087-821d-20cf5a03b3b1 # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_update_security_group_with_invalid_sg_name
+52e9045a-e90d-4c0d-9087-79d657faffff # tempest.api.compute.volumes.test_attach_volume.AttachVolumeTestJSON.test_attach_detach_volume
+757d488b-a951-4bc7-b3cd-f417028da08a # tempest.api.compute.volumes.test_attach_volume.AttachVolumeTestJSON.test_list_get_two_volume_attachments
+7fa563fe-f0f7-43eb-9e22-a1ece036b513 # tempest.api.compute.volumes.test_attach_volume.AttachVolumeTestJSON.test_list_get_volume_attachments
+a7eb9416-6f9b-4dbb-b71b-7f73aaef59d5 # tempest.api.identity.admin.v3.test_projects.ProjectsTestJSON.test_create_is_domain_project
+c8828027-df48-4021-95df-b65b92c7429e # tempest.api.identity.admin.v3.test_roles.RolesV3TestJSON.test_assignments_for_implied_roles_create_delete
+c90c316c-d706-4728-bcba-eb1912081b69 # tempest.api.identity.admin.v3.test_roles.RolesV3TestJSON.test_implied_roles_create_delete
+dc6f5959-b74d-4e30-a9e5-a8255494ff00 # tempest.api.identity.admin.v3.test_roles.RolesV3TestJSON.test_roles_hierarchy
+a4858f6c-401e-4155-9a49-d5cd053d1a2f # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_cold_migration
+25b188d7-0183-4b1e-a11d-15840c8e2fd6 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_cold_migration_revert
+13ccf253-e5ad-424b-9c4a-97b88a026699 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_boot_into_disabled_port_security_network_without_secgroup
+e6c28180-7454-4b59-b188-0257af08a63b # tempest.scenario.test_server_advanced_ops.TestServerAdvancedOps.test_resize_volume_backed_server_confirm
+3e39c4a6-9caf-4710-88f1-d20073c6dd76 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_bulk_shared_network
+9c31fabb-0181-464f-9ace-95144fe9ca77 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_port_shared_network_as_non_admin_tenant
+6661d219-b96d-4597-ad10-55766ce4abf7 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_update_shared_network
+6661d219-b96d-4597-ad10-55766123421a # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_filtering_shared_networks
+6661d219-b96d-4597-ad10-51672353421a # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_filtering_shared_subnets
+a064a9fd-e02f-474a-8159-f828cd636a28 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_list_shared_networks
+e03c92a2-638d-4bfa-b50a-b1f66f087e58 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_show_shared_networks_attribute
+09c036b8-c8d0-4bee-b776-7f4601512898 # neutron.tests.tempest.api.test_tag.TagFilterPortTestJSON.test_filter_port_tags
+dd8f9ba7-bcf6-496f-bead-714bd3daac10 # neutron.tests.tempest.api.test_tag.TagFilterSubnetTestJSON.test_filter_subnet_tags
+16ae7ad2-55c2-4821-9195-bfd04ab245b7 # neutron.tests.tempest.api.test_tag.TagFilterSubnetpoolTestJSON.test_filter_subnetpool_tags
+c7c44f2c-edb0-4ebd-a386-d37cec155c34 # neutron.tests.tempest.api.test_tag.TagPortTestJSON.test_port_tags
+bdc1c24b-c0b5-4835-953c-8f67dc11edfe # neutron.tests.tempest.api.test_tag.TagSubnetPoolTestJSON.test_subnetpool_tags
+2805aabf-a94c-4e70-a0b2-9814f06beb03 # neutron.tests.tempest.api.test_tag.TagSubnetTestJSON.test_subnet_tags
