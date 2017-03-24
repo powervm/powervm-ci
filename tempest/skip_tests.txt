@@ -21,6 +21,10 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Bad Request for resize. Failing due to bug https://bugs.launchpad.net/nova/+bug/1675607.
+# Can be removed once fix is released
+1b512062-8093-438e-b47a-37d2f597cd64 # tempest.api.compute.admin.test_migrations.MigrationsAdminTest.test_list_migrations_in_flavor_resize_situation
+
 # Multiple networks found when trying to create the test server
 61e03386-89c3-449c-9bb1-a06f423fd9d1 # tempest.api.compute.servers.test_multiple_create.MultipleCreateTestJSON.test_multiple_create
 
