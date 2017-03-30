@@ -21,6 +21,9 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Failing to create VIF
+ca78e20e-fddb-4ce6-b7f7-bcbf8605e66e # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_active_status
+
 # Multiple networks found when trying to create the test server
 61e03386-89c3-449c-9bb1-a06f423fd9d1 # tempest.api.compute.servers.test_multiple_create.MultipleCreateTestJSON.test_multiple_create
 
