@@ -100,6 +100,7 @@ a426671d-7270-430f-82ff-8f33eec93010 # neutron.tests.tempest.api.test_trunk.Trun
 bb13fe28-f152-4000-8131-37890a40c79e # neutron.tests.tempest.scenario.test_trunk.TrunkTest.test_trunk_subport_lifecycle
 8d83a6ca-662d-45b8-8062-d513077296aa # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_show_trunk_has_project_id
 a8a02c9b-b453-49b5-89a2-cce7da66aafb # neutron.tests.tempest.scenario.test_trunk.TrunkTest.test_subport_connectivity
+40aed9be-e976-47d0-dada-bde2c7e74e57 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_subport_invalid_inherit_network_segmentation_type
 
 # Floating IPs not supported
 7b6860c2-afa3-4846-9522-adeb38dfbe08 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_reboot
