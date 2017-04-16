@@ -281,6 +281,7 @@ bd61a9fd-062f-4670-972b-2d6c3e3b9e73 # tempest.api.compute.servers.test_server_a
 4b8867e6-fffa-4d54-b1d1-6fdda57be2f3 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output
 5b65d4e7-4ecd-437c-83c0-d6b79d927568 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_server_id_in_shutoff_status
 89104062-69d8-4b19-a71b-f47b7af093d7 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_with_unlimited_size
+1d1c9104-1b0a-11e7-a3d4-fa163e65f5ce # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_remove_server_all_security_groups
 80c574cc-0925-44ba-8602-299028357dd9 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_flavor
 b3304c3b-97df-46d2-8cd3-e2b6659724e7 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_image
 f9eb2b70-735f-416c-b260-9914ac6181e4 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_server_name
