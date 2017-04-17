@@ -376,6 +376,18 @@ b898ff92-dc33-4232-8ab9-2c6158c80d28 # neutron.tests.tempest.api.test_tag.TagRou
 cdd3f3ea-073d-4435-a6cb-826a4064193d # neutron.tests.tempest.api.test_tag.TagFilterRouterTestJSON.test_filter_router_tags
 05795fb2-b2a7-4c9f-8fac-ff25aedb1489 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_create_server_from_volume_snapshot
 608e604b-1d63-4a82-8e3e-91bc665c90b4 # tempest.scenario.test_snapshot_pattern.TestSnapshotPattern.test_snapshot_pattern
+25304a51-93a8-4cf3-9523-bce8b4eaecf8 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVR.test_from_dvr_to_dvr_ha
+a00d5ad7-8509-4bb0-bdd2-7f1ee052d1cd # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVR.test_from_dvr_to_ha
+e5cac02c-248d-4aac-bd5e-9d47c5197307 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVR.test_from_dvr_to_legacy
+d6bedff1-72be-4a9a-8ea2-dc037cd838e0 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVRHA.test_from_dvr_ha_to_dvr
+55957267-4e84-4314-a2f7-7cd36a2df04b # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVRHA.test_from_dvr_ha_to_ha
+1be9b2e2-379c-40a4-a269-6687b81df691 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVRHA.test_from_dvr_ha_to_legacy
+42260eea-5d56-4d30-b62a-a62694dfe4d5 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromHA.test_from_ha_to_dvr
+e4149576-248b-43fa-9d0b-a5c2f51967ce # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromHA.test_from_ha_to_dvr_ha
+b4e68ac0-3b76-4306-ae8a-51cf4d363b22 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromHA.test_from_ha_to_legacy
+fe169f2c-6ed3-4eb0-8afe-2d540c4b49e2 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromLegacy.test_from_legacy_to_dvr_ha
+09d85102-994f-4ff9-bf3e-17051145ca12 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromLegacy.test_from_legacy_to_ha
+
 
 # Router Tests Disabled
 644d7a4a-01a1-4b68-bb8d-0c0042cb1729 # neutron.tests.tempest.api.test_routers.DvrRoutersTest.test_convert_centralized_router
