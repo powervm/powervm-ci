@@ -33,6 +33,11 @@
 #
 # Requires snapshot to be implemented
 # 3b7c6fe4-dfe7-477c-9243-b06359db51e6 # tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON.test_create_image_specify_multibyte_character_image_name
+#
+# Failing auth with AttributeError
+# 86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
+# 6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+
 
 # Whitelist
 # ------------------
@@ -599,8 +604,6 @@ ecae2459-243d-4ba1-ad02-65f15dc82b78 # tempest.api.identity.v2.test_tenants.Iden
 657c1970-4722-4189-8831-7325f3bc4265 # tempest.api.identity.v3.test_api_discovery.TestApiDiscovery.test_api_media_types
 b9232f5e-d9e5-4d97-b96c-28d3db4de1bd # tempest.api.identity.v3.test_api_discovery.TestApiDiscovery.test_api_version_resources
 8879a470-abfb-47bb-bb8d-5a7fd279ad1e # tempest.api.identity.v3.test_api_discovery.TestApiDiscovery.test_api_version_statuses
-86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
-6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
 941784ee-5342-4571-959b-b80dd2cea516 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_password_history_check_self_service_api
 a7ad8bbf-2cff-4520-8c1d-96332e151658 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_account_lockout
 ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
