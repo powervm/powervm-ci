@@ -21,6 +21,10 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Failing auth with AttributeError
+86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
+6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+
 # Failing to create VIF
 ca78e20e-fddb-4ce6-b7f7-bcbf8605e66e # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_active_status
 
@@ -140,6 +144,7 @@ ae1c55a8-552b-44d4-bfb6-2a115a15d0ba # tempest.api.compute.floating_ips.test_flo
 595fa616-1a71-4670-9614-46564ac49a4c # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_nonexistent_floating_ip
 0a081a66-e568-4e6b-aa62-9587a876dca8 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_dissociate_nonexistent_floating_ip
 804b4fcb-bbf5-412f-925d-896672b61eb3 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_ip_to_server_without_passing_floating_ip
+58a80596-ffb2-11e6-9393-fa163e4fa634 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_ip_to_server_with_floating_ip
 16db31c3-fb85-40c9-bbe2-8cf7b67ff99f # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_list_floating_ips
 eef497e0-8ff7-43c8-85ef-558440574f84 # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_get_floating_ip_details
 df389fc8-56f5-43cc-b290-20eda39854d3 # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_list_floating_ip_pools
