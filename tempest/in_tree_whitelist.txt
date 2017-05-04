@@ -27,6 +27,8 @@
 # b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_ful
 # 5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
 # 0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
+# Disabled because of duplicate id in above neutron test
+# 2390f766-836d-40ef-9aeb-e810d78207fb # tempest.api.network.admin.test_quotas.QuotasTest.test_quotas
 #
 # These tests require power on/off, not implemented until a later in tree change
 # NOTE: Even with power on/off, these are failing. Further investigation is still needed.
@@ -706,7 +708,6 @@ aa8ac4df-cff9-418b-8d0f-dd9c67b072c9 # tempest.api.image.v2.test_images.ListUser
 39c023a2-325a-433a-9eea-649bf1414b19 # tempest.api.image.v2.test_images_tags_negative.ImagesTagsNegativeTest.test_delete_non_existing_tag
 8cd30f82-6f9a-4c6e-8034-c1b51fba43d9 # tempest.api.image.v2.test_images_tags_negative.ImagesTagsNegativeTest.test_update_tags_for_non_existing_image
 c72c1c0c-2193-4aca-aaa4-b1442640f51c # tempest.api.network.test_ports.PortsTestJSON.test_create_update_delete_port
-2390f766-836d-40ef-9aeb-e810d78207fb # tempest.api.network.admin.test_quotas.QuotasTest.test_quotas
 63aeadd4-3b49-427f-a3b1-19ca81f06270 # tempest.api.network.test_ports.PortsTestJSON.test_create_update_port_with_second_ip
 cf95b358-3e92-4a29-a148-52445e1ac50e # tempest.api.network.test_ports.PortsTestJSON.test_list_ports
 ff7f117f-f034-4e0e-abff-ccef05c454b4 # tempest.api.network.test_ports.PortsTestJSON.test_list_ports_fields
