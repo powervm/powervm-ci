@@ -21,6 +21,15 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Tests attempting to use identity v2 API. The v2 API is disabled in the tempest config.
+# Possibly a bug in the neutron tempest tests.
+2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
+952f9b24-9156-4bdc-90f3-682a3d4302f0 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_network_when_quotas_is_full
+fe20d9f9-346c-4a20-bbfa-d9ca390f4dc6 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_port_when_quotas_is_full
+b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_ful
+5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
+0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
+
 # Failing auth with AttributeError
 86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
 6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token

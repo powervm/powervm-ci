@@ -19,6 +19,15 @@
 # Temporarily Disabled Tests
 # -------------------------
 #
+# Tests attempting to use identity v2 API. The v2 API is disabled in the tempest config.
+# Possibly a bug in the neutron tempest tests.
+# 2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
+# 952f9b24-9156-4bdc-90f3-682a3d4302f0 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_network_when_quotas_is_full
+# fe20d9f9-346c-4a20-bbfa-d9ca390f4dc6 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_port_when_quotas_is_full
+# b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_ful
+# 5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
+# 0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
+#
 # These tests require power on/off, not implemented until a later in tree change
 # NOTE: Even with power on/off, these are failing. Further investigation is still needed.
 # 73177903-6737-4f27-a60c-379e8ae8cf48 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_admin_delete_servers_of_others
@@ -462,11 +471,6 @@ cac8a836-c2e0-4304-b556-cd299c7281d1 # tempest.api.network.test_versions.Network
 a5539002-5bdb-48b5-b124-e9eedd5975e6 # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_external_conversion_on_policy_create
 eff9443a-2d04-48ee-840e-d955ac564bcd # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_regular_client_blocked_from_creating_external_wild_policies
 a2e19f06-48a9-4e4c-b717-08cb2008707d # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_wildcard_policy_created_from_external_network_api
-952f9b24-9156-4bdc-90f3-682a3d4302f0 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_network_when_quotas_is_full
-fe20d9f9-346c-4a20-bbfa-d9ca390f4dc6 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_port_when_quotas_is_full
-b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_full
-5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
-0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
 136bcf09-00af-4da7-9b7f-174735d4aebd # neutron.tests.tempest.api.test_flavors_extensions.TestFlavorsJson.test_create_update_delete_flavor
 b12a9487-b6a2-4cff-a69a-fe2a0b64fae6 # neutron.tests.tempest.api.test_flavors_extensions.TestFlavorsJson.test_create_update_delete_service_profile
 eb3dd12e-6dfd-45f4-8393-46e0fa19860e # neutron.tests.tempest.api.test_flavors_extensions.TestFlavorsJson.test_list_flavors
@@ -766,7 +770,6 @@ d9d7454c-50b7-4966-aedb-b9d520a41409 # keystone_tempest_plugin.tests.api.identit
 bb68653f-fbba-4f20-ac1b-7b318a557366 # keystone_tempest_plugin.tests.api.identity.v3.test_service_providers.ServiceProvidersTest.test_service_provider_update
 91ce1183-1a15-4598-ae5f-85cfa98a1c77 # keystone_tempest_plugin.tests.api.identity.v3.test_service_providers.ServiceProvidersTest.test_service_provider_update_with_bad_attributes_fails
 7553579b-9a9e-45dd-9ada-70d906b516c0 # keystone_tempest_plugin.tests.api.identity.v3.test_service_providers.ServiceProvidersTest.test_service_providers_in_token
-2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
 d3c76044-d067-4cb0-ae47-8cdd875c7f67 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3
 08b92179-669d-45ee-8233-ef6611190809 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_other_tenant
 8d21aaca-4364-4eb9-8b79-44b4fff6373b # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_tenant
