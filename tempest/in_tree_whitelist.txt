@@ -42,6 +42,26 @@
 # 86c3529b-1231-40de-803c-ffffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_create_with_address_pair_blocked_on_other_network
 # 86c3529b-1231-40de-803c-ffffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_update_with_address_pair_blocked_on_other_network
 #
+# The networks created by these tests may interfere with other tests. Since the in-tree driver
+# does not yet support networking, these tests are being disabled.
+# 86c3529b-1231-40de-803c-bfffffff1eee # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_create_rbac_policy_with_target_tenant_none
+# 86c3529b-1231-40de-803c-bfffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_create_rbac_policy_with_target_tenant_too_long_id
+# 86c3529b-1231-40de-803c-affefefef321 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_duplicate_policy_error
+# bf5052b8-b11e-407c-8e43-113447404d3e # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filter_fields
+# e7bcb1ea-4877-4266-87bb-76f68b421f31 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filter_policies
+# 86c3529b-1231-40de-803c-aeeeeeee7fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filtering_works_with_rbac_records_present
+# 86c3529b-1231-40de-803c-afffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_network_only_visible_to_policy_target
+# 86c3529b-1231-40de-803c-afffffff5fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_policy_show
+# 86c3529b-1231-40de-803c-afffffff2eee # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_policy_target_update
+# 86c3529b-1231-40de-803c-afffffff3fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_port_presence_prevents_network_rbac_policy_deletion
+# c5f8f785-ce8d-4430-af7e-a236205862fb # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_rbac_policy_quota
+# 86c3529b-1231-40de-803c-afffffff6fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_blocked_from_sharing_anothers_network
+# 86c3529b-1231-40de-803c-afffffff7fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_blocked_from_sharing_with_wildcard
+# 86c3529b-1231-40de-803c-afffffff4fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_shares_to_another_regular_client
+# 86c3529b-1231-40de-803c-afffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_subnet_on_network_only_visible_to_policy_target
+# 86c3529b-1231-40de-803c-beefbeefbeef # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_tenant_can_delete_port_on_own_network
+# f7539232-389a-4e9c-9e37-e42a129eb541 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_tenant_cant_delete_other_tenants_ports
+#
 # Requires snapshot to be implemented
 # 3b7c6fe4-dfe7-477c-9243-b06359db51e6 # tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON.test_create_image_specify_multibyte_character_image_name
 #
@@ -774,34 +794,17 @@ bb68653f-fbba-4f20-ac1b-7b318a557366 # keystone_tempest_plugin.tests.api.identit
 d3c76044-d067-4cb0-ae47-8cdd875c7f67 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3
 08b92179-669d-45ee-8233-ef6611190809 # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_other_tenant
 8d21aaca-4364-4eb9-8b79-44b4fff6373b # neutron.tests.tempest.api.admin.test_networks.NetworksTestAdmin.test_admin_create_network_keystone_v3_and_tenant
-86c3529b-1231-40de-803c-bfffffff1eee # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_create_rbac_policy_with_target_tenant_none
-86c3529b-1231-40de-803c-bfffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_create_rbac_policy_with_target_tenant_too_long_id
-86c3529b-1231-40de-803c-affefefef321 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_duplicate_policy_error
-bf5052b8-b11e-407c-8e43-113447404d3e # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filter_fields
-e7bcb1ea-4877-4266-87bb-76f68b421f31 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filter_policies
-86c3529b-1231-40de-803c-aeeeeeee7fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_filtering_works_with_rbac_records_present
-86c3529b-1231-40de-803c-afffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_network_only_visible_to_policy_target
-86c3529b-1231-40de-803c-afffffff5fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_policy_show
 f1867fc5-e1d6-431f-bc9f-8b882e43a7f9 # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_no_pagination_limit_0
 71389852-f57b-49f2-b109-77b705e9e8af # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination
 79a52810-2156-4ab6-b577-9e46e58d4b58 # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination_page_reverse_asc
 36a4671f-a542-442f-bc44-a8873ee778d1 # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination_page_reverse_desc
-86c3529b-1231-40de-803c-afffffff2eee # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_policy_target_update
 13eb066c-aa90-406d-b4c3-39595bf8f910 # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination_page_reverse_with_href_links
 8a9c89df-0ee7-4c0d-8f1d-ec8f27cf362f # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination_with_href_links
 b7e153d2-37c3-48d4-8390-ec13498fee3d # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_pagination_with_marker
 de27d34a-bd9d-4516-83d6-81ef723f7d0d # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_sorts_asc
 e767a160-59f9-4c4b-8dc1-72124a68640a # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_sorts_desc
 3574ec9b-a8b8-43e3-9c11-98f5875df6a9 # neutron.tests.tempest.api.test_networks.NetworksSearchCriteriaTest.test_list_validation_filters
-86c3529b-1231-40de-803c-afffffff3fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_port_presence_prevents_network_rbac_policy_deletion
-c5f8f785-ce8d-4430-af7e-a236205862fb # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_rbac_policy_quota
 9f80f25b-5d1b-4f26-9f6b-774b9b270819 # neutron.tests.tempest.api.test_networks_negative.NetworksNegativeTest.test_delete_network_in_use
-86c3529b-1231-40de-803c-afffffff6fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_blocked_from_sharing_anothers_network
-86c3529b-1231-40de-803c-afffffff7fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_blocked_from_sharing_with_wildcard
-86c3529b-1231-40de-803c-afffffff4fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_regular_client_shares_to_another_regular_client
-86c3529b-1231-40de-803c-afffffff2fff # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_subnet_on_network_only_visible_to_policy_target
-86c3529b-1231-40de-803c-beefbeefbeef # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_tenant_can_delete_port_on_own_network
-f7539232-389a-4e9c-9e37-e42a129eb541 # neutron.tests.tempest.api.admin.test_shared_network_extension.RBACSharedNetworksTest.test_tenant_cant_delete_other_tenants_ports
 7c0ecb10-b2db-11e6-9b14-000c29248b0d # neutron.tests.tempest.api.test_security_groups.SecGroupTest.test_create_bulk_sec_groups
 bfd128e5-3c92-44b6-9d66-7fe29d22c802 # neutron.tests.tempest.api.test_security_groups.SecGroupTest.test_create_list_update_show_delete_security_group
 82a13efc-c18f-4249-b8ec-cec7cf26fbd6 # neutron.tests.tempest.api.test_subnetpools.SubnetPoolsSearchCriteriaTest.test_list_no_pagination_limit_0
