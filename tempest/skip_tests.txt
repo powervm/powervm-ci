@@ -461,6 +461,11 @@ b386c111-3b21-466d-880c-5e72b01e1a33 # tempest.api.network.test_routers.RoutersT
 96536bc7-8262-4fb2-9967-5c46940fa279 # tempest.api.network.test_routers.RoutersTest.test_update_router_set_gateway_without_snat
 ad81b7ee-4f81-407b-a19c-17e623f763e8 # tempest.api.network.test_routers.RoutersTest.test_update_router_unset_gateway
 cbe42f84-04c2-11e7-8adb-fa163e4fa634 # tempest.api.network.test_routers.RoutersTest.test_create_router_set_gateway_with_fixed_ip
+77db8eae-3aa3-4e61-bf2a-e739ce042e53 # neutron.tests.tempest.api.test_routers.HaRoutersTest.test_convert_legacy_router
+8abc177d-14f1-4018-9f01-589b299cbee1 # neutron.tests.tempest.api.admin.test_routers_ha.RoutersTestHA.test_ha_router_creation
+97b5f7ef-2192-4fa3-901e-979cd5c1097a # neutron.tests.tempest.api.admin.test_routers_ha.RoutersTestHA.test_legacy_router_creation
+5a6bfe82-5b23-45a4-b027-5160997d4753 # neutron.tests.tempest.api.admin.test_routers_ha.RoutersTestHA.test_legacy_router_update_to_ha
+821b85b9-9c51-40f3-831f-bf223a7e0084 # neutron.tests.tempest.api.test_routers_negative.HaRoutersNegativeTest.test_router_create_tenant_ha_returns_forbidden
 
 # Failing because we are using shared networks
 af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
