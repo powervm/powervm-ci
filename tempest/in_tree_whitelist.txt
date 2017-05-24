@@ -929,3 +929,5 @@ dd8f9ba7-bcf6-496f-bead-714bd3daac10 # neutron.tests.tempest.api.test_tag.TagFil
 c7c44f2c-edb0-4ebd-a386-d37cec155c34 # neutron.tests.tempest.api.test_tag.TagPortTestJSON.test_port_tags
 bdc1c24b-c0b5-4835-953c-8f67dc11edfe # neutron.tests.tempest.api.test_tag.TagSubnetPoolTestJSON.test_subnetpool_tags
 2805aabf-a94c-4e70-a0b2-9814f06beb03 # neutron.tests.tempest.api.test_tag.TagSubnetTestJSON.test_subnet_tags
+c640fdff-8ab4-45a4-a5d8-7e6146cbd0dc # tempest.api.compute.servers.test_novnc.NoVNCConsoleTestJSON.test_novnc
+c6bc11bf-592e-4015-9319-1c98dc64daf5 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_vnc_console
