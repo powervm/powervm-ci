@@ -106,7 +106,7 @@ fi
 # facilitate cleanup
 vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
 sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_name).11s-%(uuid).8s/" \
-    /opt/stack/powervm-ci/devstack/$conf_file > /opt/stack/devstack/local.conf
+    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$conf_file > /opt/stack/devstack/local.conf
 
 # Logs setup
 mkdir -p /opt/stack/logs
