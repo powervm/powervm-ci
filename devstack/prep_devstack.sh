@@ -200,6 +200,12 @@ fi
 sudo sed -i '/appdirs/d' /opt/stack/requirements/upper-constraints.txt
 sudo sed -i '/pyparsing/d' /opt/stack/requirements/upper-constraints.txt
 
+# TODO: Figure out why devstack can't create/access these 
+sudo mkdir /etc/neutron/
+sudo chown jenkins:jenkins /etc/neutron
+mkdir /etc/neutron/plugins/
+mkdir /etc/neutron/plugins/ml2
+
 # Disable SMT while stacking
 # POWER CPUs have lots of threads.  Devstack likes to use all of the threads
 # it can.  But if we have a SMT-8 CPU with 4 cores, that could be 32 threads.
