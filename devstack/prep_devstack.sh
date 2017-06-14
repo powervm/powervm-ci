@@ -200,6 +200,12 @@ fi
 sudo sed -i '/appdirs/d' /opt/stack/requirements/upper-constraints.txt
 sudo sed -i '/pyparsing/d' /opt/stack/requirements/upper-constraints.txt
 
+# TODO: Figure out why devstack can't create/access these
+sudo mkdir /etc/neutron/
+sudo chown jenkins:jenkins /etc/neutron
+mkdir /etc/neutron/plugins/
+mkdir /etc/neutron/plugins/ml2
+
 # Disable SMT while stacking
 # POWER CPUs have lots of threads.  Devstack likes to use all of the threads
 # it can.  But if we have a SMT-8 CPU with 4 cores, that could be 32 threads.
@@ -247,6 +253,9 @@ fi
 # Create public and private networks for the tempest runs
 if ! $in_tree; then
     source /opt/stack/devstack/openrc admin admin
+    #TODO: Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False.
+    # Deleting the created private network for now. Further investigation needed.
+    neutron net-delete private
     neutron net-create public --provider:physical_network default --provider:network_type vlan --shared
     neutron subnet-create --disable-dhcp --name public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 public 192.168.2.0/24
     neutron net-create private --provider:physical_network default --provider:network_type vlan --shared
