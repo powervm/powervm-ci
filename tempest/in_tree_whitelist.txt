@@ -68,6 +68,9 @@
 # Failing auth with AttributeError
 # 86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
 # 6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
+#
+# This one isn't observing security_compliance = False -- reinstate once tempest bug is fixed
+# ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
 
 
 # Whitelist
@@ -632,7 +635,6 @@ b9232f5e-d9e5-4d97-b96c-28d3db4de1bd # tempest.api.identity.v3.test_api_discover
 8879a470-abfb-47bb-bb8d-5a7fd279ad1e # tempest.api.identity.v3.test_api_discovery.TestApiDiscovery.test_api_version_statuses
 941784ee-5342-4571-959b-b80dd2cea516 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_password_history_check_self_service_api
 a7ad8bbf-2cff-4520-8c1d-96332e151658 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_account_lockout
-ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
 1d6ef640-3a20-4c84-8710-d95828fdb6ad # tempest.api.image.v1.test_image_members.ImageMembersTest.test_add_image_member
 6a5328a5-80e8-4b82-bd32-6c061f128da9 # tempest.api.image.v1.test_image_members.ImageMembersTest.test_get_shared_images
 a76a3191-8948-4b44-a9d6-4053e5f2b138 # tempest.api.image.v1.test_image_members.ImageMembersTest.test_remove_member

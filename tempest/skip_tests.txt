@@ -21,6 +21,10 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# This test isn't checking for security_compliance = False. Can be removed
+# when the tempest bug is fixed.
+tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
+
 # Tests attempting to use identity v2 API. The v2 API is disabled in the tempest config.
 # Possibly a bug in the neutron tempest tests.
 2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
