@@ -6,10 +6,6 @@ usage () {
     echo "        are a comma or whitespace separated list of pypowervm change numbers or"
     echo "        the special value 'none' which will not apply any patches. If the -p flag is"
     echo "        not used, no patches will be applied."
-    echo "    -n nova_patch_list (optional): List of patches to be applied to nova. Valid values"
-    echo "        are a comma or whitespace separated list of nova change numbers or"
-    echo "        the special value 'none' which will not apply any patches. If the -n flag"
-    echo "        is unused, no patches will be applied."
     echo "    -d driver (optional): Which nova driver to use. Valid options are 'in-tree' or"
     echo "        'out-of-tree'. If the -d flag is not used, it will use the out-of-tree"
     echo "        driver by default."
@@ -46,18 +42,14 @@ get_latest_patch() {
     return 0
 }
 
-in_tree=false
-conf_file=outoftree.local.conf
+driver=outoftree
 FORCE=false
 pypowervm_patch_list=
-nova_patch_list=
-
-while getopts ":n:p:d:fh" opt; do
+while getopts ":p:d:fh" opt; do
     case $opt in
         d)
             if [[ $OPTARG == 'in-tree' ]]; then
-                in_tree=true
-                conf_file=intree.local.conf
+                driver=intree
             elif [[ $OPTARG == 'out-of-tree' ]]; then
                 :
             else
@@ -70,11 +62,6 @@ while getopts ":n:p:d:fh" opt; do
         p)
             if ! [[ $OPTARG == 'none' ]]; then
                 pypowervm_patch_list=$OPTARG
-            fi
-            ;;
-        n)
-            if ! [[ $OPTARG == 'none' ]]; then
-                nova_patch_list=$OPTARG
             fi
             ;;
         \?)
@@ -106,7 +93,7 @@ fi
 # facilitate cleanup
 vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
 sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_name).11s-%(uuid).8s/" \
-    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$conf_file > /opt/stack/devstack/local.conf
+    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf > /opt/stack/devstack/local.conf
 
 # Logs setup
 mkdir -p /opt/stack/logs
@@ -118,6 +105,33 @@ for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keyston
     git checkout $ZUUL_BRANCH
     git pull
 done
+
+# Openstack project patching
+while read line; do
+    echo "$line" | egrep -q '^\s*(#.*)?$' && continue
+    # Extract the repo and change list information
+    repo=${line%:*}
+    change_list=${line#*:}
+    repo_url=https://review.openstack.org/$repo/
+    project=${repo#*/}
+    cd /opt/stack/$project
+
+    # Apply the list of changes to the project
+    for change in $change_list; do
+        patch=`get_latest_patch "$repo_url" "$change"`
+        refspec=${patch#*|}
+        commit=${patch%|*}
+        # Only apply the patch if it's not in the chain of the change set we're testing.
+        if git log --pretty=format:%H {{ nova_chain_base_commit }}..HEAD | grep -q $commit; then
+            echo "Skipping $project commit $commit of change $i because it's already in the commit chain"
+            echo "or is not a $project change."
+        else
+            echo "Applying $repo ref $refspec of change set $i (commit $commit)"
+            git fetch "$repo_url" "$refspec"
+            git cherry-pick --keep-redundant-commits FETCH_HEAD
+        fi
+    done
+done < /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/patching.conf
 
 # Tempest doesn't follow the same branching scheme, only has a remote master branch
 cd /opt/stack/tempest
@@ -136,24 +150,6 @@ if ! $FORCE || [ "$ZUUL_PROJECT""$BASE_LOG_PATH" ]; then
     cd /opt/stack/${ZUUL_PROJECT##*/}
     git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
     git checkout FETCH_HEAD
-fi
-
-if [ "$ZUUL_BRANCH" == "master" ]; then
-    OPENSTACK_REPO="https://review.openstack.org/openstack/nova"
-    cd /opt/stack/nova
-    for i in $(echo $nova_patch_list | sed "s/,/ /g"); do
-        patch=`get_latest_patch "$OPENSTACK_REPO" "$i"`
-        refspec=${patch#*|}
-        commit=${patch%|*}
-        # Only apply the patch if it's not in the chain of the change set we're testing.
-        if git log --pretty=format:%H {{ nova_chain_base_commit }}..HEAD | grep -q $commit; then
-            echo "Skipping nova commit $commit of change $i because it's already in the commit chain."
-        else
-            echo "Applying nova ref $refspec of change set $i (commit $commit)"
-            git fetch "$OPENSTACK_REPO" $refspec
-            git cherry-pick --keep-redundant-commits FETCH_HEAD
-        fi
-    done
 fi
 
 pypowervm_version=$(awk -F= '$1=="pypowervm" {print $NF}' /opt/stack/requirements/upper-constraints.txt)
@@ -251,7 +247,7 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
 fi
 
 # Create public and private networks for the tempest runs
-if ! $in_tree; then
+if [ "$driver" != "intree" ]; then
     source /opt/stack/devstack/openrc admin admin
     #TODO: Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False.
     # Deleting the created private network for now. Further investigation needed.
