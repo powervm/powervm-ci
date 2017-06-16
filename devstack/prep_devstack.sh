@@ -46,8 +46,7 @@ get_latest_patch() {
     return 0
 }
 
-in_tree=false
-conf_file=outoftree.local.conf
+driver=outoftree
 FORCE=false
 pypowervm_patch_list=
 nova_patch_list=
@@ -56,8 +55,7 @@ while getopts ":n:p:d:fh" opt; do
     case $opt in
         d)
             if [[ $OPTARG == 'in-tree' ]]; then
-                in_tree=true
-                conf_file=intree.local.conf
+                driver=intree
             elif [[ $OPTARG == 'out-of-tree' ]]; then
                 :
             else
@@ -106,7 +104,7 @@ fi
 # facilitate cleanup
 vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
 sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_name).11s-%(uuid).8s/" \
-    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$conf_file > /opt/stack/devstack/local.conf
+    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf > /opt/stack/devstack/local.conf
 
 # Logs setup
 mkdir -p /opt/stack/logs
@@ -117,6 +115,12 @@ for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keyston
     cd /opt/stack/$proj
     git checkout $ZUUL_BRANCH
     git pull
+    for line in /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/patching.conf; do
+        repo=<repo>
+        repo_url=https://review.openstack.org/openstack/$proj/
+        change_list=<change_list>
+        get_latest_patch $repo $change
+    done
 done
 
 # Tempest doesn't follow the same branching scheme, only has a remote master branch
@@ -251,7 +255,7 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
 fi
 
 # Create public and private networks for the tempest runs
-if ! $in_tree; then
+if [ "$driver" != "intree" ]; then
     source /opt/stack/devstack/openrc admin admin
     #TODO: Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False.
     # Deleting the created private network for now. Further investigation needed.
