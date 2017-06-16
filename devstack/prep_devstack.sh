@@ -255,7 +255,9 @@ if ! $in_tree; then
     source /opt/stack/devstack/openrc admin admin
     #TODO: Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False.
     # Deleting the created private network for now. Further investigation needed.
-    neutron net-delete private
+    if [ "$ZUUL_BRANCH" == "master" ]; then
+        neutron net-delete private
+    fi
     neutron net-create public --provider:physical_network default --provider:network_type vlan --shared
     neutron subnet-create --disable-dhcp --name public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 public 192.168.2.0/24
     neutron net-create private --provider:physical_network default --provider:network_type vlan --shared
