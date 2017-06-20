@@ -243,8 +243,12 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
     # Discover the hosts and add them to the default cell. --strict ensures that
     # a host is found and mapped before moving on.
     count=0
-    until nova-manage cell_v2 discover_hosts --strict || [ "$count" -gt "60" ]; do
+    until nova-manage cell_v2 discover_hosts --strict; do
         sleep 5;
+        if [ "$count" -gt "60" ]; then
+            echo "Unable to discover any hosts within 60 seconds. Exiting"
+            exit 1
+        fi
         count=$(( count + 5 ))
     done
 fi
