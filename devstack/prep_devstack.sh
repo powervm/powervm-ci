@@ -238,16 +238,16 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
     done
 fi
 
+source /opt/stack/devstack/openrc admin admin
+if [ "$ZUUL_BRANCH" == "master" ]; then
+    # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
+    # Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False. For now we will delete the
+    # network after stacking.
+    openstack network delete private
+fi
+
 # Create public and private networks for the tempest runs
 if [ "$driver" != "intree" ]; then
-    source /opt/stack/devstack/openrc admin admin
-    if [ "$ZUUL_BRANCH" == "master" ]; then
-        #TODO: Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False.
-        # Deleting the created private network for now. Further investigation needed.
-        # This became necessary after moving away from neutron legacy
-        # https://github.com/powervm/powervm-ci/commit/7808f63
-        openstack network delete private
-    fi
     openstack network create public --share --provider-network-type vlan --provider-physical-network default
     openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
     openstack network create private --share --provider-network-type vlan --provider-physical-network default
