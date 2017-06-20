@@ -247,6 +247,10 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
         sleep 5;
         count=$(( count + 5 ))
     done
+    if [ "$count" -gt "60" ]; then
+        echo "Unable to discover any hosts within 60 seconds. Exiting"
+        exit 1
+    fi
 fi
 
 # Create public and private networks for the tempest runs
