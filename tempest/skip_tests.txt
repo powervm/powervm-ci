@@ -21,14 +21,6 @@
 # Tests Needing Investigation
 # ----------------------------
 
-# These tests are failing because we only run 1 networking agent in the CI environment
-# See https://bugs.launchpad.net/neutron/+bug/1699199
-9c80f04d-11f3-44a4-8738-ed2f879b0ff4 # neutron.tests.tempest.api.admin.test_agent_management.AgentManagementTestJSON.test_list_agent
-e335be47-b9a1-46fd-be30-0874c0b751e6 # neutron.tests.tempest.api.admin.test_agent_management.AgentManagementTestJSON.test_list_agents_non_admin
-869bc8e8-0fda-4a30-9b71-f8a7cf58ca9f # neutron.tests.tempest.api.admin.test_agent_management.AgentManagementTestJSON.test_show_agent
-68a94a14-1243-46e6-83bf-157627e31556 # neutron.tests.tempest.api.admin.test_agent_management.AgentManagementTestJSON.test_update_agent_description
-371dfc5b-55b9-4cb5-ac82-c40eadaac941 # neutron.tests.tempest.api.admin.test_agent_management.AgentManagementTestJSON.test_update_agent_status
-
 # This test isn't checking for security_compliance = False. Can be removed
 # when the tempest bug is fixed.
 ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
