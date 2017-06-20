@@ -238,6 +238,14 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
     done
 fi
 
+source /opt/stack/devstack/openrc admin admin
+if [ "$ZUUL_BRANCH" == "master" ]; then
+    # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
+    # Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False. For now we will delete the
+    # network after stacking.
+    neutron net-delete private
+fi
+
 # Create public and private networks for the tempest runs
 if [ "$driver" != "intree" ]; then
     source /opt/stack/devstack/openrc admin admin
