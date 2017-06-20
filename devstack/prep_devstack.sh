@@ -110,7 +110,6 @@ sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_
 
 # Logs setup
 mkdir -p /opt/stack/logs
-ln -sf /opt/stack/logs logs
 
 # This list is built from prepare_node_powervm.sh
 for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keystone networking-powervm neutron nova nova-powervm requirements; do
