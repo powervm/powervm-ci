@@ -246,12 +246,12 @@ if [ "$driver" != "intree" ]; then
         # Deleting the created private network for now. Further investigation needed.
         # This became necessary after moving away from neutron legacy
         # https://github.com/powervm/powervm-ci/commit/7808f63
-        neutron net-delete private
+        openstack network delete private
     fi
-    neutron net-create public --provider:physical_network default --provider:network_type vlan --shared
-    neutron subnet-create --disable-dhcp --name public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 public 192.168.2.0/24
-    neutron net-create private --provider:physical_network default --provider:network_type vlan --shared
-    neutron subnet-create --disable-dhcp --name private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 private 192.168.3.0/24
+    openstack network create public --share --provider-network-type vlan --provider-physical-network default
+    openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
+    openstack network create private --share --provider-network-type vlan --provider-physical-network default
+    openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
 fi
 
 exit 0
