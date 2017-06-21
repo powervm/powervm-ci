@@ -105,6 +105,25 @@ for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keyston
     git pull
 done
 
+# Tempest doesn't follow the same branching scheme, only has a remote master branch
+cd /opt/stack/tempest
+if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/ocata" ]; then
+    git checkout master
+    git pull
+elif [ "$ZUUL_BRANCH" == "stable/newton" ]; then
+    git checkout 13.0.0
+else
+    echo "$ZUUL_BRANCH is not a supported branch for tempest"
+    exit 1
+fi
+
+if ! $FORCE || [ "$ZUUL_PROJECT""$BASE_LOG_PATH" ]; then
+    # Apply upstream change
+    cd /opt/stack/${ZUUL_PROJECT##*/}
+    git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
+    git checkout FETCH_HEAD
+fi
+
 # Openstack project patching
 while read line; do
     echo "$line" | egrep -q '^\s*(#.*)?$' && continue
@@ -131,25 +150,6 @@ while read line; do
         fi
     done
 done < /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/patching.conf
-
-# Tempest doesn't follow the same branching scheme, only has a remote master branch
-cd /opt/stack/tempest
-if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/ocata" ]; then
-    git checkout master
-    git pull
-elif [ "$ZUUL_BRANCH" == "stable/newton" ]; then
-    git checkout 13.0.0
-else
-    echo "$ZUUL_BRANCH is not a supported branch for tempest"
-    exit 1
-fi
-
-if ! $FORCE || [ "$ZUUL_PROJECT""$BASE_LOG_PATH" ]; then
-    # Apply upstream change
-    cd /opt/stack/${ZUUL_PROJECT##*/}
-    git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
-    git checkout FETCH_HEAD
-fi
 
 pypowervm_version=$(awk -F= '$1=="pypowervm" {print $NF}' /opt/stack/requirements/upper-constraints.txt)
 
