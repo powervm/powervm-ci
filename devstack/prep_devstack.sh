@@ -192,13 +192,6 @@ if [ ! -z "$pypowervm_patch_list" ]; then
     done
 fi
 
-# Setuptools has an open issue https://github.com/pypa/pip/issues/4264
-# Until that issue is resolved, downgrading appdirs and pyparsing during
-# the tempest install causes stacking to fail. Removing these from u-c
-# until the issue is resolved.
-sudo sed -i '/appdirs/d' /opt/stack/requirements/upper-constraints.txt
-sudo sed -i '/pyparsing/d' /opt/stack/requirements/upper-constraints.txt
-
 # TODO: Figure out why devstack can't create/access these
 sudo mkdir /etc/neutron/
 sudo chown jenkins:jenkins /etc/neutron
