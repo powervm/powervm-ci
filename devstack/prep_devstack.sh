@@ -117,7 +117,7 @@ else
     exit 1
 fi
 
-if ! $FORCE || [ "$ZUUL_PROJECT""$BASE_LOG_PATH" ]; then
+if ! $FORCE; then
     # Apply upstream change
     cd /opt/stack/${ZUUL_PROJECT##*/}
     git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
