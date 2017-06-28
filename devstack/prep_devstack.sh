@@ -105,17 +105,10 @@ for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keyston
     git pull
 done
 
-# Tempest doesn't follow the same branching scheme, only has a remote master branch
+# Checkout latest tempest
 cd /opt/stack/tempest
-if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/ocata" ]; then
-    git checkout master
-    git pull
-elif [ "$ZUUL_BRANCH" == "stable/newton" ]; then
-    git checkout 13.0.0
-else
-    echo "$ZUUL_BRANCH is not a supported branch for tempest"
-    exit 1
-fi
+git checkout master
+git pull
 
 if ! $FORCE || [[ $ZUUL_PROJECT && $BASE_LOG_PATH ]]; then
     # Apply upstream change
