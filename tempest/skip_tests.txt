@@ -405,7 +405,9 @@ e4149576-248b-43fa-9d0b-a5c2f51967ce # neutron.tests.tempest.scenario.test_migra
 b4e68ac0-3b76-4306-ae8a-51cf4d363b22 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromHA.test_from_ha_to_legacy
 fe169f2c-6ed3-4eb0-8afe-2d540c4b49e2 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromLegacy.test_from_legacy_to_dvr_ha
 09d85102-994f-4ff9-bf3e-17051145ca12 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromLegacy.test_from_legacy_to_ha
-
+c6231efa-9a89-4adf-b050-2a3156b8a1d9 # tempest.api.network.test_tags.TagsExtTest.test_create_check_list_and_delete_tags
+663a90f5-f334-4b44-afe0-c5fc1d408791 # tempest.api.network.test_tags.TagsExtTest.test_update_and_delete_all_tags
+ee76bfaf-ac94-4d74-9ecc-4bbd4c583cb1 # tempest.api.network.test_tags.TagsTest.test_create_list_show_update_delete_tags
 
 # Router Tests Disabled
 644d7a4a-01a1-4b68-bb8d-0c0042cb1729 # neutron.tests.tempest.api.test_routers.DvrRoutersTest.test_convert_centralized_router
