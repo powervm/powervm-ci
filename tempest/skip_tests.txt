@@ -124,30 +124,14 @@ a8a02c9b-b453-49b5-89a2-cce7da66aafb # neutron.tests.tempest.scenario.test_trunk
 88a529c2-1daa-4c85-9aec-d541ba3eb699 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_rebuild
 719eb59d-2f42-4b66-b8b1-bb1254473967 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_resize
 61f1aa9a-1573-410e-9054-afa557cab021 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_stop_start
-f323b3ba-82f8-4db7-8ea6-6a895869ec49 # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_network_basic_ops
-1546850e-fbaa-42f5-8b5f-03d8a6a95f15 # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_connectivity_between_vms_on_different_networks
-2e788c46-fb3f-4ac9-8f82-0561555bea73 # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_router_rescheduling
-d8bb918e-e2df-48b2-97cd-b73c95450980 # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_subnet_details
-04b9fe4e-85e8-4aea-b937-ea93885ac59f # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_router_admin_state
-c5adff73-e961-41f1-b4a9-343614f18cfa # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_hotplug_nic
-7c0bb1a2-d053-49a4-98f9-ca1a1d849f63 # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_port_security_macspoofing_port
-f5dfcc22-45fd-409f-954c-5bd500d7890b # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_update_instance_port_admin_state
-759462e1-8535-46b0-ab3a-33aa45c55aaa # tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_preserve_preexisting_port
 e79f879e-debb-440c-a7e4-efeda05b6848 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_cross_tenant_traffic
 63163892-bbf6-4249-aa12-d5ea1f8f421b # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_in_tenant_traffic
 7c811dcc-263b-49a3-92d2-1b4d8405f50c # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_security_disable_security_group
 d2f77418-fcc4-439d-b935-72eca704e293 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_multiple_security_groups
 f4d556d7-1526-42ad-bafb-6bebf48568f6 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_update_new_security_group
-1f7ed39b-428f-410a-bd2b-db9f465680df # neutron.tests.tempest.scenario.test_qos.QoSTest.test_qos
 de07fe0a-e955-449e-b48b-8641c14cd52e # neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
-d00fe5bb-9db8-4e1a-9c31-490f52897e6f # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_floatingip_when_quotas_is_full
-9de71ebc-f5df-4cd0-80bc-60299fce3ce9 # neutron.tests.tempest.api.test_revisions.TestRevisions.test_update_floatingip_bumps_revision
 11116ee9-4e99-5b15-b8e1-aa7df92ca589 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_associate_floating_ip_with_port_from_another_tenant
 332a8ae4-402e-4b98-bb6f-532e5a87b8e0 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_create_floatingip_with_specified_ip_address
-f6a0fb6c-cb64-4b81-b0d5-f41d8f69d22d # neutron.tests.tempest.api.test_floating_ips.FloatingIPTestJSON.test_blank_update_clears_association
-c72c1c0c-2193-4aca-eeee-b1442641ffff # neutron.tests.tempest.api.test_floating_ips.FloatingIPTestJSON.test_create_update_floatingip_description
-fd7161e1-2167-4686-a6ff-0f3df08001bb # neutron.tests.tempest.api.test_floating_ips.FloatingIPTestJSON.test_floatingip_update_extra_attributes_port_id_not_changed
-0b5b8797-6de7-4191-905c-a48b888eb429 # neutron.tests.tempest.api.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_associate_floatingip_with_port_with_floatingip
 f7bfb946-297e-41b8-9e8c-aba8e9bb5194 # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_allocate_floating_ip
 de45e989-b5ca-4a9b-916b-04a52e7bbb8b # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_delete_floating_ip
 307efa27-dc6f-48a0-8cd2-162ce3ef0b52 # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_associate_disassociate_floating_ip
@@ -165,51 +149,6 @@ df389fc8-56f5-43cc-b290-20eda39854d3 # tempest.api.compute.floating_ips.test_lis
 d402ae6c-0be0-4d8e-833b-a738895d98d0 # tempest.api.network.admin.test_external_networks_negative.ExternalNetworksAdminNegativeTestJSON.test_create_port_with_precreated_floatingip_as_fixed_ip
 64f2100b-5471-4ded-b46c-ddeeeb4f231b # tempest.api.network.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_list_floating_ips_from_admin_and_nonadmin
 32727cc3-abe2-4485-a16e-48f2d54c14f2 # tempest.api.network.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_create_list_show_floating_ip_with_tenant_id_by_admin
-62595970-ab1c-4b7f-8fcc-fddfe55e8718 # tempest.api.network.test_floating_ips.FloatingIPTestJSON.test_create_list_show_update_delete_floating_ip
-e1f6bffd-442f-4668-b30e-df13f2705e77 # tempest.api.network.test_floating_ips.FloatingIPTestJSON.test_floating_ip_delete_port
-1bb2f731-fe5a-4b8c-8409-799ade1bed4d # tempest.api.network.test_floating_ips.FloatingIPTestJSON.test_floating_ip_update_different_router
-36de4bd0-f09c-43e3-a8e1-1decc1ffd3a5 # tempest.api.network.test_floating_ips.FloatingIPTestJSON.test_create_floating_ip_specifying_a_fixed_ip_address
-45c4c683-ea97-41ef-9c51-5e9802f2f3d7 # tempest.api.network.test_floating_ips.FloatingIPTestJSON.test_create_update_floatingip_with_port_multiple_ip_address
-22996ea8-4a81-4b27-b6e1-fa5df92fa5e8 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_create_floatingip_with_port_ext_net_unreachable
-50b9aeb4-9f0b-48ee-aa31-fa955a48ff54 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_create_floatingip_in_private_network
-6b3b8797-6d43-4191-985c-c48b773eb429 # tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON.test_associate_floatingip_port_ext_net_unreachable
-05c4e3b3-7319-4052-90ad-e8916436c23b # neutron.tests.tempest.scenario.test_floatingip.FloatingIpSameNetwork.test_east_west
-f18f0090-3289-4783-b956-a0f8ac511e8b # neutron.tests.tempest.scenario.test_floatingip.FloatingIpSeparateNetwork.test_east_west
-
-# SLAAC not supported
-9178ad42-10e4-47e9-8987-e02b170cc5cd # tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_multi_prefix_slaac
-b6399d76-4438-4658-bcf5-0d6c8584fde2 # tempest.scenario.test_network_v6.TestGettingAddress.test_dualnet_slaac_from_os
-dec222b1-180c-4098-b8c5-cc1b8342d611 # tempest.scenario.test_network_v6.TestGettingAddress.test_multi_prefix_slaac
-2c92df61-29f0-4eaa-bee3-7c65bef62a43 # tempest.scenario.test_network_v6.TestGettingAddress.test_slaac_from_os
-
-# Network metering not supported by SEA Agent yet (depending on Tempest branch, two sets of metering)
-f4d547cd-3aee-408f-bf36-454f8825e045 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_rule_with_filters
-ec8e15ff-95d0-433b-b8a6-b466bddb1e50 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_with_filters
-cc832399-6681-493b-9d79-0202831a1281 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_list_metering_label_rules
-05d7c750-6d26-44d6-82f3-c9dd1f81f358 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_list_metering_labels
-cfc500d9-9de6-4847-8803-62889c097d45 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_show_metering_label
-b7354489-96ea-41f3-9452-bace120fb4a7 # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_show_metering_label_rule
-f4d547cd-3aee-408f-bf36-454f8825e045 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_create_delete_metering_label_rule_with_filters
-ec8e15ff-95d0-433b-b8a6-b466bddb1e50 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_create_delete_metering_label_with_filters
-cc832399-6681-493b-9d79-0202831a1281 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_list_metering_label_rules
-05d7c750-6d26-44d6-82f3-c9dd1f81f358 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_list_metering_labels
-cfc500d9-9de6-4847-8803-62889c097d45 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_show_metering_label
-b7354489-96ea-41f3-9452-bace120fb4a7 # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_show_metering_label_rule
-f4d547cd-3aee-408f-bf36-454f8825e045 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_rule_with_filters
-ec8e15ff-95d0-433b-b8a6-b466bddb1e50 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_with_filters
-cc832399-6681-493b-9d79-0202831a1281 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_list_metering_label_rules
-e2fb2f8c-45bf-429a-9f17-171c70444612 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_list_metering_labels
-30abb445-0eea-472e-bd02-8649f54a5968 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_show_metering_label
-b7354489-96ea-41f3-9452-bace120fb4a7 # tempest.api.network.test_metering_extensions.MeteringIpV6TestJSON.test_show_metering_label_rule
-f4d547cd-3aee-408f-bf36-454f8825e045 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_create_delete_metering_label_rule_with_filters
-ec8e15ff-95d0-433b-b8a6-b466bddb1e50 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_create_delete_metering_label_with_filters
-cc832399-6681-493b-9d79-0202831a1281 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_list_metering_label_rules
-e2fb2f8c-45bf-429a-9f17-171c70444612 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_list_metering_labels
-30abb445-0eea-472e-bd02-8649f54a5968 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_show_metering_label
-b7354489-96ea-41f3-9452-bace120fb4a7 # tempest.api.network.test_metering_extensions.MeteringTestJSON.test_show_metering_label_rule
-8b3f7c84-9d37-4771-8681-bfd2c07f3c2d # neutron.tests.tempest.api.test_metering_negative.MeteringNegativeTestJSON.test_create_metering_label_with_too_long_name
-46608f8d-2e27-4eb6-a0b4-dbe405144c4d # neutron.tests.tempest.api.test_metering_extensions.MeteringTestJSON.test_create_delete_metering_label_with_name_max_length
-46608f8d-2e27-4eb6-a0b4-dbe405144c4d # neutron.tests.tempest.api.test_metering_extensions.MeteringIpV6TestJSON.test_create_delete_metering_label_with_name_max_length
 
 # No RMC connection (need active VMs)
 2f3a0127-95c7-4977-92d2-bc5aec602fb4 # tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_reassign_port_between_servers
@@ -223,24 +162,8 @@ a0856713-6549-470c-a656-e97c8df9a14d # neutron.tests.tempest.api.admin.test_dhcp
 a0856713-6549-470c-a656-e97c8df9a14d # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_add_remove_network_from_dhcp_agent
 5032b1fe-eb42-4a64-8f3b-6e189d8b5c7d # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_dhcp_agent_hosting_network
 30c48f98-e45d-4ffb-841c-b8aad57c7587 # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_networks_hosted_by_one_dhcp
-98244d88-d990-4570-91d4-6b25d70d08af # neutron.tests.tempest.api.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful_fixedips_outrange
-4ab211a0-276f-4552-9070-51e27f58fecf # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful
-51a5e97f-f02e-4e4e-9a17-a69811d300e3 # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful_fixedips
-57b8302b-cba9-4fbb-8835-9168df029051 # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful_fixedips_duplicate
-98244d88-d990-4570-91d4-6b25d70d08af # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful_fixedips_outrange
-e98f65db-68f4-4330-9fea-abd8c5192d4d # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcp_stateful_router
-4256c61d-c538-41ea-9147-3c450c36669e # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_64_subnets
-81f18ef6-95b5-4584-9966-10d480b7496a # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_invalid_options
-e5517e62-6f16-430d-a672-f80875493d4c # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_stateless_eui64
-ae2f4a5d-03ff-4c42-a3b0-ce2fcb7ea832 # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_stateless_no_ra
-21635b6f-165a-4d42-bf49-7d195e47342f # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_stateless_no_ra_no_dhcp
-4544adf7-bb5f-4bdc-b769-b3e77026cef2 # tempest.api.network.test_dhcp_ipv6.NetworksTestDHCPv6.test_dhcpv6_two_subnets
 
 # Neutron L3 Agent Disabled
-b7ce6e89-e837-4ded-9b78-9ed3c9c6a45a # neutron.tests.tempest.api.admin.test_l3_agent_scheduler.L3AgentSchedulerTestJSON.test_list_routers_on_l3_agent
-9464e5e7-8625-49c3-8fd1-89c52be59d66 # neutron.tests.tempest.api.admin.test_l3_agent_scheduler.L3AgentSchedulerTestJSON.test_add_list_remove_router_on_l3_agent
-b7ce6e89-e837-4ded-9b78-9ed3c9c6a45a # tempest.api.network.admin.test_l3_agent_scheduler.L3AgentSchedulerTestJSON.test_list_routers_on_l3_agent
-9464e5e7-8625-49c3-8fd1-89c52be59d66 # tempest.api.network.admin.test_l3_agent_scheduler.L3AgentSchedulerTestJSON.test_add_list_remove_router_on_l3_agent
 8ae55186-464f-4b87-1c9f-eb2765ee81ac # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_create_floatingip_with_timestamp
 433ba770-b310-4da9-5d42-733217a1c7b1 # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_create_router_with_timestamp
 32a6a086-e1ef-413b-b13a-0cfe13ef051e # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_show_floatingip_attribute_with_timestamp
@@ -322,9 +245,6 @@ c6231efa-9a89-4adf-b050-2a3156b8a1d9 # tempest.api.network.test_tags.TagsExtTest
 
 # Failing because we are using shared networks
 af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
-94e2a44c-3367-4253-8c2a-22deaf59e96c # neutron.tests.tempest.api.test_networks.NetworksTestJSON.test_create_update_network_dns_domain
-539fbefe-fb36-48aa-9a53-8c5fbd44e492 # neutron.tests.tempest.api.test_ports.PortsTestJSON.test_create_update_port_with_dns_name
-435e89df-a8bb-4b41-801a-9f20d362d777 # neutron.tests.tempest.api.test_ports.PortsTestJSON.test_create_update_port_with_no_dns_name
 c240457d-d943-439b-8aea-85e26d64fe8f # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications
 d7f8c1c8-d470-4731-8604-315d3956caae # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_nova_notification
 29604198-8b45-4fc0-8af8-1cae4f94ebea # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAdminAPITest.test_check_nova_notification_event_and_meter
