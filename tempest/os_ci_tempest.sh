@@ -123,13 +123,12 @@ function set_conf_option {
 
     var_regex="^$varname\s*="
     count=`egrep "$var_regex" "$conf_file" | wc -l`
-    [[ $count -gt 1 ]] && bail "Found key '$varname' $count times in $conf_file"
 
     line="$varname = $value"
     verb "Setting ${section}.$line"
-    if [[ $count -eq 1 ]]; then
+    if [[ $count -ge 1 ]]; then
         # Var already exists; replace it
-        sed -i "s/${var_regex}.*/$line/" "$conf_file"
+        sed -i "/$section/,/\[/ { s/.*$varname.*/$line/; }" "$conf_file"
     else
         # Var doesn't exist; add it
         sed -i "s/$section_regex/[$section]\n$line/" "$conf_file"
@@ -614,6 +613,12 @@ function generate_test_list {
     done
 }
 
+function generate_extensions {
+    conf_file=$1
+    extensions=$(openstack extension list --network -c Alias -f value | paste -s -d, -)
+    set_conf_option "$conf_file" "network-feature-enabled" "api_extensions" $extensions
+}
+
 ## main Main MAIN
 
 # Process command args
@@ -717,6 +722,9 @@ function cleanup {
 
 # Prep our devstack and tempest.conf.
 prep_for_tempest "$TEMPEST_CONF_GEN"
+
+# Genarate api extension lists
+generate_extensions "$TEMPEST_CONF_GEN"
 
 # Create temp file listing tests to run
 TEST_LIST=`mktemp /tmp/test_list.XXX`
