@@ -92,50 +92,6 @@ function validate_checksum {
     return 0
 }
 
-function set_conf_option {
-    ### set_conf_option conf_file section varname value
-    #
-    # Adds or replaces the config option named 'varname' in section
-    # 'section' of config file 'conf_file', setting its value to
-    # 'value'.
-    #
-    # LIMITATIONS:
-    # o If the var name already exists in the conf file, we assume it's
-    # already in the right section.
-    # o If the var name exists more than once, we bail.
-    # o Undefined results if section/key/value contain special
-    # characters.
-    ###
-    conf_file=$1
-    section=$2
-    varname=$3
-    value=$4
-
-    # Check params
-    [ "$conf_file" ] || bail "set_conf_option: conf_file is required."
-    [[ -f "$conf_file" ]] || bail "set_conf_option: conf_file '$conf_file' not found."
-    [ "$section" ] || bail "set_conf_option: section is required."
-    section_regex="^\[$section\]$"
-    egrep -q "$section_regex" "$conf_file" || bail "set_conf_option: couldn't find section '$section' in conf_file '$conf_file'."
-    [ "$varname" ] || bail "set_conf_option: varname (config file key) is required."
-    # Conf file need not contain the config key
-    # Value may be empty
-
-    var_regex="^$varname\s*="
-    count=`egrep "$var_regex" "$conf_file" | wc -l`
-    [[ $count -gt 1 ]] && bail "Found key '$varname' $count times in $conf_file"
-
-    line="$varname = $value"
-    verb "Setting ${section}.$line"
-    if [[ $count -eq 1 ]]; then
-        # Var already exists; replace it
-        sed -i "s/${var_regex}.*/$line/" "$conf_file"
-    else
-        # Var doesn't exist; add it
-        sed -i "s/$section_regex/[$section]\n$line/" "$conf_file"
-    fi
-}
-
 function get_obj_vals {
     ### get_obj_vals type name field [field...]
     #
@@ -198,7 +154,7 @@ function discover_and_set_id {
     get_obj_vals "$objtype" "$objname" id
     eval varid=\$${objtype}_${objname}_id
     # Set it in tempest.conf
-    set_conf_option "$tempest_conf" "$section" "$varname" "$varid"
+    iniset "$tempest_conf" "$section" "$varname" "$varid"
 }
 
 function find_img_lu_for_checksum {
@@ -475,6 +431,9 @@ function prep_for_tempest {
     # Set up for openstack commands
     source "$OPENRC" admin admin
 
+    # Set up for editing tempest configuration
+    source /opt/stack/devstack/inc/ini-config
+
     verb "Calculating MD5 hash of image file '$IMGFILE'."
     imgsum=`md5sum "$IMGFILE" | cut -c -32`
 
@@ -520,6 +479,9 @@ function prep_for_tempest {
 
     # Discover and register the admin tenant ID
     discover_and_set_id "$tempest_conf" project admin identity admin_tenant_id
+
+    # Generate api extension lists
+    generate_extensions "$tempest_conf"
 
     # At this point, we should create the image LU if necessary.  We do
     # this by creating a VM with the appropriate image.  Even though the
@@ -612,6 +574,12 @@ function generate_test_list {
         echo "$line" >>$out_file
         verb "Will RUN                       $line"
     done
+}
+
+function generate_extensions {
+    conf_file=$1
+    extensions=$(openstack extension list --network -c Alias -f value | paste -s -d, -)
+    iniset "$conf_file" "network-feature-enabled" "api_extensions" "$extensions"
 }
 
 ## main Main MAIN
