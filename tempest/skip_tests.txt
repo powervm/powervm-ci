@@ -393,6 +393,7 @@ c1c4fa41-8e89-44d0-9bfc-409f3b66dc57 # neutron.tests.tempest.api.test_revisions.
 b898ff92-dc33-4232-8ab9-2c6158c80d28 # neutron.tests.tempest.api.test_tag.TagRouterTestJSON.test_router_tags
 cdd3f3ea-073d-4435-a6cb-826a4064193d # neutron.tests.tempest.api.test_tag.TagFilterRouterTestJSON.test_filter_router_tags
 05795fb2-b2a7-4c9f-8fac-ff25aedb1489 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_create_server_from_volume_snapshot
+cb78919a-e553-4bab-b73b-10cf4d2eb125 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_boot_server_from_encrypted_volume_luks
 608e604b-1d63-4a82-8e3e-91bc665c90b4 # tempest.scenario.test_snapshot_pattern.TestSnapshotPattern.test_snapshot_pattern
 25304a51-93a8-4cf3-9523-bce8b4eaecf8 # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVR.test_from_dvr_to_dvr_ha
 a00d5ad7-8509-4bb0-bdd2-7f1ee052d1cd # neutron.tests.tempest.scenario.test_migration.NetworkMigrationFromDVR.test_from_dvr_to_ha
