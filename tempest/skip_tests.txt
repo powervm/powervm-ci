@@ -21,6 +21,12 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Default subnetpools tests failing due to https://bugs.launchpad.net/neutron/+bug/1704881
+# TODO: Remove once fix is released
+39687561-7a37-47b8-91ce-f9143ae26969 # test_convert_default_subnetpool_to_non_default
+9e79730c-29b6-44a4-9504-bf3c7cedc56c # test_convert_subnetpool_to_default_subnetpool
+cb839106-6184-4332-b292-5d07c074de4f # test_admin_create_default_subnetpool
+
 # This test isn't checking for security_compliance = False. Can be removed
 # when the tempest bug is fixed.
 ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
