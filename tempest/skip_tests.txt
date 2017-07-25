@@ -21,6 +21,13 @@
 # Tests Needing Investigation
 # ----------------------------
 
+# Failing after switch to devstack generated tempest.conf. Likely a microversion issue
+# Two versions of one test share the same id.
+64d0d48c-dff1-11e6-bf01-fe55135034f3 # tempest.api.compute.admin.test_server_diagnostics.ServerDiagnosticsV248Test.test_get_server_diagnostic
+e84e2234-60d2-42fa-8b30-e2d3049724ac # tempest.api.compute.admin.test_server_diagnostics_negative.ServerDiagnosticsNegativeV248Test.test_get_server_diagnostics_by_non_admin
+                                     # tempest.api.compute.admin.test_servers_negative.ServersAdminNegativeTestJSON.test_get_server_diagnostics_by_non_admin
+88b0bdb2-494c-11e7-a919-92ebcb67fe33 # tempest.api.compute.servers.test_servers.ServerShowV247Test.test_show_server
+
 # Default subnetpools tests failing due to https://bugs.launchpad.net/neutron/+bug/1704881
 # TODO: Remove once fix is released
 39687561-7a37-47b8-91ce-f9143ae26969 # test_convert_default_subnetpool_to_non_default
