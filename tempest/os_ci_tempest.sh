@@ -623,8 +623,8 @@ TEMPEST_DIR=`realpath ${TEMPEST_DIR:-/opt/stack/tempest}`
 # Verify existence of tempest at $TEMPEST_DIR
 [[ -d $TEMPEST_DIR ]] || bail "$TEMPEST_DIR: no such directory."
 
-# Aboslute path to the tempest.conf file to use.
-TEMPEST_CONF=`realpath ${TEMPEST_CONF:-"$conf_dir/tempest.conf"}`
+# Absolute path to the tempest.conf file to use.
+TEMPEST_CONF=`realpath ${TEMPEST_CONF:-"/opt/stack/tempest/etc/tempest.conf"}`
 
 # Make sure tempest.conf exists
 [[ -f "$TEMPEST_CONF" ]] || bail "Couldn't find tempest.conf at $TEMPEST_CONF"
