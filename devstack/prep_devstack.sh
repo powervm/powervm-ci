@@ -187,12 +187,14 @@ sudo chown jenkins:jenkins /etc/neutron
 mkdir /etc/neutron/plugins/
 mkdir /etc/neutron/plugins/ml2
 
+# Source ini-config for iniset use.
+source /opt/stack/devstack/inc/ini-config
+
 # Set /etc/environment as the environment file location for openstack services.
 # /etc/environment holds a variable, PYPOWERVM_SESSION_CONFIG, that contains the path
 # for the session configuration needed for remote pypowervm to work. This is limited
 # to branches using systemd instead of screen for openstack services (pike and newer).
 if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]; then
-    source /opt/stack/devstack/inc/ini-config
     sudo mkdir -p /etc/systemd/system/
     pvm_services="pvm-q-sea-agt pvm-q-sriov-agt n-cpu pvm-ceilometer-acompute"
     for service in $pvm_services; do
@@ -238,6 +240,14 @@ if [ "$driver" != "intree" ]; then
     openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
     openstack network create private --share --provider-network-type vlan --provider-physical-network default
     openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
+fi
+
+# test-config meta section in local.conf does not work for newton. These options
+# are being set here instead.
+if [ "$ZUUL_BRANCH" == "stable/newton" ]; then
+    iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "pause" "False"
+    iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "suspend" "False"
+    iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "shelve" "False"
 fi
 
 exit 0
