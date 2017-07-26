@@ -226,8 +226,8 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]
     # a host is found and mapped before moving on.
     count=0
     until nova-manage cell_v2 discover_hosts --strict; do
-        if [ "$count" -gt "60" ]; then
-            echo "Unable to discover any hosts within 60 seconds. Exiting"
+        if [ "$count" -gt "180" ]; then
+            echo "Unable to discover any hosts within 180 seconds. Exiting"
             exit 1
         fi
         sleep 5;
