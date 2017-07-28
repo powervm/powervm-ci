@@ -187,6 +187,21 @@ sudo chown jenkins:jenkins /etc/neutron
 mkdir /etc/neutron/plugins/
 mkdir /etc/neutron/plugins/ml2
 
+# Set /etc/environment as the environment file location for openstack services.
+# /etc/environment holds a variable, PYPOWERVM_SEESION_CONFIG, that contains the path
+# for the session configuration needed for remote pypowervm to work.
+if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]; then
+    source /opt/stack/devstack/inc/ini-config
+    sudo mkdir -p /etc/systemd/system/
+    sudo chown jenkins:jenkins /etc/systemd/system/
+    pvm_services="pvm-q-sea-agt pvm-q-sriov-agt n-cpu pvm-ceilometer-acompute"
+    for service in $pvm_services; do
+        touch /etc/systemd/system/devstack@$service.service
+        iniset "/etc/systemd/system/devstack@$service.service" "Service" "EnvironmentFile" "-/etc/environment"
+    done
+    sudo chown root:root /etc/systemd/system
+fi
+
 # Disable SMT while stacking
 # POWER CPUs have lots of threads.  Devstack likes to use all of the threads
 # it can.  But if we have a SMT-8 CPU with 4 cores, that could be 32 threads.
@@ -203,37 +218,6 @@ cd /opt/stack/devstack
 TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
-
-if [ "$ZUUL_BRANCH" != "stable/ocata" ] && [ "$ZUUL_BRANCH" != "stable/newton" ]; then
-    # Set /etc/environment as the environment file location for the systemd services.
-    # This is needed for remote pypowervm. It uses the environment var
-    # PYPOWERVM_SESSION_CONFIG, which we set in /etc/environment. The services need
-    # to be reloaded and restarted for the change to take effect.
-    pvm_services="pvm-q-sea-agt pvm-q-sriov-agt n-cpu pvm-ceilometer-acompute"
-    for service in $pvm_services; do
-        if [[ -f /etc/systemd/system/devstack@$service.service ]]; then
-            sudo sed -i '/^\[Service\]$/a\EnvironmentFile=-/etc/environment' /etc/systemd/system/devstack@$service.service
-        fi
-    done
-    sudo systemctl daemon-reload
-    for service in $pvm_services; do
-        if [[ -f /etc/systemd/system/devstack@$service.service ]]; then
-            sudo systemctl restart devstack@$service.service
-        fi
-    done
-
-    # Discover the hosts and add them to the default cell. --strict ensures that
-    # a host is found and mapped before moving on.
-    count=0
-    until nova-manage cell_v2 discover_hosts --strict; do
-        if [ "$count" -gt "180" ]; then
-            echo "Unable to discover any hosts within 180 seconds. Exiting"
-            exit 1
-        fi
-        sleep 5;
-        count=$(( count + 5 ))
-    done
-fi
 
 source /opt/stack/devstack/openrc admin admin
 if [ "$ZUUL_BRANCH" == "master" ]; then
