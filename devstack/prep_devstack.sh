@@ -155,11 +155,8 @@ fi
 
 # Reinstall pypowervm with the list of patches in pypowervm_patch_list applied
 if [ ! -z "$pypowervm_patch_list" ]; then
+    git clone -b $pypowervm_version ssh://openstack-ci@morpheus.pok.stglabs.ibm.com:29418/pypowervm /opt/stack/pypowervm
     cd /opt/stack/pypowervm/
-    git clean -f
-    git reset --hard
-    git fetch
-    git checkout $pypowervm_version
     PYPOWERVM_REPO=$(git remote get-url origin)
     for i in $(echo $pypowervm_patch_list | sed "s/,/ /g"); do
         patch=`get_latest_patch "$PYPOWERVM_REPO" "$i"`
