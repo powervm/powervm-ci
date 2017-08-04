@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bassh -xe
 
 usage () {
     echo "usage: ./prep_devstack.sh [-p pypowervm_patch_list] [-n nova_patch_list] [-d driver] [-fh]"
@@ -216,6 +216,11 @@ cd /opt/stack/devstack
 TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
+
+# Normally the hosts get discovered when stack runs discover_hosts. However the
+# discovery sometimes fails to find any hosts at that point. Running discover_hosts
+# a second time here should find any hosts that weren't discovered initially.
+nova-manage cell_v2 discover_hosts
 
 source /opt/stack/devstack/openrc admin admin
 if [ "$ZUUL_BRANCH" == "master" ]; then
