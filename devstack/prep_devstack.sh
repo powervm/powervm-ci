@@ -248,6 +248,7 @@ if [ "$ZUUL_BRANCH" == "stable/newton" ]; then
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "pause" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "suspend" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "shelve" "False"
+    iniset "/opt/stack/tempest/etc/tempest.conf" "DEFAULT" "log_dir" "/opt/stack/logs/"
 fi
 
 exit 0
