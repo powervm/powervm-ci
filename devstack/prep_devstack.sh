@@ -98,6 +98,12 @@ sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_
 # Logs setup
 mkdir -p /opt/stack/logs
 
+# Setting Storage=persistent causes journald to store the journals in
+# /var/log/journal instead of /run/log/journal. There wasn't enough space
+# in /run/ for the journals to reside there.
+sudo sed -i 's/^#Storage=.*$/Storage=persistent/' /etc/systemd/journald.conf
+sudo systemctl restart systemd-journald.service
+
 # This list is built from prepare_node_powervm.sh
 for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keystone networking-powervm neutron nova nova-powervm requirements; do
     cd /opt/stack/$proj
