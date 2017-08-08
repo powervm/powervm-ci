@@ -245,6 +245,7 @@ fi
 # test-config meta section in local.conf does not work for newton. These options
 # are being set here instead.
 if [ "$ZUUL_BRANCH" == "stable/newton" ]; then
+    iniset "/opt/stack/tempest/etc/tempest.conf" "DEFAULT" "log_dir" "/opt/stack/logs/"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "pause" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "suspend" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "shelve" "False"
