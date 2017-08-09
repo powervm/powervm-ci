@@ -24,24 +24,6 @@
 # e84e2234-60d2-42fa-8b30-e2d3049724ac # tempest.api.compute.admin.test_servers_negative.ServersAdminNegativeTestJSON.test_get_server_diagnostics_by_non_admin
 #                                      # tempest.api.compute.admin.test_server_diagnostics_negative.ServerDiagnosticsNegativeV248Test.test_get_server_diagnostics_by_non_admin
 #
-# Tests attempting to use identity v2 API. The v2 API is disabled in the tempest config.
-# Possibly a bug in the neutron tempest tests.
-# 2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
-# 952f9b24-9156-4bdc-90f3-682a3d4302f0 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_network_when_quotas_is_full
-# fe20d9f9-346c-4a20-bbfa-d9ca390f4dc6 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_port_when_quotas_is_full
-# b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_ful
-# 5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
-# 0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
-# Disabled because of duplicate id in above neutron test
-# 2390f766-836d-40ef-9aeb-e810d78207fb # tempest.api.network.admin.test_quotas.QuotasTest.test_quotas
-#
-# These tests require power on/off, not implemented until a later in tree change
-# NOTE: Even with power on/off, these are failing. Further investigation is still needed.
-# 73177903-6737-4f27-a60c-379e8ae8cf48 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_admin_delete_servers_of_others
-# 99774678-e072-49d1-9d2a-49a59bc56063 # tempest.api.compute.servers.test_delete_server.DeleteServersAdminTestJSON.test_delete_server_while_in_error_state
-# 925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
-# 77ca5cc5-9990-45e0-ab98-1de8fead201a # tempest.api.compute.servers.test_instance_actions.InstanceActionsTestJSON.test_list_instance_actions
-#
 # These tests sometimes fail to clean up the networks they create properly. The leftover networks cause many other tests to fail.
 # d39a96e2-2dea-4feb-8093-e7ac991ce6f8 # neutron.tests.tempest.api.admin.test_extension_driver_port_security_admin.PortSecurityAdminTests.test_create_port_security_false_on_shared_network
 # 86c3529b-1231-40de-803c-ffffffff1fff # neutron.tests.tempest.api.admin.test_shared_network_extension.AllowedAddressPairSharedNetworkTest.test_create_with_address_pair_blocked_on_other_network
@@ -70,13 +52,6 @@
 # Requires snapshot to be implemented
 # 3b7c6fe4-dfe7-477c-9243-b06359db51e6 # tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON.test_create_image_specify_multibyte_character_image_name
 #
-# Failing auth with AttributeError
-# 86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
-# 6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
-#
-# This one isn't observing security_compliance = False -- reinstate once tempest bug is fixed
-# ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
-
 
 # Whitelist
 # ------------------
