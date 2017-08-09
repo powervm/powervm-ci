@@ -38,19 +38,6 @@ cb839106-6184-4332-b292-5d07c074de4f # test_admin_create_default_subnetpool
 # when the tempest bug is fixed.
 ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
 
-# Tests attempting to use identity v2 API. The v2 API is disabled in the tempest config.
-# Possibly a bug in the neutron tempest tests.
-2390f766-836d-40ef-9aeb-e810d78207fb # neutron.tests.tempest.api.admin.test_quotas.QuotasTest.test_quotas
-952f9b24-9156-4bdc-90f3-682a3d4302f0 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_network_when_quotas_is_full
-fe20d9f9-346c-4a20-bbfa-d9ca390f4dc6 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_port_when_quotas_is_full
-b7143480-6118-4ed4-be38-1b6f15f30d05 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_rule_when_quotas_is_ful
-5c924ff7-b7a9-474f-92a3-dbe0f976ec13 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_security_group_when_quotas_is_full
-0b7f99e3-9f77-45ce-9a89-b39a184de618 # neutron.tests.tempest.api.admin.test_quotas_negative.QuotasAdminNegativeTestJSON.test_create_subnet_when_quotas_is_full
-
-# Failing auth with AttributeError
-86128d46-e170-4644-866a-cc487f699e1d # tempest.api.identity.v3.test_projects.IdentityV3ProjectsTest.test_list_projects_returns_only_authorized_projects
-6f8e4436-fc96-4282-8122-e41df57197a9 # tempest.api.identity.v3.test_tokens.TokensV3Test.test_create_token
-
 # Failing to create VIF
 ca78e20e-fddb-4ce6-b7f7-bcbf8605e66e # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_active_status
 
@@ -78,59 +65,6 @@ ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_s
 
 # Not supported
 ef28c7e6-e646-4979-9d67-deb207bc5564 # tempest.api.network.test_extensions.ExtensionsTestJSON.test_list_show_extensions
-
-# Disable Trunk Tests until stacking with q-trunk is debugged on staging env.
-bb5fcead-09b5-484a-bbe6-46d1e06d6cc0 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_add_subport
-7de46c22-e2b6-4959-ac5a-0e624632ab32 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_show_delete_trunk
-e1a6355c-4768-41f3-9bf8-0f1d192bd501 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_trunk_empty_subports_list
-382dfa39-ca03-4bd3-9a1c-91e36d2e3796 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_trunk_subports_not_specified
-4ce46c22-a2b6-4659-bc5a-0ef2463cab32 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_update_trunk
-ee5fcead-1abf-483a-bce6-43d1e06d6aa0 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_delete_trunk_with_subport_is_allowed
-bb5fcaad-09b5-484a-dde6-4cd1ea6d6ff0 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_get_subports
-73365f73-bed6-42cd-960b-ec04e0c99d85 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_list_trunks
-96eea398-a03c-4c3e-a99e-864392c2ca53 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_remove_subport
-5ff46c22-a2b6-5559-bc5a-0ef2463cab32 # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_create_update_trunk_with_description
-175b05ae-66ad-44c7-857a-a12d16f1058f # neutron.tests.tempest.api.test_trunk.TrunkTestMtusJSON.test_add_subport_with_mtu_equal_to_trunk
-2004c5c6-e557-4c43-8100-c820ad4953e8 # neutron.tests.tempest.api.test_trunk.TrunkTestMtusJSON.test_add_subport_with_mtu_smaller_than_trunk
-22725101-f4bc-4e00-84ec-4e02cd7e0500 # neutron.tests.tempest.api.test_trunk.TrunkTestMtusJSON.test_create_trunk_with_mtu_equal_to_subport
-0f05d98e-41f5-4629-ac29-9aee269c9602 # neutron.tests.tempest.api.test_trunk.TrunkTestMtusJSON.test_create_trunk_with_mtu_greater_than_subport
-f0bed24f-d36a-498b-b4e7-0d66e3fb7308 # neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_trunk_details_no_subports
-544bcaf2-86fb-4930-93ab-ece1c3cc33df # neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_trunk_details_with_subport
-fe6d865f-1d5c-432e-b65d-904157172f24 # neutron.tests.tempest.api.test_trunk_details.TestTrunkDetailsJSON.test_port_resource_empty_trunk_details
-00cb40bb-1593-44c8-808c-72b47e64252f # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_add_subport_duplicate_segmentation_details
-4eac8c25-83ee-4051-9620-34774f565730 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_add_subport_passing_dict
-7f132ccc-1380-42d8-9c44-50411612bd01 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_add_subport_port_id_disabled_trunk
-6f132ccc-1380-42d8-9c44-50411612bd01 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_add_subport_port_id_uses_trunk_port_id
-7e0f99ab-fe37-408b-a889-9e44ef300084 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_subport_missing_segmentation_id
-a5c5200a-72a0-43c5-a11a-52f808490344 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_subport_nonexistent_port_id
-80deb6a9-da2a-48db-b7fd-bcef5b14edc1 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_subport_nonexistent_trunk
-40aed9be-e976-47d0-a555-bde2c7e74e57 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_duplicate_subport_segmentation_ids
-1b5cf87a-1d3a-4a94-ba64-647153d54f32 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_nonexistent_port_id
-980bca3b-b0be-45ac-8067-b401e445b796 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_nonexistent_subport_port_id
-a717691c-4e07-4d81-a98d-6f1c18c5d183 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_with_subport_missing_port_id
-a315d78b-2f43-4efa-89ae-166044c568aa # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_with_subport_missing_segmentation_id
-33498618-f75a-4796-8ae6-93d4fd203fa4 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_trunk_with_subport_missing_segmentation_type
-343a03d0-4f7c-11e6-97fa-40a8f063c891 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_delete_port_in_use_by_subport
-6c9c5126-4f61-11e6-8248-40a8f063c891 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_delete_port_in_use_by_trunk
-9f132ccc-1380-42d8-9c44-50411612bd01 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_delete_trunk_disabled_trunk
-aaca7dd7-96b8-445a-931e-63f0d86d2fe2 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_remove_subport_not_found
-17ca7dd7-96a8-445a-941e-53c0c86c2fe2 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_remove_subport_passing_dict
-8f132ccc-1380-42d8-9c44-50411612bd01 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_remove_subport_port_id_disabled_trunk
-3b32bf77-8002-403e-ad01-6f4cf018daa5 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestMtusJSON.test_add_subport_with_mtu_greater_than_trunk
-228380ef-1b7a-495e-b759-5b1f08e3e858 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestMtusJSON.test_create_trunk_with_mtu_smaller_than_subport
-eafe7024-77ab-4cfe-824b-0b2bf4217727 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_no_pagination_limit_0
-b202fdc8-6616-45df-b6a0-463932de6f94 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination
-f8857391-dc44-40cc-89b7-2800402e03ce # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_page_reverse_asc
-ae51e9c9-ceae-4ec0-afd4-147569247699 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_page_reverse_desc
-b4293e59-d794-4a93-be09-38667199ef68 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_page_reverse_with_href_links
-dcd02a7a-f07e-4d5e-b0ca-b58e48927a9b # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_with_href_links
-c4723b8e-8186-4b9a-bf9e-57519967e048 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_pagination_with_marker
-fab73df4-960a-4ae3-87d3-60992b8d3e2d # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_sorts_asc
-a426671d-7270-430f-82ff-8f33eec93010 # neutron.tests.tempest.api.test_trunk.TrunksSearchCriteriaTest.test_list_sorts_desc
-bb13fe28-f152-4000-8131-37890a40c79e # neutron.tests.tempest.scenario.test_trunk.TrunkTest.test_trunk_subport_lifecycle
-8d83a6ca-662d-45b8-8062-d513077296aa # neutron.tests.tempest.api.test_trunk.TrunkTestJSON.test_show_trunk_has_project_id
-a8a02c9b-b453-49b5-89a2-cce7da66aafb # neutron.tests.tempest.scenario.test_trunk.TrunkTest.test_subport_connectivity
-40aed9be-e976-47d0-dada-bde2c7e74e57 # neutron.tests.tempest.api.test_trunk_negative.TrunkTestJSON.test_create_subport_invalid_inherit_network_segmentation_type
 
 # Floating IPs not supported
 7b6860c2-afa3-4846-9522-adeb38dfbe08 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_reboot
