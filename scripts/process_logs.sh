@@ -21,8 +21,15 @@ sudo systemctl stop devstack@*
 for u in `sudo systemctl --no-legend --no-pager list-unit-files 'devstack@*' | awk -F. '{print $1}'`; do
      sudo journalctl -a -o short-precise --unit $u > /opt/stack/logs/${u#*@}.txt
 done
+mv /opt/stack/logs/stack.sh.log /opt/stack/logs/stack.sh.txt
+mv /opt/stack/logs/tempest.log /opt/stack/logs/tempest.txt
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' /opt/stack/logs/*
-for f in /opt/stack/logs/*.log; do
+apache_logs=$(sudo ls /var/log/apache2/)
+for f in $apache_logs; do
+   sudo cp /var/log/apache2/$f /opt/stack/logs/$f.txt
+   sudo chown jenkins:jenkins $f.txt
+done
+for f in /opt/stack/logs/*.txt; do
     actual_file=`realpath $f`
     # The -f flag ensures that the file will overwrite any existing files with that name
     gzip -f "$actual_file"
