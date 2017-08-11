@@ -233,7 +233,7 @@ sudo ppc64_cpu --smt=on
 nova-manage cell_v2 discover_hosts
 
 source /opt/stack/devstack/openrc admin admin
-if [ "$ZUUL_BRANCH" == "master" ]; then
+if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
     # Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False. For now we will delete the
     # network after stacking.
