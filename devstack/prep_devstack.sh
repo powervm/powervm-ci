@@ -187,12 +187,6 @@ if [ ! -z "$pypowervm_patch_list" ]; then
     done
 fi
 
-# TODO: remove when https://bugs.launchpad.net/devstack/+bug/1699609 is fixed
-sudo mkdir /etc/neutron/
-sudo chown jenkins:jenkins /etc/neutron
-mkdir /etc/neutron/plugins/
-mkdir /etc/neutron/plugins/ml2
-
 # Source ini-config for iniset use.
 source /opt/stack/devstack/inc/ini-config
 
