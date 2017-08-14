@@ -17,7 +17,15 @@
 # limitations under the License.
 
 zuul_branch=$1
+logserver_user=$2
+logserver_ip=$3
+
+# Base log path for logserver
+base_log_path=$4
+
+# Path to logs on AIO vms
 log_path=/opt/stack/logs
+
 find -L $log_path -type l -delete
 
 # Branches after ocata use journald for logging. These need to be output to files
@@ -54,3 +62,11 @@ for f in $log_path/*.txt; do
     # The -f flag ensures that the file will overwrite any existing files with that name
     gzip -f "$actual_file"
 done
+
+# Copy logs to logserver
+eval `ssh-agent -s`
+ssh-add /opt/nodepool-scripts/osci_rsa
+ssh-keyscan $logserver_ip >> ~/.ssh/known_hosts
+ssh $logserver_user@$logserver_ip "mkdir -p /srv/static/logs/$base_log_path/logs"
+scp $log_path/*.gz $logserver_user@$logserver_ip:/srv/static/logs/$base_log_path/logs/
+scp $log_path/*powervm_os_ci* $logserver_user@$logserver_ip:/srv/static/logs/$base_log_path/
