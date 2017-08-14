@@ -23,6 +23,9 @@ logserver_ip=$3
 # Base log path for logserver
 base_log_path=$4
 
+# Build URL used to get jenkins console log
+build_url=$5
+
 # Path to logs on AIO vms
 log_path=/opt/stack/logs
 
@@ -52,6 +55,9 @@ for f in $apache_logs; do
    sudo cp /var/log/apache2/$f $log_path/$filename
    sudo chown jenkins:jenkins $log_path/$filename
 done
+
+# Output jenkins console log to file
+wget $build_url/consoleText -O $log_path/console.txt
 
 # Scrub IPs and domain names
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' $log_path/*
