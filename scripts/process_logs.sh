@@ -23,6 +23,9 @@ logserver_ip=$3
 # Base log path for logserver
 base_log_path=$4
 
+# Build URL used to get jenkins console log
+$build_url=$5
+
 # Path to logs on AIO vms
 log_path=/opt/stack/logs
 
@@ -62,6 +65,9 @@ for f in $log_path/*.txt; do
     # The -f flag ensures that the file will overwrite any existing files with that name
     gzip -f "$actual_file"
 done
+
+# Output jenkins console log to file
+curl $build_url/consoleText >> $log_path/console.txt
 
 # Copy logs to logserver
 eval `ssh-agent -s`
