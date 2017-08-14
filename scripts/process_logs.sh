@@ -27,6 +27,9 @@ logserver_path=/srv/static/logs/$zuul_base_log_path
 # Path to logs on all-in-one test vms
 stack_log_path=/opt/stack/logs
 
+# Build URL used to get jenkins console log
+build_url=$5
+
 find -L $stack_log_path -type l -delete
 
 # Branches after ocata use journald for logging. These need to be output to files
@@ -53,6 +56,9 @@ for f in $apache_logs; do
    sudo cp /var/log/apache2/$f $stack_log_path/$filename
    sudo chown jenkins:jenkins $stack_log_path/$filename
 done
+
+# Output jenkins console log to file
+wget $build_url/consoleText -O $log_path/console.txt
 
 # Scrub IPs and domain names
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' $stack_log_path/*
