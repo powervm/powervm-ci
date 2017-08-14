@@ -15,14 +15,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+zuul_branch=$1
 log_path=/opt/stack/logs
 find -L $log_path -type l -delete
-sudo systemctl stop devstack@*
-for u in `sudo systemctl --no-legend --no-pager list-unit-files 'devstack@*' | awk -F. '{print $1}'`; do
-     sudo journalctl -a -o short-precise --unit $u > $log_path/${u#*@}.txt
+
+# Branches after ocata use journald for logging. These need to be output to files
+# to be copied to the logserver.
+if [ "$zuul_branch" != "stable/newton" ] && [ "$zuul_branch" != "stable/ocata" ]; then
+    sudo systemctl stop devstack@*
+    for u in `sudo systemctl --no-legend --no-pager list-unit-files 'devstack@*' | awk -F. '{print $1}'`; do
+        sudo journalctl -a -o short-precise --unit $u > $log_path/${u#*@}.txt
+    done
+fi
+
+# Rename any additional log files with .txt extension for in browser viewing.
+for f in $log_path/*.log; do
+    mv -- "$f" "${f%.log}.txt"
 done
-mv $log_path/stack.sh.log $log_path/stack.sh.txt
-mv $log_path/tempest.log $log_path/tempest.txt
+
+# Copy apache logs to log_path so they get picked up by scp to logserver.
 apache_logs=$(sudo ls /var/log/apache2/)
 for f in $apache_logs; do
    filename=$f
@@ -32,7 +44,11 @@ for f in $apache_logs; do
    sudo cp /var/log/apache2/$f $log_path/$filename
    sudo chown jenkins:jenkins $log_path/$filename
 done
+
+# Scrub IPs and domain names
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' $log_path/*
+
+# Zip all logs
 for f in $log_path/*.txt; do
     actual_file=`realpath $f`
     # The -f flag ensures that the file will overwrite any existing files with that name
