@@ -21,8 +21,8 @@ logserver_user=$2
 logserver_ip=$3
 
 # Base log path for logserver
-zuul_base_log_path=$4
-logserver_path=/srv/static/logs/$zuul_base_log_path
+zuul_log_path=$4
+logserver_path=/srv/static/logs/$zuul_log_path
 
 # Path to logs on all-in-one test vms
 stack_log_path=/opt/stack/logs
