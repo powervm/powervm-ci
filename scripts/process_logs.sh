@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -x
 
 # Copyright 2017, IBM Corp.
 #
@@ -58,7 +58,7 @@ for f in $apache_logs; do
 done
 
 # Output jenkins console log to file
-wget $build_url/consoleText -O $log_path/console.txt
+wget $build_url/consoleText -O $stack_log_path/console.txt
 
 # Scrub IPs and domain names
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' $stack_log_path/*
