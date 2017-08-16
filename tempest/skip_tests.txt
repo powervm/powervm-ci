@@ -57,36 +57,11 @@ ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_s
 # Disabled Tests
 # ----------------------------
 
-# Floating IPs not supported
-7b6860c2-afa3-4846-9522-adeb38dfbe08 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_reboot
-88a529c2-1daa-4c85-9aec-d541ba3eb699 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_rebuild
-719eb59d-2f42-4b66-b8b1-bb1254473967 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_resize
-61f1aa9a-1573-410e-9054-afa557cab021 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_stop_start
-e79f879e-debb-440c-a7e4-efeda05b6848 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_cross_tenant_traffic
-63163892-bbf6-4249-aa12-d5ea1f8f421b # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_in_tenant_traffic
-7c811dcc-263b-49a3-92d2-1b4d8405f50c # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_security_disable_security_group
-d2f77418-fcc4-439d-b935-72eca704e293 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_multiple_security_groups
-f4d556d7-1526-42ad-bafb-6bebf48568f6 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_port_update_new_security_group
-de07fe0a-e955-449e-b48b-8641c14cd52e # neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
+# Floating IPs not supported.
+# TODO: Propose patches to check if floating ips are enabled for these tests.
 11116ee9-4e99-5b15-b8e1-aa7df92ca589 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_associate_floating_ip_with_port_from_another_tenant
 332a8ae4-402e-4b98-bb6f-532e5a87b8e0 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_create_floatingip_with_specified_ip_address
-f7bfb946-297e-41b8-9e8c-aba8e9bb5194 # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_allocate_floating_ip
-de45e989-b5ca-4a9b-916b-04a52e7bbb8b # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_delete_floating_ip
-307efa27-dc6f-48a0-8cd2-162ce3ef0b52 # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_associate_disassociate_floating_ip
-6edef4b2-aaf1-4abc-bbe3-993e2561e0fe # tempest.api.compute.floating_ips.test_floating_ips_actions.FloatingIPsTestJSON.test_associate_already_associated_floating_ip
-6e0f059b-e4dd-48fb-8207-06e3bba5b074 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_allocate_floating_ip_from_nonexistent_pool
-ae1c55a8-552b-44d4-bfb6-2a115a15d0ba # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_delete_nonexistent_floating_ip
-595fa616-1a71-4670-9614-46564ac49a4c # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_nonexistent_floating_ip
-0a081a66-e568-4e6b-aa62-9587a876dca8 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_dissociate_nonexistent_floating_ip
-804b4fcb-bbf5-412f-925d-896672b61eb3 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_ip_to_server_without_passing_floating_ip
-58a80596-ffb2-11e6-9393-fa163e4fa634 # tempest.api.compute.floating_ips.test_floating_ips_actions_negative.FloatingIPsNegativeTestJSON.test_associate_ip_to_server_with_floating_ip
-16db31c3-fb85-40c9-bbe2-8cf7b67ff99f # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_list_floating_ips
-eef497e0-8ff7-43c8-85ef-558440574f84 # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_get_floating_ip_details
-df389fc8-56f5-43cc-b290-20eda39854d3 # tempest.api.compute.floating_ips.test_list_floating_ips.FloatingIPDetailsTestJSON.test_list_floating_ip_pools
-82068503-2cf2-4ed4-b3be-ecb89432e4bb # tempest.api.network.admin.test_external_network_extension.ExternalNetworksTestJSON.test_delete_external_networks_with_floating_ip
 d402ae6c-0be0-4d8e-833b-a738895d98d0 # tempest.api.network.admin.test_external_networks_negative.ExternalNetworksAdminNegativeTestJSON.test_create_port_with_precreated_floatingip_as_fixed_ip
-64f2100b-5471-4ded-b46c-ddeeeb4f231b # tempest.api.network.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_list_floating_ips_from_admin_and_nonadmin
-32727cc3-abe2-4485-a16e-48f2d54c14f2 # tempest.api.network.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_create_list_show_floating_ip_with_tenant_id_by_admin
 
 # No RMC connection (need active VMs)
 2f3a0127-95c7-4977-92d2-bc5aec602fb4 # tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_reassign_port_between_servers
@@ -184,6 +159,7 @@ cb78919a-e553-4bab-b73b-10cf4d2eb125 # tempest.scenario.test_volume_boot_pattern
 c6231efa-9a89-4adf-b050-2a3156b8a1d9 # tempest.api.network.test_tags.TagsExtTest.test_create_check_list_and_delete_tags
 663a90f5-f334-4b44-afe0-c5fc1d408791 # tempest.api.network.test_tags.TagsExtTest.test_update_and_delete_all_tags
 61ab176e-d48b-42b7-b38a-1ba571ecc033 # neutron.tests.tempest.scenario.test_portsecurity.PortSecurityTest.test_port_security_removed_added
+de07fe0a-e955-449e-b48b-8641c14cd52e # neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
 
 # Failing because we are using shared networks
 af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility

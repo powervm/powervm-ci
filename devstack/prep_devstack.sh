@@ -249,6 +249,7 @@ if [ "$ZUUL_BRANCH" == "stable/newton" ]; then
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "pause" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "suspend" "False"
     iniset "/opt/stack/tempest/etc/tempest.conf" "compute-feature-enabled" "shelve" "False"
+    iniset "/opt/stack/tempest/etc/tempest.conf" "network-feature-enabled" "floating_ips" "False"
 fi
 
 exit 0
