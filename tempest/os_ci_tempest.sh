@@ -726,6 +726,9 @@ $MVCMD
 # Initialize the tempest repository
 testr init
 
+# Export tempest single test timeout
+export OS_TEST_TIMEOUT
+
 # Run it!
 verb "$RUNCMD"
 $RUNCMD >$SUBUNIT_RESULTS
