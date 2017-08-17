@@ -422,6 +422,7 @@ function prep_for_tempest {
     # tempest.conf.
     # o Ensures the proper admin tenant ID is registered in
     # tempest.conf.
+    # o Sets OS_TEST_TIMEOUT (individual tempest test timeout)
     ###
     tempest_conf=$1
 
@@ -493,6 +494,10 @@ function prep_for_tempest {
         get_obj_vals network private id
         create_primer_lpar "$flvname1" "$imgname" "$network_private_id" ssp_primer "$imgsum"
     fi  # lu_needed
+
+    # The default test timeout of 500 is not long enough for some long running tests
+    # This increases the timeout to 1000. This may need to be further modified.
+    sudo echo "OS_TEST_TIMEOUT=1000" >> /etc/environment
 
     # The LU may still be uploading, but we're ready to start tests.
     return 0
