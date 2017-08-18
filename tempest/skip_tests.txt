@@ -72,9 +72,6 @@ f164801e-1dd8-4b8b-b5d3-cc3ac77cfaa5 # neutron.tests.tempest.api.admin.test_dhcp
 a0856713-6549-470c-a656-e97c8df9a14d # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_add_remove_network_from_dhcp_agent
 5032b1fe-eb42-4a64-8f3b-6e189d8b5c7d # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_dhcp_agent_hosting_network
 30c48f98-e45d-4ffb-841c-b8aad57c7587 # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_networks_hosted_by_one_dhcp
-a0856713-6549-470c-a656-e97c8df9a14d # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_add_remove_network_from_dhcp_agent
-5032b1fe-eb42-4a64-8f3b-6e189d8b5c7d # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_dhcp_agent_hosting_network
-30c48f98-e45d-4ffb-841c-b8aad57c7587 # tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_networks_hosted_by_one_dhcp
 
 # Neutron L3 Agent Disabled
 8ae55186-464f-4b87-1c9f-eb2765ee81ac # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_create_floatingip_with_timestamp
