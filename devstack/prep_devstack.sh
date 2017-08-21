@@ -108,7 +108,7 @@ sudo systemctl restart systemd-journald.service
 for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keystone networking-powervm neutron nova nova-powervm requirements; do
     cd /opt/stack/$proj
     # TODO: Remove this once a pike branch is cut for ceilometer
-    if [ "$ZUUL_BRANCH" != "stable/pike" ] || [ "$ZUUL_PROJECT" != "openstack/ceilometer" ]; then
+    if [ "$ZUUL_BRANCH" != "stable/pike" ] || [ "$proj" != "openstack/ceilometer" ]; then
         git checkout $ZUUL_BRANCH
     fi
     git pull
