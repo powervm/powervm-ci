@@ -107,7 +107,10 @@ sudo systemctl restart systemd-journald.service
 # This list is built from prepare_node_powervm.sh
 for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keystone networking-powervm neutron nova nova-powervm requirements; do
     cd /opt/stack/$proj
-    git checkout $ZUUL_BRANCH
+    # TODO: Remove this once a pike branch is cut for ceilometer
+    if [ "$ZUUL_BRANCH" != "stable/pike" ] || [ "$ZUUL_PROJECT" != "openstack/ceilometer" ]; then
+        git checkout $ZUUL_BRANCH
+    fi
     git pull
 done
 
@@ -227,7 +230,7 @@ sudo ppc64_cpu --smt=on
 nova-manage cell_v2 discover_hosts
 
 source /opt/stack/devstack/openrc admin admin
-if [ "$ZUUL_BRANCH" == "master" ]; then
+if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
     # Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False. For now we will delete the
     # network after stacking.
