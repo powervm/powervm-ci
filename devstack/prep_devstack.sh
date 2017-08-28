@@ -77,6 +77,10 @@ while getopts ":p:d:fh" opt; do
     esac
 done
 
+# Print the neo hostname
+neo_host=$(sudo /usr/sbin/rsct/bin/getRTAS | sed -n 's/.*HscHostName=\(neo[^;]*\);.*/\1/p')
+echo "Running on neo host: $neo_host"
+
 # Help out the guy running this manually
 if $FORCE; then
     ZUUL_BRANCH=${ZUUL_BRANCH:-master}
