@@ -95,7 +95,7 @@ fi
 
 # Prepend this VM's ID to the instance name template to
 # facilitate cleanup
-vm_id=`/opt/nodepool-scripts/my_vm_id.sh`
+vm_id=`/opt/stack/powervm-ci/scripts/my_vm_id.sh`
 sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_name).11s-%(uuid).8s/" \
     /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf > /opt/stack/devstack/local.conf
 
