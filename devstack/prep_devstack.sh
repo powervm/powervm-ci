@@ -223,13 +223,6 @@ TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
 
-# Normally the hosts get discovered when stack runs discover_hosts. However the
-# discovery sometimes fails to find any hosts at that point. Running discover_hosts
-# a second time here should find any hosts that weren't discovered initially. This
-# is due to a race condition that should be fixed by https://review.openstack.org/#/c/488381/
-# TODO: Remove once 488381 merges
-nova-manage cell_v2 discover_hosts
-
 source /opt/stack/devstack/openrc admin admin
 if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
