@@ -217,6 +217,14 @@ TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
 
+# Normally the hosts get discovered when stack runs discover_hosts. However the
+# discovery sometimes fails to find any hosts at that point. Running discover_hosts
+# a second time here should find any hosts that weren't discovered initially. We thought that the
+# issue would be alleviated by https://review.openstack.org/#/c/488381/ however that was not the
+# case.
+# TODO: Determine why the compute host isn't being discovered when stacking.
+nova-manage cell_v2 discover_hosts
+
 source /opt/stack/devstack/openrc admin admin
 if [ "$ZUUL_BRANCH" == "master" ]; then
     # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
