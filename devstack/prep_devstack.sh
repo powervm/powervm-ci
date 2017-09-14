@@ -125,6 +125,7 @@ if ! $FORCE || [[ $ZUUL_PROJECT && $BASE_LOG_PATH ]]; then
     cd /opt/stack/${ZUUL_PROJECT##*/}
     git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
     git checkout FETCH_HEAD
+    git merge origin/$ZUUL_BRANCH
 fi
 
 # Openstack project patching
