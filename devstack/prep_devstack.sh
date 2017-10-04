@@ -139,7 +139,7 @@ while read line; do
     cd /opt/stack/$project
 
     # Apply the list of changes to the project
-    for change in $change_list; do
+    for change in $(echo $change_list | sed "s/,/ /g"); do
         patch=`get_latest_patch "$repo_url" "$change"`
         refspec=${patch#*|}
         commit=${patch%|*}
