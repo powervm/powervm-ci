@@ -34,7 +34,7 @@ find -L $stack_log_path -type l -delete
 
 # Branches after ocata use journald for logging. These need to be output to files
 # to be copied to the logserver.
-if [ "$zuul_branch" != "stable/newton" ] && [ "$zuul_branch" != "stable/ocata" ]; then
+if [ "$zuul_branch" != "stable/ocata" ]; then
     sudo systemctl stop devstack@*
     for u in `sudo systemctl --no-legend --no-pager list-unit-files 'devstack@*' | awk -F. '{print $1}'`; do
         sudo journalctl -a -o short-precise --unit $u > $stack_log_path/${u#*@}.txt
