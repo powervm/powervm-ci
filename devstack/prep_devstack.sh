@@ -77,6 +77,9 @@ while getopts ":p:d:fh" opt; do
     esac
 done
 
+# Source ini-config for iniset and localconf_set use
+source /opt/stack/devstack/inc/ini-config
+
 # Print the neo hostname
 neo_host=$(sudo /usr/sbin/rsct/bin/getRTAS | sed -n 's/.*HscHostName=\(neo[^;]*\);.*/\1/p')
 echo "Running on neo host: $neo_host"
@@ -93,11 +96,15 @@ else
     done
 fi
 
-# Prepend this VM's ID to the instance name template to
-# facilitate cleanup
+# Copy the correct version of local.conf into devstack
+cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf \
+   /opt/stack/devstack/local.conf
+
+# Set the nova instance_name_template to facilitate cleanup
 vm_id=`/opt/stack/powervm-ci/scripts/my_vm_id.sh`
-sed "s/^instance_name_template =.*/instance_name_template = pvm$vm_id-%(display_name).11s-%(uuid).8s/" \
-    /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf > /opt/stack/devstack/local.conf
+template="pvm$vm_id-%(display_name).11s-%(uuid).8s"
+localconf_set "/opt/stack/devstack/local.conf" "post-config" "\$NOVA_CONF" \
+              "DEFAULT" "instance_name_template" "$template"
 
 # Logs setup
 mkdir -p /opt/stack/logs
@@ -191,9 +198,6 @@ if [ ! -z "$pypowervm_patch_list" ]; then
         fi
     done
 fi
-
-# Source ini-config for iniset use.
-source /opt/stack/devstack/inc/ini-config
 
 # Set /etc/environment as the environment file location for openstack services.
 # /etc/environment holds a variable, PYPOWERVM_SESSION_CONFIG, that contains the path
