@@ -163,3 +163,11 @@ d7f8c1c8-d470-4731-8604-315d3956caae # ceilometer.tests.tempest.api.test_telemet
 
 # Instance diagnostics not supported
 31ff3486-b8a0-4f56-a6c0-aab460531db3 # tempest.api.compute.admin.test_server_diagnostics.ServerDiagnosticsTest.test_get_server_diagnostics
+
+# Tag tests for unsupported resources
+01f00afc-dbec-432a-bfee-2a1f0510e7a8 # neutron.tests.tempest.api.admin.test_tag.TagFilterFloatingIpTestJSON.test_filter_floatingip_tags
+c2f9a6ae-2529-4cb9-a44b-b16f8ba27832 # neutron.tests.tempest.api.admin.test_tag.TagFilterQosPolicyTestJSON.test_filter_qos_policy_tags
+53f6c2bf-e272-4e9e-b9a9-b165eb7be807 # neutron.tests.tempest.api.admin.test_tag.TagFloatingIpTestJSON.test_floatingip_tags
+e9bac15e-c8bc-4317-8295-4bf1d8d522b8 # neutron.tests.tempest.api.admin.test_tag.TagQosPolicyTestJSON.test_qos_policy_tags
+3fb3ca3a-8e3a-4565-ba73-16413d445e25 # neutron.tests.tempest.api.admin.test_tag.TagFilterTrunkTestJSON.test_filter_trunk_tags
+4c63708b-c4c3-407c-8101-7a9593882f5f # neutron.tests.tempest.api.admin.test_tag.TagTrunkTestJSON.test_trunk_tags
