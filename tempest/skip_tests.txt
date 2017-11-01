@@ -171,3 +171,8 @@ c2f9a6ae-2529-4cb9-a44b-b16f8ba27832 # neutron.tests.tempest.api.admin.test_tag.
 e9bac15e-c8bc-4317-8295-4bf1d8d522b8 # neutron.tests.tempest.api.admin.test_tag.TagQosPolicyTestJSON.test_qos_policy_tags
 3fb3ca3a-8e3a-4565-ba73-16413d445e25 # neutron.tests.tempest.api.admin.test_tag.TagFilterTrunkTestJSON.test_filter_trunk_tags
 4c63708b-c4c3-407c-8101-7a9593882f5f # neutron.tests.tempest.api.admin.test_tag.TagTrunkTestJSON.test_trunk_tags
+
+# Tests using deprecated cells v1 (see https://bugs.launchpad.net/nova/+bug/1709985)
+682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
+9c9fae77-4feb-402f-8450-bf1c8b609713 # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_auto_disk_config
+bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_manual_disk_config

@@ -191,7 +191,6 @@ fdcd9b33-0903-4e00-a1f7-b5f6543068d6 # tempest.api.compute.admin.test_servers.Se
 d56e9540-73ed-45e0-9b88-98fc419087eb # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_detailed_filter_by_invalid_status
 06f960bb-15bb-48dc-873d-f96e89be7870 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_filter_by_error_status
 86c7a8f7-50cf-43a9-9bac-5b985317134f # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_list_servers_filter_by_exist_host
-682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
 9e6e0c87-3352-42f7-9faf-5d6210dbd159 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_building_state
 7a1323b4-a6a2-497a-96cb-76c07b945c71 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_reset_network_inject_network_info
 ee8ae470-db70-474d-b752-690b7892cab1 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_reset_state_server
@@ -230,8 +229,6 @@ b340030d-82cd-4066-a314-c72fb7c59277 # tempest.api.compute.images.test_images_ne
 36a1629f-c6da-4a26-b8b8-55e7e5d5cd58 # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_delete_the_default_security_group
 673eaec1-9b3e-48ed-bdf1-2786c1b9661c # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_security_group_get_nonexistent_group
 27edee9c-873d-4da6-a68a-3c256efebe8f # tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON.test_update_non_existent_security_group
-9c9fae77-4feb-402f-8450-bf1c8b609713 # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_auto_disk_config
-bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_manual_disk_config
 490d0898-e12a-463f-aef0-c50156b9f789 # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_get_image
 fd51b7f4-d4a3-4331-9885-866658112a6f # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_list_images
 9f94cb6b-7f10-48c5-b911-a0b84d7d4cd6 # tempest.api.compute.images.test_list_images.ListImagesTestJSON.test_list_images_with_detail
