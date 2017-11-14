@@ -888,7 +888,6 @@ dc6f5959-b74d-4e30-a9e5-a8255494ff00 # tempest.api.identity.admin.v3.test_roles.
 a4858f6c-401e-4155-9a49-d5cd053d1a2f # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_cold_migration
 25b188d7-0183-4b1e-a11d-15840c8e2fd6 # tempest.scenario.test_network_advanced_server_ops.TestNetworkAdvancedServerOps.test_server_connectivity_cold_migration_revert
 13ccf253-e5ad-424b-9c4a-97b88a026699 # tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps.test_boot_into_disabled_port_security_network_without_secgroup
-e6c28180-7454-4b59-b188-0257af08a63b # tempest.scenario.test_server_advanced_ops.TestServerAdvancedOps.test_resize_volume_backed_server_confirm
 3e39c4a6-9caf-4710-88f1-d20073c6dd76 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_bulk_shared_network
 9c31fabb-0181-464f-9ace-95144fe9ca77 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_port_shared_network_as_non_admin_tenant
 6661d219-b96d-4597-ad10-55766ce4abf7 # neutron.tests.tempest.api.admin.test_shared_network_extension.SharedNetworksTest.test_create_update_shared_network
