@@ -37,7 +37,7 @@ find -L $stack_log_path -type l -delete
 if [ "$zuul_branch" != "stable/ocata" ]; then
     sudo systemctl stop devstack@*
     for u in `sudo systemctl --no-legend --no-pager list-unit-files 'devstack@*' | awk -F. '{print $1}'`; do
-        sudo journalctl -a -o short-precise --unit $u > $stack_log_path/${u#*@}.txt
+        sudo journalctl -o short-precise --unit $u > $stack_log_path/${u#*@}.txt
     done
 fi
 
