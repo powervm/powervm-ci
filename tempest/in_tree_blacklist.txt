@@ -53,34 +53,6 @@ ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_s
 # Disabled Tests
 # ----------------------------
 
-# Networking not implemented
-6eb718c0-02d9-4d5e-acd1-4e0c269cef39 # tempest.api.compute.servers.test_server_addresses.ServerAddressesTestJSON.test_list_server_addresses
-87bbc374-5538-4f64-b673-2b0e4443cc30 # tempest.api.compute.servers.test_server_addresses.ServerAddressesTestJSON.test_list_server_addresses_by_network
-02c3f645-2d2e-4417-8525-68c0407d001b # tempest.api.compute.servers.test_server_addresses_negative.ServerAddressesNegativeTestJSON.test_list_server_addresses_invalid_server_id
-a2ab5144-78c0-4942-a0ed-cc8edccfd9ba # tempest.api.compute.servers.test_server_addresses_negative.ServerAddressesNegativeTestJSON.test_list_server_addresses_by_network_neg
-96c4e2ef-5e4d-4d7f-87f5-fed6dca18016 # tempest.api.compute.servers.test_virtual_interfaces.VirtualInterfacesTestJSON.test_list_virtual_interfaces
-
-# Port binding failures (networking not implemented)
-# These aren't testing networking, but the tests fail to bind ports
-# in the test setup step.
-05e8a8e7-9659-459a-989d-92c2f501f4ba # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_image
-573637f5-7325-47bb-9144-3476d0416908 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_flavor
-9b067a7b-7fee-4f6a-b29c-be43fe18fc5a # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_server_name
-ca78e20e-fddb-4ce6-b7f7-bcbf8605e66e # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_active_status
-451dbbb2-f330-4a9f-b0e1-5f5d2cb0f34c # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_shutoff_status
-614cdfc1-d557-4bac-915b-3e67b48eee76 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_limit
-b1495414-2d93-414c-8019-849afe8d319e # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_zero_limit
-37791bbd-90c0-4de0-831e-5f38cba9c6b3 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filter_by_exceed_limit
-b3304c3b-97df-46d2-8cd3-e2b6659724e7 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_image
-80c574cc-0925-44ba-8602-299028357dd9 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_flavor
-f9eb2b70-735f-416c-b260-9914ac6181e4 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_server_name
-de2612ab-b7dd-4044-b0b1-d2539601911f # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_filter_by_server_status
-e9f624ee-92af-4562-8bec-437945a18dcb # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_name_wildcard
-24a89b0c-0d55-4a28-847f-45075f19b27b # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_name_regex
-43a1242e-7b31-48d1-88f2-3f72aa9f2077 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_ip
-a905e287-c35e-42f2-b132-d02b09f3654a # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_ip_regex
-67aec2d0-35fe-4503-9f92-f13272b867ed # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_limit_results
-
 # Security groups not supported
 79517d60-535a-438f-af3d-e6feab1cbea7 # tempest.api.compute.security_groups.test_security_groups.SecurityGroupsTestJSON.test_list_security_groups_by_server
 fe4abc0d-83f5-4c50-ad11-57a1127297a2 # tempest.api.compute.security_groups.test_security_groups.SecurityGroupsTestJSON.test_server_security_groups
