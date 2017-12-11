@@ -245,7 +245,7 @@ if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
 fi
 
 # Create public and private networks for the tempest runs
-if [ "$driver" != "intree" ]; then
+if [ "$driver" == "outoftree" ] || ["$ZUUL_BRANCH" == "master"]; then
     openstack network create public --share --provider-network-type vlan --provider-physical-network default
     openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
     openstack network create private --share --provider-network-type vlan --provider-physical-network default
