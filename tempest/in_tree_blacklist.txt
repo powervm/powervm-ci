@@ -1,0 +1,187 @@
+# Copyright 2016,2017 IBM Corp.
+#
+# All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# Tempest tests to be skipped by NovaLink CI
+
+# ----------------------------
+# Tests Needing Investigation
+# ----------------------------
+
+# Failing after switch to devstack generated tempest.conf. Likely a microversion issue
+# Two versions of one test share the same id.
+64d0d48c-dff1-11e6-bf01-fe55135034f3 # tempest.api.compute.admin.test_server_diagnostics.ServerDiagnosticsV248Test.test_get_server_diagnostic
+e84e2234-60d2-42fa-8b30-e2d3049724ac # tempest.api.compute.admin.test_server_diagnostics_negative.ServerDiagnosticsNegativeV248Test.test_get_server_diagnostics_by_non_admin
+#                                     # tempest.api.compute.admin.test_servers_negative.ServersAdminNegativeTestJSON.test_get_server_diagnostics_by_non_admin
+88b0bdb2-494c-11e7-a919-92ebcb67fe33 # tempest.api.compute.servers.test_servers.ServerShowV247Test.test_show_server
+
+# Default subnetpools tests failing due to https://bugs.launchpad.net/neutron/+bug/1704881
+# TODO: Remove once fix is released
+39687561-7a37-47b8-91ce-f9143ae26969 # test_convert_default_subnetpool_to_non_default
+9e79730c-29b6-44a4-9504-bf3c7cedc56c # test_convert_subnetpool_to_default_subnetpool
+cb839106-6184-4332-b292-5d07c074de4f # test_admin_create_default_subnetpool
+
+# This test isn't checking for security_compliance = False. Can be removed
+# when the tempest bug is fixed.
+ad71bd23-12ad-426b-bb8b-195d2b635f27 # tempest.api.identity.v3.test_users.IdentityV3UsersTest.test_user_update_own_password
+
+# Multiple networks found when trying to create the test server
+61e03386-89c3-449c-9bb1-a06f423fd9d1 # tempest.api.compute.servers.test_multiple_create.MultipleCreateTestJSON.test_multiple_create
+
+# This test fails the tear down task with an error because the security group to be deleted is still in use
+# It could be a concurrency problem. This issue will be investigated on the staging CI environment.
+925fdfb4-5b13-47ea-ac8a-c36ae6fddb05 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_active_server
+d0f3f0d6-d9b6-4a32-8da4-23015dcab23c # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_attached_volume
+9e6e0c87-3352-42f7-9faf-5d6210dbd159 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_building_state
+bb0cb402-09dd-4947-b6e5-5e7e1cfa61ad # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_shelved_state
+546d368c-bb6c-4645-979a-83ed16f3a6be # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_shutoff_state
+ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_verify_resize_state
+
+# ----------------------------
+# Disabled Tests
+# ----------------------------
+
+# Hypervisor uptime not implemented
+91a50d7d-1c2b-4f24-b55a-a1fe20efca70 # tempest.api.compute.admin.test_hypervisor.HypervisorAdminTestJSON.test_get_hypervisor_uptime
+
+# Floating IPs not supported.
+# TODO: Propose patches to check if floating ips are enabled for these tests.
+11116ee9-4e99-5b15-b8e1-aa7df92ca589 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_associate_floating_ip_with_port_from_another_tenant
+332a8ae4-402e-4b98-bb6f-532e5a87b8e0 # neutron.tests.tempest.api.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON.test_create_floatingip_with_specified_ip_address
+d402ae6c-0be0-4d8e-833b-a738895d98d0 # tempest.api.network.admin.test_external_networks_negative.ExternalNetworksAdminNegativeTestJSON.test_create_port_with_precreated_floatingip_as_fixed_ip
+
+# No RMC connection (need active VMs)
+2f3a0127-95c7-4977-92d2-bc5aec602fb4 # tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_reassign_port_between_servers
+73fe8f02-590d-4bf1-b184-e9ca81065051 # tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON.test_create_list_show_delete_interfaces
+
+# DHCP is disabled
+f164801e-1dd8-4b8b-b5d3-cc3ac77cfaa5 # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_dhcp_port_status_active
+a0856713-6549-470c-a656-e97c8df9a14d # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_add_remove_network_from_dhcp_agent
+5032b1fe-eb42-4a64-8f3b-6e189d8b5c7d # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_dhcp_agent_hosting_network
+30c48f98-e45d-4ffb-841c-b8aad57c7587 # neutron.tests.tempest.api.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON.test_list_networks_hosted_by_one_dhcp
+
+# Neutron L3 Agent Disabled
+8ae55186-464f-4b87-1c9f-eb2765ee81ac # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_create_floatingip_with_timestamp
+433ba770-b310-4da9-5d42-733217a1c7b1 # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_create_router_with_timestamp
+32a6a086-e1ef-413b-b13a-0cfe13ef051e # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_show_floatingip_attribute_with_timestamp
+1ab50ac2-7cbd-4a17-b23e-a9e36cfa4ec2 # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_show_router_attribute_with_timestamp
+a3ac215a-61ac-13f9-9d3c-57c51f11afa1 # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_update_floatingip_with_timestamp
+4a65417a-c11c-4b4d-a351-af01abcf57c6 # neutron.tests.tempest.api.test_timestamp.TestTimeStampWithL3.test_update_router_with_timestamp
+
+# These are not testing the routers, but they attempt to create a router as part of the test case.
+# Routers are not supported or enabled in our tempest configuration.
+# All of these test cases likely have bugs and need to check that routers are supported.
+# TODO: Debug and remove remaining tests in this section
+5ad01ed0-0e6e-4c5d-8194-232801b15c72 # tempest.api.network.test_ports.PortsTestJSON.test_port_list_filter_by_router_id
+d54decee-4203-4ced-91a2-ea42ca63e154 # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_delete_policies_while_tenant_attached_to_net
+a5539002-5bdb-48b5-b124-abcd12347865 # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_external_update_policy_from_wildcard_to_specific_tenant
+01364c50-bfb6-46c4-b44c-edc4564d61cf # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_policy_allows_tenant_to_allocate_floatingip
+476be1e0-f72e-47dc-9a14-4435926bbe82 # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_policy_allows_tenant_to_attach_ext_gw
+afd8f1b7-a81e-4629-bca8-a367b3a144bb # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_regular_client_shares_with_another
+7041cec7-d8fe-4c78-9b04-b51b2fd49dc9 # neutron.tests.tempest.api.admin.test_external_network_extension.ExternalNetworksRBACTestJSON.test_wildcard_policy_delete_blocked_on_default_ext
+b3c7bcfc-bb5b-4e22-b517-c7f686b802ca # tempest.api.compute.servers.test_create_server.ServersWithSpecificFlavorTestJSON.test_verify_created_server_ephemeral_disk
+ed20d3fb-9d1f-4329-b160-543fbd5d9811 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_create_server_with_scheduler_hint_group
+ac1ad47f-984b-4441-9274-c9079b7a0666 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_host_name_is_same_as_server_name
+9a438d88-10c6-4bcd-8b5b-5b6e25e1346f # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_list_servers
+585e934c-448e-43c4-acbf-d06a9b899997 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_list_servers_with_detail
+cbc0f52f-05aa-492b-bdc1-84b575ca294b # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_verify_created_server_vcpus
+1678d144-ed74-43f8-8e57-ab10dbf9b3c2 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_verify_duplicate_network_nics
+0578d144-ed74-43f8-8e57-ab10dbf9b3c2 # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_verify_multiple_nics_order
+5de47127-9977-400a-936f-abcfbec1218f # tempest.api.compute.servers.test_create_server.ServersTestManualDisk.test_verify_server_details
+ed20d3fb-9d1f-4329-b160-543fbd5d9811 # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_create_server_with_scheduler_hint_group
+ac1ad47f-984b-4441-9274-c9079b7a0666 # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_host_name_is_same_as_server_name
+9a438d88-10c6-4bcd-8b5b-5b6e25e1346f # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_list_servers
+585e934c-448e-43c4-acbf-d06a9b899997 # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_list_servers_with_detail
+cbc0f52f-05aa-492b-bdc1-84b575ca294b # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_verify_created_server_vcpus
+1678d144-ed74-43f8-8e57-ab10dbf9b3c2 # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_verify_duplicate_network_nics
+0578d144-ed74-43f8-8e57-ab10dbf9b3c2 # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_verify_multiple_nics_order
+5de47127-9977-400a-936f-abcfbec1218f # tempest.api.compute.servers.test_create_server.ServersTestJSON.test_verify_server_details
+6158df09-4b82-4ab3-af6d-29cf36af858d # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_change_server_password
+b963d4f1-94b3-4c40-9e97-7b583f46e470 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_create_backup
+c6bc11bf-592e-4015-9319-1c98dc64daf5 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_vnc_console
+80a8094c-211e-440a-ab88-9e59d556c7ee # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_lock_unlock_server
+2cb1baf6-ac8d-4429-bf0d-ba8a0ba53e32 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_reboot_server_hard
+4640e3ef-a5df-482e-95a1-ceeeb0faa84d # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_reboot_server_soft
+aaa6cdf3-55a7-461a-add9-1c8596b9a07c # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_rebuild_server
+30449a88-5aff-4f9b-9866-6ee9b17f906d # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_rebuild_server_in_stop_state
+b68bd8d6-855d-4212-b59b-2e704044dace # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_rebuild_server_with_volume_attached
+1499262a-9328-4eda-9068-db1ac57498d2 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_resize_server_confirm
+138b131d-66df-48c9-a171-64f45eb92962 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_resize_server_confirm_from_stopped
+c03aab19-adb1-44f5-917d-c419577e9e68 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_resize_server_revert
+77eba8e0-036e-4635-944b-f7a8f3b78dc9 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_shelve_unshelve_server
+af8eafd4-38a7-4a4b-bdbc-75145a580560 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_stop_start_server
+bd61a9fd-062f-4670-972b-2d6c3e3b9e73 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_pause_unpause_server
+0d8ee21e-b749-462d-83da-b85b41c86c7f # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_suspend_resume_server
+4b8867e6-fffa-4d54-b1d1-6fdda57be2f3 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output
+5b65d4e7-4ecd-437c-83c0-d6b79d927568 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_server_id_in_shutoff_status
+89104062-69d8-4b19-a71b-f47b7af093d7 # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_get_console_output_with_unlimited_size
+1d1c9104-1b0a-11e7-a3d4-fa163e65f5ce # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_remove_server_all_security_groups
+e6c28180-7454-4b59-b188-0257af08a63b # tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON.test_resize_volume_backed_server_confirm
+fd032140-714c-42e4-a8fd-adcd8df06be6 # tempest.api.compute.servers.test_server_rescue.ServerRescueTestJSON.test_rescue_unrescue_instance
+affca41f-7195-492d-8065-e09eee245404 # tempest.api.compute.servers.test_server_rescue.ServerRescueTestJSON.test_rescued_vm_add_remove_security_group
+4842e0cf-e87d-4d9d-b61f-f4791da3cacc # tempest.api.compute.servers.test_server_rescue.ServerRescueTestJSON.test_rescued_vm_associate_dissociate_floating_ip
+6dfc0a55-3a77-4564-a144-1587b7971dde # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescue_non_existent_server
+d0ccac79-0091-4cf4-a1ce-26162d0cc55f # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_attach_volume
+f56e465b-fe10-48bf-b75d-646cda3a8bc9 # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_detach_volume
+db22b618-f157-4566-a317-1b6d467a8094 # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_reboot
+70cdb8a1-89f8-437d-9448-8844fd82bf46 # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_rebuild
+cc3a883f-43c0-4fb6-a9bb-5579d64984ed # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescue_paused_instance
+cb2b4c4f-0c7c-4164-bdde-6285b302a081 # tempest.scenario.test_aggregates_basic_ops.TestAggregatesBasicOps.test_aggregate_basic_ops
+cbc752ed-b716-4717-910f-956cce965722 # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_cryptsetup
+79165fb4-5534-4b9d-8429-97ccffb8f86e # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_luks
+bdbb5441-9204-419d-a225-b4fdbfb1a1a8 # tempest.scenario.test_minimum_basic.TestMinimumBasicScenario.test_minimum_basic_scenario
+7fff3fb3-91d8-4fd0-bd7d-0204f1f180ba # tempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops
+10fd234a-515c-41e5-b092-8323060598c5 # tempest.scenario.test_stamp_pattern.TestStampPattern.test_stamp_pattern
+36c34c67-7b54-4b59-b188-02a2f458a63b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_create_ebs_image_and_check_boot
+557cd2c2-4eb8-4dce-98be-f86765ff311b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_volume_boot_pattern
+36c34c67-7b54-4b59-b188-02a2f458a63b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_create_ebs_image_and_check_boot
+557cd2c2-4eb8-4dce-98be-f86765ff311b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_volume_boot_pattern
+b898ff92-dc33-4232-8ab9-2c6158c80d28 # neutron.tests.tempest.api.test_tag.TagRouterTestJSON.test_router_tags
+cdd3f3ea-073d-4435-a6cb-826a4064193d # neutron.tests.tempest.api.test_tag.TagFilterRouterTestJSON.test_filter_router_tags
+05795fb2-b2a7-4c9f-8fac-ff25aedb1489 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_create_server_from_volume_snapshot
+cb78919a-e553-4bab-b73b-10cf4d2eb125 # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_boot_server_from_encrypted_volume_luks
+608e604b-1d63-4a82-8e3e-91bc665c90b4 # tempest.scenario.test_snapshot_pattern.TestSnapshotPattern.test_snapshot_pattern
+c6231efa-9a89-4adf-b050-2a3156b8a1d9 # tempest.api.network.test_tags.TagsExtTest.test_create_check_list_and_delete_tags
+663a90f5-f334-4b44-afe0-c5fc1d408791 # tempest.api.network.test_tags.TagsExtTest.test_update_and_delete_all_tags
+61ab176e-d48b-42b7-b38a-1ba571ecc033 # neutron.tests.tempest.scenario.test_portsecurity.PortSecurityTest.test_port_security_removed_added
+de07fe0a-e955-449e-b48b-8641c14cd52e # neutron.tests.tempest.scenario.test_basic.NetworkBasicTest.test_basic_instance
+1c918e06-210b-41eb-bd45-14676dd77cd7 # ceilometer.tests.tempest.aodh.api.test_alarming_api.TelemetryAlarmingAPITest.test_alarm_list
+1297b095-39c1-4e74-8a1f-4ae998cedd68 # ceilometer.tests.tempest.aodh.api.test_alarming_api.TelemetryAlarmingAPITest.test_create_update_get_delete_alarm
+aca49486-70bb-4016-87e0-f6131374f742 # ceilometer.tests.tempest.aodh.api.test_alarming_api.TelemetryAlarmingAPITest.test_set_get_alarm_state
+668743d5-08ad-4480-b2b8-15da34f81e7e # ceilometer.tests.tempest.aodh.api.test_alarming_api_negative.TelemetryAlarmingNegativeTest.test_get_non_existent_alarm
+ef45000d-0a72-4781-866d-4cb7bf2582ae # ceilometer.tests.tempest.aodh.api.test_alarming_api_negative.TelemetryAlarmingNegativeTest.test_get_update_show_history_delete_deleted_alarm
+
+# Failing because we are using shared networks
+af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
+c240457d-d943-439b-8aea-85e26d64fe8f # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications
+d7f8c1c8-d470-4731-8604-315d3956caae # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_nova_notification
+29604198-8b45-4fc0-8af8-1cae4f94ebea # ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAdminAPITest.test_check_nova_notification_event_and_meter
+
+# Instance diagnostics not supported
+31ff3486-b8a0-4f56-a6c0-aab460531db3 # tempest.api.compute.admin.test_server_diagnostics.ServerDiagnosticsTest.test_get_server_diagnostics
+
+# Tag tests for unsupported resources
+01f00afc-dbec-432a-bfee-2a1f0510e7a8 # neutron.tests.tempest.api.admin.test_tag.TagFilterFloatingIpTestJSON.test_filter_floatingip_tags
+c2f9a6ae-2529-4cb9-a44b-b16f8ba27832 # neutron.tests.tempest.api.admin.test_tag.TagFilterQosPolicyTestJSON.test_filter_qos_policy_tags
+53f6c2bf-e272-4e9e-b9a9-b165eb7be807 # neutron.tests.tempest.api.admin.test_tag.TagFloatingIpTestJSON.test_floatingip_tags
+e9bac15e-c8bc-4317-8295-4bf1d8d522b8 # neutron.tests.tempest.api.admin.test_tag.TagQosPolicyTestJSON.test_qos_policy_tags
+3fb3ca3a-8e3a-4565-ba73-16413d445e25 # neutron.tests.tempest.api.admin.test_tag.TagFilterTrunkTestJSON.test_filter_trunk_tags
+4c63708b-c4c3-407c-8101-7a9593882f5f # neutron.tests.tempest.api.admin.test_tag.TagTrunkTestJSON.test_trunk_tags
+
+# Tests using deprecated cells v1 (see https://bugs.launchpad.net/nova/+bug/1709985)
+682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
+9c9fae77-4feb-402f-8450-bf1c8b609713 # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_auto_disk_config
+bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_manual_disk_config
