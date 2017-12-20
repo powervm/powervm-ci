@@ -252,4 +252,9 @@ if [ "$driver" != "intree" ]; then
     openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
 fi
 
+# Include additional skipped tests for in-tree pike
+if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
+    cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
+fi
+
 exit 0
