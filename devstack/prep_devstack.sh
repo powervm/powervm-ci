@@ -130,9 +130,7 @@ git pull
 if ! $FORCE || [[ $ZUUL_PROJECT && $BASE_LOG_PATH ]]; then
     # Apply upstream change
     cd /opt/stack/${ZUUL_PROJECT##*/}
-    git fetch https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
-    git checkout FETCH_HEAD
-    git merge origin/$ZUUL_BRANCH
+    git pull https://review.openstack.org/$ZUUL_PROJECT refs/changes/$BASE_LOG_PATH
 fi
 
 # Openstack project patching
@@ -151,7 +149,7 @@ while read line; do
         refspec=${patch#*|}
         commit=${patch%|*}
         # Only apply the patch if it's not in the chain of the change set we're testing.
-        if git log --pretty=format:%H {{ nova_chain_base_commit }}..HEAD | grep -q $commit; then
+        if git log --all --pretty=format:%H origin/$ZUUL_BRANCH..HEAD | grep -q $commit; then
             echo "Skipping $project commit $commit of change $i because it's already in the commit chain"
             echo "or is not a $project change."
         else
