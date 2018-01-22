@@ -84,7 +84,9 @@ source /opt/stack/devstack/inc/ini-config
 neo_host=$(sudo /usr/sbin/rsct/bin/getRTAS | sed -n 's/.*HscHostName=\(neo[^;]*\);.*/\1/p')
 echo "Running on neo host: $neo_host"
 
-# Help out the guy running this manually
+# Help out the guy running this manually. If the -f flag was passed, master
+# branch will be used for all openstack repos and no change will be checked
+# out.
 if $FORCE; then
     ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 else
