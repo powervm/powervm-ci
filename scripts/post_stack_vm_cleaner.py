@@ -46,7 +46,8 @@ def find_all_target_vms(adpt, host_uuid):
     lpar_wraps = pvm_lpar.LPAR.get(adpt)
     actual_lpar_wraps = []
     for lpar_w in lpar_wraps:
-        if not lpar_w.name.startswith('pvm%s-tempest' % lpar_id):
+        if (not lpar_w.name.startswith('pvm%s-' % lpar_id) or
+                'ssp_primer' in lpar_w.name):
             continue
 
         if lpar_w.state in [pvm_bp.LPARState.RUNNING,

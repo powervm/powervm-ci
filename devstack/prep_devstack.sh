@@ -104,7 +104,7 @@ cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf \
 
 # Set the nova instance_name_template to facilitate cleanup
 vm_id=`/opt/stack/powervm-ci/scripts/my_vm_id.sh`
-template="pvm$vm_id-%(display_name).11s-%(uuid).8s"
+template="pvm$vm_id-%(uuid)s-%(display_name)s"
 localconf_set "/opt/stack/devstack/local.conf" "post-config" "\$NOVA_CONF" \
               "DEFAULT" "instance_name_template" "$template"
 
