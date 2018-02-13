@@ -120,6 +120,7 @@ sudo systemctl restart systemd-journald.service
 # This list is built from prepare_node_powervm.sh
 for proj in ceilometer ceilometer-powervm cinder devstack glance horizon keystone networking-powervm neutron nova nova-powervm requirements; do
     cd /opt/stack/$proj
+    git fetch
     git checkout $ZUUL_BRANCH
     git pull
 done
