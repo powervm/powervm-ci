@@ -238,7 +238,7 @@ sudo ppc64_cpu --smt=on
 nova-manage cell_v2 discover_hosts
 
 source /opt/stack/devstack/openrc admin admin
-if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
+if [ "$ZUUL_BRANCH" != "stable/ocata" ]; then
     # TODO: Remove once fix for https://bugs.launchpad.net/devstack/+bug/1699870 is released.
     # Devstack isn't respecting NEUTRON_CREATE_INITIAL_NETWORKS=False. For now we will delete the
     # network after stacking.
@@ -246,7 +246,10 @@ if [ "$ZUUL_BRANCH" == "master" ] || [ "$ZUUL_BRANCH" == "stable/pike" ]; then
 fi
 
 # Create public and private networks for the tempest runs
-if [ "$driver" == "outoftree" ] || [ "$ZUUL_BRANCH" == "master" ]; then
+# TODO: Ideally we should have devstack creating our networks for us
+# based on our local.conf files. This can be removed if we get working
+# devstack created networks.
+if [ "$driver" == "outoftree" ] || [ "$ZUUL_BRANCH" == "master" ] || [[ "$ZUUL_BRANCH" > stable/pike ]]; then
     openstack network create public --share --provider-network-type vlan --provider-physical-network default
     openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
     openstack network create private --share --provider-network-type vlan --provider-physical-network default
