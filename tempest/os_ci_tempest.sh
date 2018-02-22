@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2016, IBM Corp.
+# Copyright 2016, 2018 IBM Corp.
 #
 # All Rights Reserved
 #
@@ -30,13 +30,8 @@ CONF_DEFAULT=$conf_dir/os_ci_tempest.conf
 CMD=${0##*/}
 function usage {
   cat <<EOU
-Usage: $CMD [-D] [-v] [-p] [-c config] [-b base_test_regex] [-o outfile.html]
+Usage: $CMD [-D] [-v] [-p] [-c config] [-o outfile.html]
 
-  -b base_test_regex  Regex to match names of tests to be run.  The list
-                      thus generated will be adjusted based on the
-                      \$WHITE_LIST and \$BLACK_LIST in the config.
-                      Default: '.*' (run all tests).  Conf option:
-                      \$BASE_TEST_REGEX
   -c config           Path to config file for this script (not for
                       tempest).
                       Default: $CONF_DEFAULT
@@ -498,84 +493,6 @@ function prep_for_tempest {
     return 0
 }
 
-function populate_test_id_hash {
-    ### populate_test_id_hash hash_var_prefix list_file
-    #
-    # Parses 'list_file' (whose format should conform to the
-    # TEST LIST FILE FORMAT described in the os_ci_tempest.conf
-    # template), creating keys for each listed test ID in the
-    # associative array variable named {$hash_var_prefix}_hash.
-    ###
-    hash_var_prefix=$1
-    list_file=$2
-    hash_var_name="${hash_var_prefix}_hash"
-
-    if [[ -f "$list_file" ]]; then
-        verb "Processing $hash_var_prefix $list_file"
-        while read line; do
-            id=`echo $line | sed 's/\s*#.*//'`
-            if [ $id ]; then
-                eval $hash_var_name[$id]=1
-            fi
-        done <$list_file
-        eval verb "Processed \${#${hash_var_name}[@]} $hash_var_prefix lines:"
-        eval verb "\${!${hash_var_name}[@]}"
-    else
-        verb "No $hash_var_prefix specified"
-    fi
-}
-
-function generate_test_list {
-    ### generate_test_list base_test_regex white_list black_list out_file
-    #
-    # Generates an input file suitable for testr's --load-list argument,
-    # listing tests to be run.  The list is primed based on
-    # 'base_test_regex', and filtered based on 'white_list' and
-    # 'black_list', whose values should correspond to their uppercase
-    # equivalents described in the os_ci_tempest.conf file.  The
-    # resulting list is output to the path denoted by 'out_file'.
-    ###
-    base_test_regex=$1
-    white_list=$2
-    black_list=$3
-    out_file=$4
-
-    # Parse the whitelist into a hash of IDs
-    declare -g -A whitelist_hash
-    populate_test_id_hash whitelist "$white_list"
-
-    # Parse the blacklist into a hash of IDs
-    declare -g -A blacklist_hash
-    populate_test_id_hash blacklist "$black_list"
-
-    # Make sure the test list is empty
-    >"$out_file"
-
-    # Need to be in tempest dir to invoke testr
-    cd $TEMPEST_DIR
-
-    echo "Generating test list..."
-    # Generate the base test list
-    testr list-tests "$base_test_regex" | while read line; do
-        # Skip the testr config line
-        [[ "$line" == "running="* ]] && continue
-        # Extract the idempotent test UUID
-        id=`echo $line | sed 's/.*id-\([[:xdigit:]-]*\).*/\1/'`
-        # Exclude if it's in the blacklist
-        if test ${blacklist_hash["$id"]}; then
-            verb "Will SKIP blacklisted test     $line"
-            continue
-        fi
-        # Exclude if whitelist provided, but this test wasn't in it.
-        if [[ -f "$white_list" ]] && ! test ${whitelist_hash["$id"]}; then
-            verb "Will SKIP non-whitelisted test $line"
-            continue
-        fi
-        echo "$line" >>$out_file
-        verb "Will RUN                       $line"
-    done
-}
-
 function generate_extensions {
     conf_file=$1
     extensions=$(openstack extension list --network -c Alias -f value | paste -s -d, -)
@@ -587,9 +504,8 @@ function generate_extensions {
 # Process command args
 
 OPTIND=1
-while getopts "b:c:Do:pv" opt; do
+while getopts "c:Do:pv" opt; do
   case "$opt" in
-    b) BASE_TEST_REGEX_ARG=$OPTARG ;;
     c) CONF=$OPTARG                ;;
     D) DEBUG=1                     ;;
     o) OUTPATH_ARG=$OPTARG         ;;
@@ -636,14 +552,6 @@ cp -f "$TEMPEST_CONF" "$TEMPEST_CONF_GEN"
 # Location of installed tempest.conf file (the one tempest will run with).
 TEMPEST_CONF_INST=${TEMPEST_DIR}/etc/tempest.conf
 
-# Baseline tempest test suite.  These tests will be adjusted by those
-# listed in $WHITE_LIST and $BLACK_LIST in the config.  Leave blank to
-# run all tests.  You can dump this list via:
-#   cd $TEMPEST_DIR
-#   testr list-tests "$BASE_TEST_REGEX"
-# Command line takes precedence; then config file; then default.
-BASE_TEST_REGEX=${BASE_TEST_REGEX_ARG:-${BASE_TEST_REGEX:-'.*'}}
-
 # Location of openrc file (to enable openstack commands)
 OPENRC=${OPENRC:-/opt/stack/devstack/openrc}
 
@@ -655,7 +563,7 @@ FLVMEM=${FLVMEM:-512}
 FLVCPU=${FLVCPU:-1}
 
 # Verify existence and executability of programs
-check_exe testr
+check_exe stestr
 check_exe subunit2html
 check_exe subunit-stats
 check_exe openstack
@@ -671,14 +579,8 @@ function cleanup {
       mv -f "${TEMPEST_CONF_INST_BAK}" "${TEMPEST_CONF_INST}"
   fi
   if [ $DEBUG ]; then
-      TEST_LIST=${TEST_LIST:-Not generated}
-      echo "Test list: $TEST_LIST"
       SUBUNIT_RESULTS=${SUBUNIT_RESULTS:-Not generated}
       echo "Subunit results: $SUBUNIT_RESULTS"
-  else
-      for f in "$TEST_LIST"; do
-          [ "$f" ] && [[ -f "$f" ]] && rm -f "$f"
-      done
   fi
 }
 [ $PREP_ONLY ] || trap cleanup EXIT
@@ -686,16 +588,8 @@ function cleanup {
 # Prep our devstack and tempest.conf.
 prep_for_tempest "$TEMPEST_CONF_GEN"
 
-# Create temp file listing tests to run
-TEST_LIST=`mktemp /tmp/test_list.XXX`
-
-generate_test_list "$BASE_TEST_REGEX" "$WHITE_LIST" "$BLACK_LIST" "$TEST_LIST"
-
-# Why cat | wc?  So wc doesn't print the file name.
-echo "Running "`cat $TEST_LIST | wc -l`" tests..."
-
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
-RUNCMD="testr run --subunit --parallel --concurrency=4 --load-list=$TEST_LIST"
+RUNCMD="stestr run --blacklist-file $BLACK_LIST --concurrency=4 --subunit"
 
 if [ $PREP_ONLY ]; then
     echo
@@ -703,7 +597,6 @@ if [ $PREP_ONLY ]; then
     echo "Prep-only option was specified; stopping here."
     echo
     echo "Generated tempest config: $TEMPEST_CONF_GEN"
-    echo "Generated test list: $TEST_LIST"
     echo
     echo "To run this suite manually, execute:"
     echo "  $MVCMD"
@@ -723,15 +616,33 @@ fi
 verb "Installing generated tempest.conf to $TEMPEST_CONF_INST"
 $MVCMD
 
-# Initialize the tempest repository
-testr init
-
 # Export tempest single test timeout
 export OS_TEST_TIMEOUT
 
+cd $TEMPEST_DIR
+stestr init
+
+# Print tests being run and keep count
+count=0
+for line in $(stestr list --blacklist-file $BLACK_LIST); do
+   verb "Will RUN $line"
+   count=$((count + 1))
+done
+
+# Print tests being skipped.
+# Passing the BLACK_LIST in as the whitelist file will print only the tests
+# found in the blacklist, but with the same formatting as the tests being run
+# above.
+for line in $(stestr list --whitelist-file $BLACK_LIST); do
+    verb "Will SKIP $line"
+done
+
+# Print total number of tests being run
+echo "Running $count tests..."
+
 # Run it!
 verb "$RUNCMD"
-$RUNCMD >$SUBUNIT_RESULTS
+$RUNCMD > $SUBUNIT_RESULTS
 
 subunit2html $SUBUNIT_RESULTS $OUTFILE_HTML
 
