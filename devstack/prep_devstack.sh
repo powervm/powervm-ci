@@ -255,4 +255,10 @@ if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
 fi
 
+# Clone and pip install neutron-tempest-plugin. No further setup is required.
+# Tempest will now automatically find these tests when invoked.
+cd /opt/stack/
+git clone https://github.com/openstack/neutron-tempest-plugin.git
+sudo pip install neutron-tempest-plugin/
+
 exit 0
