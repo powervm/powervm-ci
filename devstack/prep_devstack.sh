@@ -255,4 +255,13 @@ if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
 fi
 
+# TODO(esberglu): Remove once https://review.openstack.org/#/c/543023/ merges
+# Check to see if we are running against the in-tree snapshot patch. If so, we
+# can remove snapshot=False from the tempest compute-feature-enabled section of
+# the local.conf file. This will enable tempest snapshot testing for only the
+# above patch.
+if [[ $BASE_LOG_PATH =~ .*543023.* ]] && [[ "$driver" == "intree" ]]; then
+  sed -i '/^snapshot=False$/d' /opt/stack/powervm-ci/devstack/master/intree/local.conf
+fi
+
 exit 0
