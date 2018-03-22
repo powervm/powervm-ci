@@ -212,6 +212,15 @@ if [ "$ZUUL_BRANCH" != "stable/ocata" ]; then
     done
 fi
 
+# TODO(esberglu): Remove once https://review.openstack.org/#/c/543023/ merges
+# Check to see if we are running against the in-tree snapshot patch. If so, we
+# can remove snapshot=False from the tempest compute-feature-enabled section of
+# the local.conf file. This will enable tempest snapshot testing for only the
+# above patch.
+if [[ $BASE_LOG_PATH =~ .*543023.* ]] && [[ "$driver" == "intree" ]]; then
+  sed -i '/^snapshot=False$/d' /opt/stack/devstack/local.conf
+fi
+
 # Disable SMT while stacking
 # POWER CPUs have lots of threads.  Devstack likes to use all of the threads
 # it can.  But if we have a SMT-8 CPU with 4 cores, that could be 32 threads.
