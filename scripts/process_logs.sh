@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+CONTROL=${CONTROL:-true}
+
 zuul_branch=$1
 logserver_user=$2
 logserver_ip=$3
@@ -80,6 +82,11 @@ done
 eval `ssh-agent -s`
 ssh-add /opt/nodepool-scripts/osci_rsa
 ssh-keyscan $logserver_ip >> ~/.ssh/known_hosts
-ssh $logserver_user@$logserver_ip "mkdir -p $logserver_path/logs"
-scp $stack_log_path/*.gz $logserver_user@$logserver_ip:$logserver_path/logs/
-scp $stack_log_path/*powervm_os_ci* $logserver_user@$logserver_ip:$logserver_path
+if $CONTROL; then
+    ssh $logserver_user@$logserver_ip "mkdir -p $logserver_path/control"
+    scp $stack_log_path/*.gz $logserver_user@$logserver_ip:$logserver_path/control
+    scp $stack_log_path/*powervm_os_ci* $logserver_user@$logserver_ip:$logserver_path
+else
+    ssh $logserver_user@$logserver_ip "mkdir -p $logserver_path/compute"
+    scp $stack_log_path/*.gz $logserver_user@$logserver_ip:$logserver_path/compute
+fi

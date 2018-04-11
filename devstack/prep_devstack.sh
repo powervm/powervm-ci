@@ -42,6 +42,7 @@ get_latest_patch() {
     return 0
 }
 
+CONTROL=${CONTROL:-true}
 driver=outoftree
 FORCE=false
 pypowervm_patch_list=
@@ -105,6 +106,10 @@ patching_file=patching.conf
 if $VSCSI_RUN; then
     conf_file=vscsi.local.conf
     patching_file=vscsi.patching.conf
+elif $CONTROL; then
+    conf_file=control.local.conf
+else
+    conf_file=compute.local.conf
 fi
 cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/$conf_file \
    /opt/stack/devstack/local.conf
@@ -236,35 +241,28 @@ TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
 
-# Normally the hosts get discovered when stack runs discover_hosts. However the
-# discovery sometimes fails to find any hosts at that point. Running discover_hosts
-# a second time here should find any hosts that weren't discovered initially. We thought that the
-# issue would be alleviated by https://review.openstack.org/#/c/488381/ however that was not the
-# case.
-# TODO: Determine why the compute host isn't being discovered when stacking.
-nova-manage cell_v2 discover_hosts
+if $CONTROL || $VSCSI_RUN; then
+    source /opt/stack/devstack/openrc admin admin
 
-source /opt/stack/devstack/openrc admin admin
+    # NOTE: The networks will not be created for the in-tree pike branch. The
+    # functionality for in-tree pike is very limited and will not work with the
+    # networks below.
+    if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
+        # Include additional skipped tests for in-tree pike
+        cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
+    else
+        # Create unique VLAN for each network
+        public_seg_id=$(expr $vm_id + 1000)
+        private_seg_id=$(expr $vm_id + 2000)
 
-# NOTE: The networks will not be created for the in-tree pike branch. The
-# functionality for in-tree pike is very limited and will not work with the
-# networks below.
-if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
-    # Include additional skipped tests for in-tree pike
-    cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
-else
-  # Create unique VLAN for each network
-  public_seg_id=$(expr $vm_id + 1000)
-  private_seg_id=$(expr $vm_id + 2000)
-
-  # Create public and private networks for the tempest runs
-  # TODO: Ideally we should have devstack creating our networks for us
-  # based on our local.conf files. This can be removed if we get working
-  # devstack-created networks.
-  openstack network create public --share --external --provider-network-type vlan --provider-physical-network default --provider-segment $public_seg_id --project-domain admin
-  openstack subnet create public-subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.100,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
-  openstack network create private --share --provider-network-type vlan --provider-physical-network default --provider-segment $private_seg_id --project-domain admin
-  openstack subnet create private-subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.100,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
+        # Create public and private networks for the tempest runs
+        # TODO: Ideally we should have devstack creating our networks for us
+        # based on our local.conf files. This can be removed if we get working
+        # devstack-created networks.
+        openstack network create public --share --external --provider-network-type vlan --provider-physical-network default --provider-segment $public_seg_id --project-domain admin
+        openstack subnet create public-subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.100,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
+        openstack network create private --share --provider-network-type vlan --provider-physical-network default --provider-segment $private_seg_id --project-domain admin
+        openstack subnet create private-subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.100,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
+    fi
 fi
-
 exit 0
