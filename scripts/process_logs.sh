@@ -16,13 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+CONTROL=${CONTROL:-true}
+
 zuul_branch=$1
 logserver_user=$2
 logserver_ip=$3
 
 # Base log path for logserver
 zuul_log_path=$4
-logserver_path=/srv/static/logs/$zuul_log_path
+if $CONTROL; then
+    logserver_path=/srv/static/logs/$zuul_log_path/control
+else
+    logserver_path=/srv/static/logs/$zuul_log_path/compute
+fi
 
 # Path to logs on all-in-one test vms
 stack_log_path=/opt/stack/logs
@@ -76,4 +82,7 @@ ssh-add /opt/nodepool-scripts/osci_rsa
 ssh-keyscan $logserver_ip >> ~/.ssh/known_hosts
 ssh $logserver_user@$logserver_ip "mkdir -p $logserver_path/logs"
 scp $stack_log_path/*.gz $logserver_user@$logserver_ip:$logserver_path/logs/
-scp $stack_log_path/*powervm_os_ci* $logserver_user@$logserver_ip:$logserver_path
+
+if $CONTROL; then
+    scp $stack_log_path/*powervm_os_ci* $logserver_user@$logserver_ip:$logserver_path
+fi
