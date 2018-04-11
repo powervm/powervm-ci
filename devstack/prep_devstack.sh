@@ -42,6 +42,7 @@ get_latest_patch() {
     return 0
 }
 
+CONTROL=${CONTROL:-true}
 driver=outoftree
 FORCE=false
 pypowervm_patch_list=
@@ -99,8 +100,13 @@ else
 fi
 
 # Copy the correct version of local.conf into devstack
-cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf \
-   /opt/stack/devstack/local.conf
+if $CONTROL; then
+    cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/control.local.conf \
+       /opt/stack/devstack/local.conf
+else
+    cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/compute.local.conf \
+       /opt/stack/devstack/local.conf
+fi
 
 # Set the nova instance_name_template to facilitate cleanup
 vm_id=`/opt/stack/powervm-ci/scripts/my_vm_id.sh`
@@ -238,30 +244,23 @@ TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
 
-# Normally the hosts get discovered when stack runs discover_hosts. However the
-# discovery sometimes fails to find any hosts at that point. Running discover_hosts
-# a second time here should find any hosts that weren't discovered initially. We thought that the
-# issue would be alleviated by https://review.openstack.org/#/c/488381/ however that was not the
-# case.
-# TODO: Determine why the compute host isn't being discovered when stacking.
-nova-manage cell_v2 discover_hosts
+if $CONTROL; then
+    source /opt/stack/devstack/openrc admin admin
 
-source /opt/stack/devstack/openrc admin admin
+    # Create public and private networks for the tempest runs
+    # TODO: Ideally we should have devstack creating our networks for us
+    # based on our local.conf files. This can be removed if we get working
+    # devstack created networks.
+    if [ "$driver" == "outoftree" ] || [ "$ZUUL_BRANCH" == "master" ] || [[ "$ZUUL_BRANCH" > stable/pike ]]; then
+        openstack network create public --share --provider-network-type vlan --provider-physical-network default
+        openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
+        openstack network create private --share --provider-network-type vlan --provider-physical-network default
+        openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
+    fi
 
-# Create public and private networks for the tempest runs
-# TODO: Ideally we should have devstack creating our networks for us
-# based on our local.conf files. This can be removed if we get working
-# devstack created networks.
-if [ "$driver" == "outoftree" ] || [ "$ZUUL_BRANCH" == "master" ] || [[ "$ZUUL_BRANCH" > stable/pike ]]; then
-    openstack network create public --share --provider-network-type vlan --provider-physical-network default
-    openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
-    openstack network create private --share --provider-network-type vlan --provider-physical-network default
-    openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
+    # Include additional skipped tests for in-tree pike
+    if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
+        cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
+    fi
 fi
-
-# Include additional skipped tests for in-tree pike
-if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
-    cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
-fi
-
 exit 0
