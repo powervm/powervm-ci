@@ -49,6 +49,9 @@ bb0cb402-09dd-4947-b6e5-5e7e1cfa61ad # tempest.api.compute.servers.test_delete_s
 546d368c-bb6c-4645-979a-83ed16f3a6be # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_shutoff_state
 ab0c38b4-cdd8-49d3-9b92-0cb898723c01 # tempest.api.compute.servers.test_delete_server.DeleteServersTestJSON.test_delete_server_while_in_verify_resize_state
 
+# Tests for network segments. Unsure what this is testing, needs more info.
+396a97dc-b66c-4c46-9171-c39eefe6936c # neutron_tempest_plugin.api.test_timestamp.TestTimeStamp.test_segment_with_timestamp
+
 # ----------------------------
 # Disabled Tests
 # ----------------------------
