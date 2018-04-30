@@ -248,17 +248,6 @@ nova-manage cell_v2 discover_hosts
 
 source /opt/stack/devstack/openrc admin admin
 
-# Create public and private networks for the tempest runs
-# TODO: Ideally we should have devstack creating our networks for us
-# based on our local.conf files. This can be removed if we get working
-# devstack created networks.
-if [ "$driver" == "outoftree" ] || [ "$ZUUL_BRANCH" == "master" ] || [[ "$ZUUL_BRANCH" > stable/pike ]]; then
-    openstack network create public --share --provider-network-type vlan --provider-physical-network default
-    openstack subnet create public_subnet --gateway 192.168.2.254 --allocation-pool start=192.168.2.10,end=192.168.2.200 --network public --no-dhcp --subnet-range 192.168.2.0/24
-    openstack network create private --share --provider-network-type vlan --provider-physical-network default
-    openstack subnet create private_subnet --gateway 192.168.3.254 --allocation-pool start=192.168.3.10,end=192.168.3.200 --network private --no-dhcp --subnet-range 192.168.3.0/24
-fi
-
 # Include additional skipped tests for in-tree pike
 if [ "$driver" == "intree" ] && [ "$ZUUL_BRANCH" == "stable/pike" ]; then
     cat /opt/stack/powervm-ci/tempest/pike_it_blacklist.txt >> /opt/stack/powervm-ci/tempest/in_tree_blacklist.txt
