@@ -139,11 +139,9 @@ f56e465b-fe10-48bf-b75d-646cda3a8bc9 # tempest.api.compute.servers.test_server_r
 db22b618-f157-4566-a317-1b6d467a8094 # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_reboot
 70cdb8a1-89f8-437d-9448-8844fd82bf46 # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescued_vm_rebuild
 cc3a883f-43c0-4fb6-a9bb-5579d64984ed # tempest.api.compute.servers.test_server_rescue_negative.ServerRescueNegativeTestJSON.test_rescue_paused_instance
-cb2b4c4f-0c7c-4164-bdde-6285b302a081 # tempest.scenario.test_aggregates_basic_ops.TestAggregatesBasicOps.test_aggregate_basic_ops
 cbc752ed-b716-4717-910f-956cce965722 # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_cryptsetup
 79165fb4-5534-4b9d-8429-97ccffb8f86e # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_luks
 bdbb5441-9204-419d-a225-b4fdbfb1a1a8 # tempest.scenario.test_minimum_basic.TestMinimumBasicScenario.test_minimum_basic_scenario
-7fff3fb3-91d8-4fd0-bd7d-0204f1f180ba # tempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops
 10fd234a-515c-41e5-b092-8323060598c5 # tempest.scenario.test_stamp_pattern.TestStampPattern.test_stamp_pattern
 36c34c67-7b54-4b59-b188-02a2f458a63b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_create_ebs_image_and_check_boot
 557cd2c2-4eb8-4dce-98be-f86765ff311b # tempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_volume_boot_pattern
