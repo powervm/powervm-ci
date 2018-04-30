@@ -351,7 +351,7 @@ function create_network {
         # We need the admin tenant (project) UUID
         get_obj_vals project admin id
         verb "Creating network '$net_name'"
-        neutron net-create "$net_name" --router:external "$external" --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" --tenant-id "$project_admin_id" || bail "Failed to create '$net_name' network!"
+        neutron net-create "$net_name" --router:external "$external" --provider:physical_network default --provider:network_type vlan --provider:segmentation_id "$vlan_id" --tenant-id "$project_admin_id" --shared || bail "Failed to create '$net_name' network!"
         verb "Adding subnet $cidr"
         neutron subnet-create --name "${net_name}-subnet" --gateway "$gateway" --allocation-pool start="$ap_start",end="$ap_end" "$net_name" "$cidr" || bail "Failed to create subnet for '$net_name' network!"
     fi
