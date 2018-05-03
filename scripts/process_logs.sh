@@ -27,7 +27,8 @@ logserver_path=/srv/static/logs/$zuul_log_path
 # Path to logs on all-in-one test vms
 stack_log_path=/opt/stack/logs
 
-# Build URL used to get jenkins console log
+# Build URL used to get jenkins console log. Manual CI runs will not have a
+# jenkins console log, this parameter should be left empty in that case.
 build_url=$5
 
 find -L $stack_log_path -type l -delete
@@ -58,7 +59,9 @@ for f in $apache_logs; do
 done
 
 # Output jenkins console log to file
-wget $build_url/consoleText -O $stack_log_path/console.txt
+if [ -n "$build_url" ]; then
+    wget $build_url/consoleText -O $stack_log_path/console.txt
+fi
 
 # Scrub IPs and domain names
 sed -i 's/9.\([0-9]\{1,3\}\.\)\{2\}[0-9]\{1,3\}/172.16.0.1/g; s/\([0-9a-zA-Z]*\)\.[0-9a-zA-Z.]*ibm.com/\1.cleared.domain.name/g' $stack_log_path/*
