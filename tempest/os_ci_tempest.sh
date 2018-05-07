@@ -590,6 +590,9 @@ prep_for_tempest "$TEMPEST_CONF_GEN"
 
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
 RUNCMD="stestr run --blacklist-file $BLACK_LIST --concurrency=4 --subunit"
+if [ -n "$WHITE_LIST" ];then
+    RUNCMD="stestr run --whitelist-file $WHITE_LIST --concurrency=4 --subunit"
+fi
 
 if [ $PREP_ONLY ]; then
     echo
@@ -622,18 +625,17 @@ export OS_TEST_TIMEOUT
 cd $TEMPEST_DIR
 stestr init
 
-# Print tests being run and keep count
-count=0
-for line in $(stestr list --blacklist-file $BLACK_LIST); do
-   verb "Will RUN $line"
-   count=$((count + 1))
+# Print tests being run and skipped (if blacklist) and keep count.
+if [ -n "$WHITE_LIST" ]; then
+    run_list=$(stestr list --whitelist-file $WHITE_LIST)
+else
+    run_list=$(stestr list --blacklist-file $BLACK_LIST)
+    skip_list=$(stestr list --whitelist-file $BLACK_LIST)
+for line in $run_list; do
+    verb "Will RUN $line"
+    count=$((count+1))
 done
-
-# Print tests being skipped.
-# Passing the BLACK_LIST in as the whitelist file will print only the tests
-# found in the blacklist, but with the same formatting as the tests being run
-# above.
-for line in $(stestr list --whitelist-file $BLACK_LIST); do
+for line in $skip_list; do
     verb "Will SKIP $line"
 done
 
