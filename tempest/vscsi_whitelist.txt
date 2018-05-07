@@ -1,0 +1,4 @@
+# SCENARIO
+bdbb5441-9204-419d-a225-b4fdbfb1a1a8 # tempest.scenario.test_minimum_basic.TestMinimumBasicScenario.test_minimum_basic_scenario
+cbc752ed-b716-4717-910f-956cce965722 # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_cryptsetup
+79165fb4-5534-4b9d-8429-97ccffb8f86e # tempest.scenario.test_encrypted_cinder_volumes.TestEncryptedCinderVolumes.test_encrypted_cinder_volumes_luks
