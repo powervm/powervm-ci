@@ -99,7 +99,7 @@ else
 fi
 
 # Copy the correct version of local.conf into devstack
-cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf \
+cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/vscsi.local.conf \
    /opt/stack/devstack/local.conf
 
 # Set the nova instance_name_template to facilitate cleanup
