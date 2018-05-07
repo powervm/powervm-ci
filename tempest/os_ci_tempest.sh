@@ -589,7 +589,7 @@ function cleanup {
 prep_for_tempest "$TEMPEST_CONF_GEN"
 
 MVCMD="mv -f $TEMPEST_CONF_GEN $TEMPEST_CONF_INST"
-RUNCMD="stestr run --blacklist-file $BLACK_LIST --concurrency=4 --subunit"
+RUNCMD="stestr run --whitelist-file $WHITE_LIST --concurrency=4 --subunit"
 
 if [ $PREP_ONLY ]; then
     echo
