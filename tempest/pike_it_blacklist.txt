@@ -25,3 +25,7 @@ e9f624ee-92af-4562-8bec-437945a18dcb # tempest.api.compute.servers.test_list_ser
 43a1242e-7b31-48d1-88f2-3f72aa9f2077 # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_ip
 a905e287-c35e-42f2-b132-d02b09f3654a # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_filtered_by_ip_regex
 67aec2d0-35fe-4503-9f92-f13272b867ed # tempest.api.compute.servers.test_list_server_filters.ListServerFiltersTestJSON.test_list_servers_detailed_limit_results
+
+# Scenario testing unsupported for in-tree pike
+cb2b4c4f-0c7c-4164-bdde-6285b302a081 # tempest.scenario.test_aggregates_basic_ops.TestAggregatesBasicOps.test_aggregate_basic_ops
+7fff3fb3-91d8-4fd0-bd7d-0204f1f180ba # tempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops
