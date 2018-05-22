@@ -631,6 +631,7 @@ if [ -n "$WHITE_LIST" ]; then
 else
     run_list=$(stestr list --blacklist-file $BLACK_LIST)
     skip_list=$(stestr list --whitelist-file $BLACK_LIST)
+fi
 for line in $run_list; do
     verb "Will RUN $line"
     count=$((count+1))
