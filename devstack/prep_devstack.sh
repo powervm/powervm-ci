@@ -45,6 +45,7 @@ get_latest_patch() {
 driver=outoftree
 FORCE=false
 pypowervm_patch_list=
+VSCSI_RUN=${VSCSI_RUN:-false}
 while getopts ":p:d:fh" opt; do
     case $opt in
         d)
@@ -99,7 +100,13 @@ else
 fi
 
 # Copy the correct version of local.conf into devstack
-cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/local.conf \
+conf_file=local.conf
+patching_file=patching.conf
+if $VSCSI_RUN; then
+    conf_file=vscsi.local.conf
+    patching_file=vscsi.patching.conf
+fi
+cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/$conf_file \
    /opt/stack/devstack/local.conf
 
 # Set the nova instance_name_template to facilitate cleanup
@@ -161,7 +168,7 @@ while read line; do
             git cherry-pick --keep-redundant-commits FETCH_HEAD
         fi
     done
-done < /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/patching.conf
+done < /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/$patching_file
 
 pypowervm_version=$(awk -F= '$1=="pypowervm" {print $NF}' /opt/stack/requirements/upper-constraints.txt)
 
