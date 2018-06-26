@@ -21,6 +21,7 @@
 # Tests Needing Investigation
 # ----------------------------
 
+71b8e3d5-11d2-494f-b917-b094a4afed3c # tempest.api.compute.servers.test_servers.ServerShowV263Test.test_show_update_rebuild_list_server
 # Failing after switch to devstack generated tempest.conf. Likely a microversion issue
 # Two versions of one test share the same id.
 64d0d48c-dff1-11e6-bf01-fe55135034f3 # tempest.api.compute.admin.test_server_diagnostics.ServerDiagnosticsV248Test.test_get_server_diagnostic
