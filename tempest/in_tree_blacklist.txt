@@ -189,3 +189,6 @@ e9bac15e-c8bc-4317-8295-4bf1d8d522b8 # neutron.tests.tempest.api.admin.test_tag.
 682cb127-e5bb-4f53-87ce-cb9003604442 # tempest.api.compute.admin.test_servers.ServersAdminTestJSON.test_rebuild_server_in_error_state
 9c9fae77-4feb-402f-8450-bf1c8b609713 # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_auto_disk_config
 bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_config.ServerDiskConfigTestJSON.test_rebuild_server_with_manual_disk_config
+
+# Tests relying on trusted image certificates
+71b8e3d5-11d2-494f-b917-b094a4afed3c # tempest.api.compute.servers.test_servers.ServerShowV263Test.test_show_update_rebuild_list_server
