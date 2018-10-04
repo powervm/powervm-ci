@@ -1,4 +1,4 @@
-# Copyright 2016,2017 IBM Corp.
+# Copyright 2016,2018 IBM Corp.
 #
 # All Rights Reserved
 #
@@ -192,3 +192,7 @@ bef56b09-2e8c-4883-a370-4950812f430e # tempest.api.compute.servers.test_disk_con
 
 # Tests using trusted image certificates
 71b8e3d5-11d2-494f-b917-b094a4afed3c # tempest.api.compute.servers.test_servers.ServerShowV263Test.test_show_update_rebuild_list_server
+
+# broken due to commit b477594b3d1da5bb24121af9f20eee74f1c50d5d
+# TODO fix this properly
+c7e0e60b-ee45-43d0-abeb-8596fd42a2f9 # tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesUnderV243Test.test_add_remove_fixed_ip
