@@ -277,7 +277,7 @@ function prep_flavor {
     ###
     flvname=$1
     mem_mb=$2
-    disk_gb=$3
+    disk_gb=5
     cpu=$4
     tempest_conf=$5
     varname=$6
