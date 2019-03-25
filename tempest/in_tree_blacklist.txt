@@ -167,6 +167,8 @@ de07fe0a-e955-449e-b48b-8641c14cd52e # neutron.tests.tempest.scenario.test_basic
 aca49486-70bb-4016-87e0-f6131374f742 # ceilometer.tests.tempest.aodh.api.test_alarming_api.TelemetryAlarmingAPITest.test_set_get_alarm_state
 668743d5-08ad-4480-b2b8-15da34f81e7e # ceilometer.tests.tempest.aodh.api.test_alarming_api_negative.TelemetryAlarmingNegativeTest.test_get_non_existent_alarm
 ef45000d-0a72-4781-866d-4cb7bf2582ae # ceilometer.tests.tempest.aodh.api.test_alarming_api_negative.TelemetryAlarmingNegativeTest.test_get_update_show_history_delete_deleted_alarm
+#broken due to commit f238ed34afd0c255e309794b403b91044c46fd03
+5500797e-b8c2-4e07-a5e0-89fa4e814965 # neutron_tempest_plugin.scenario.test_ports.PortsTest.test_previously_used_port
 
 # Failing because we are using shared networks
 af774677-42a9-4e4b-bb58-16fe6a5bc1ec # tempest.api.network.test_networks.NetworksTest.test_external_network_visibility
