@@ -91,11 +91,14 @@ echo "Running on neo host: $neo_host"
 if $FORCE; then
     ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 else
+    counter=0
     for v in ZUUL_BRANCH ZUUL_PROJECT BASE_LOG_PATH; do
+        counter=`expr $counter + 1`
         if ! [ $"$v" ]; then
             echo '$'$v' not set.  Run with -f to force.'
             exit -1
         fi
+        echo "$counter= $v "
     done
 fi
 
@@ -106,6 +109,7 @@ if $VSCSI_RUN; then
     conf_file=vscsi.local.conf
     patching_file=vscsi.patching.conf
 fi
+echo "ZUUL_BRANCH is $ZUUL_BRANCH"
 cp /opt/stack/powervm-ci/devstack/$ZUUL_BRANCH/$driver/$conf_file \
    /opt/stack/devstack/local.conf
 
