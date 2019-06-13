@@ -236,6 +236,7 @@ fi
 sudo ppc64_cpu --smt=off
 # Stack
 cd /opt/stack/devstack
+git fetch https://review.opendev.org/openstack/devstack refs/changes/97/664797/1 && git checkout FETCH_HEAD
 TERM=vt100 ./stack.sh
 # Re-enable SMT
 sudo ppc64_cpu --smt=on
